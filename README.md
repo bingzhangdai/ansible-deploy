@@ -69,7 +69,7 @@ make -f shadowsocks-libev.makefile vars-all EDITOR=code
 
 #### Run playbook
 
-After that you can start deploy. Enjoy!
+After configuration you can start deploy. Enjoy!
 
 ```bash
 ansible-playbook shadowsocks-libev.yml -i hosts
