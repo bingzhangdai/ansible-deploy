@@ -1,12 +1,12 @@
-# ansible-deploy
+# Ansible deploy
 
 Configure systems and deploy software by using Ansible.
 
-## requirement
+## Requirement
 
-python 3.6 or above
+python 3.6 or above and pip installed.
 
-### config environment
+### Config environment
 
 ```bash
 make env
@@ -14,7 +14,7 @@ make env
 
 This will install all env requirements.
 
-### edit host files and default group vars
+### Edit host files and default group vars
 
 ```bash
 # the console will launch whatever editor you have defined with `$EDITOR`, and defaults to `vi`
@@ -38,11 +38,11 @@ ansible_user: root
 ansible_ssh_pass: root_passwd
 ```
 
-## roles
+## Roles
 
 ### shadowsocks-libev
 
-#### edit vars
+#### Edit vars
 
 The minimum you need to change is under roles/shadowsocks-libev/vars
 
@@ -67,7 +67,7 @@ make -f shadowsocks-libev.makefile vars-all
 make -f shadowsocks-libev.makefile vars-all EDITOR=code
 ```
 
-#### run playbook
+#### Run playbook
 
 After that you can start deploy. Enjoy!
 
