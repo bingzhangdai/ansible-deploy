@@ -1,0 +1,4 @@
+- hosts: all
+  roles:
+    - role: shadowsocks-libev
+      become: yes

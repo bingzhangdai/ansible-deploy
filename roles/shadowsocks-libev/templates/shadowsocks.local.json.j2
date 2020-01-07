@@ -1,0 +1,10 @@
+{
+    "server": "{{ inventory_hostname }}",
+    "server_port": {{ server_port }},
+    "local_address": "127.0.0.1"
+    "local_port": {{ local_port }},
+    "password": "{{ password }}",
+    "timeout": {{ timeout }},
+    "method": "{{ encrypt_method }}",
+    "fast_open": {{ fast_open | lower }}
+}

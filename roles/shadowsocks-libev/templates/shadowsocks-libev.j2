@@ -1,0 +1,23 @@
+# Enable during startup?
+START=yes
+
+# Configuration file
+CONFFILE="/etc/shadowsocks-libev/shadowsocks.json"
+
+# Extra command line arguments
+DAEMON_ARGS=
+
+# User and group to run the server as
+USER=nobody
+GROUP=nogroup
+
+# Number of maximum file descriptors
+MAXFD=32768
+
+{% if plugin is defined %}
+# Plugin file
+{% if plugin.v2ray is defined %}
+PLUGIN="/etc/shadowsocks-libev/v2ray-plugin_linux_amd64"
+PLUGINOPTS="{{ plugin.v2ray.opts }}"
+{% endif %}
+{% endif %}

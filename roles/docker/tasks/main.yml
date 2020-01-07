@@ -1,0 +1,15 @@
+- name: get docker-ce
+  include_tasks: "{{ ansible_distribution|lower }}.yaml"
+
+- name: manage docker as a non-root user
+  block:
+    - name: Create the docker group
+      group:
+        name: docker
+        state: present
+
+    - name: add your user to the docker group
+      user:
+        name: "{{ ansible_user }}"
+        groups: docker
+        append: yes
