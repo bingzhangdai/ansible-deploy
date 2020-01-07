@@ -37,7 +37,7 @@ make -f shadowsocks-libev.makefile vars-all
 #### run playbook
 
 ```bash
-make -f shadowsocks-libev.makefile run
+ansible-playbook shadowsocks-libev.yml -i hosts
 ```
 
 [shadowsocks-libev](roles/shadowsocks-libev/README.md)

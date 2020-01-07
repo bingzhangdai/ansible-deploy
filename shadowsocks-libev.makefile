@@ -13,7 +13,4 @@ vars-all:
 debug:
 	ansible-playbook shadowsocks-libev.yml -i hosts --ask-vault-pass
 
-run:
-	ansible-playbook shadowsocks-libev.yml -i hosts 
-
 all: vars-all debug
