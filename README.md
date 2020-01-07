@@ -48,6 +48,8 @@ The minimum you need to change is under roles/shadowsocks-libev/vars
 
 ```bash
 make -f shadowsocks-libev.makefile vars
+# or
+make -f shadowsocks-libev.makefile vars EDITOR=code
 ```
 
 Update the server port and password
@@ -61,6 +63,8 @@ or if you want to personalize all variables,
 
 ```bash
 make -f shadowsocks-libev.makefile vars-all
+or
+make -f shadowsocks-libev.makefile vars-all EDITOR=code
 ```
 
 #### run playbook
