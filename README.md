@@ -63,7 +63,7 @@ or if you want to personalize all variables,
 
 ```bash
 make -f shadowsocks-libev.makefile vars-all
-or
+# or
 make -f shadowsocks-libev.makefile vars-all EDITOR=code
 ```
 
