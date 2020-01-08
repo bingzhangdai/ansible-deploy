@@ -1,6 +1,8 @@
 PYTHON = python3
 EDITOR := vi
+
 export EDITOR := $(EDITOR)
+export ANSIBLE_CONFIG = ansible.cfg
 
 .PHONY: env hosts encrypt console
 
@@ -16,4 +18,7 @@ encrypt:
 	ansible-vault encrypt_string --ask-vault-pass --stdin-name '$($@_VAR)'
 
 console:
-	ansible-console -i hosts all --ask-vault-pass
+	ansible-console all --ask-vault-pass
+
+play:
+	ansible-playbook site.yml all --ask-vault-pass

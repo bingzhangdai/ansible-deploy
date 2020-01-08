@@ -6,6 +6,8 @@ Configure systems and deploy software by using Ansible.
 
 python 3.6 or above and pip installed.
 
+If you are using Windows, it is strongly recommend to use under Windows Subsystem for Linux ([WSL docs](https://docs.microsoft.com/en-us/windows/wsl)).
+
 ### Config environment
 
 ```bash
@@ -44,15 +46,15 @@ ansible_ssh_pass: root_passwd
 
 #### Edit vars
 
-The minimum you need to change is under roles/shadowsocks-libev/vars
+The minimum you need to change is files under roles/shadowsocks-libev/vars. Execute the following command,
 
 ```bash
-make -f shadowsocks-libev.makefile vars
+python3 vars.py --roles shadowsocks-libev
 # or
-make -f shadowsocks-libev.makefile vars EDITOR=code
+EDITOR=code python3 vars.py --roles shadowsocks-libev
 ```
 
-Update the server port and password
+Update the server port and password,
 
 ```yml
 server_port: 8388
@@ -62,17 +64,19 @@ password: mypassword
 or if you want to personalize all variables,
 
 ```bash
-make -f shadowsocks-libev.makefile vars-all
+python3 vars.py --roles shadowsocks-libev --include-default-vars
 # or
-make -f shadowsocks-libev.makefile vars-all EDITOR=code
+EDITOR=code python3 vars.py --roles shadowsocks-libev --include-default-vars
 ```
 
 #### Run playbook
 
-After configuration you can start deploy. Enjoy!
+After configuration you can start deployment.
 
 ```bash
 ansible-playbook shadowsocks-libev.yml -i hosts
 ```
+
+Enjoy!
 
 [shadowsocks-libev](roles/shadowsocks-libev/README.md)
