@@ -1,3 +1,0 @@
-- name: install python3
-  include_tasks: "{{ ansible_distribution|lower }}.yaml"
-

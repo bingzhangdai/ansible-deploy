@@ -1,1 +1,7 @@
 - import_playbook: shadowsocks-libev.yml
+
+- hosts: all
+  roles:
+    - role: python3
+      tags:
+        - python3
