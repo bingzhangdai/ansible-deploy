@@ -1,0 +1,29 @@
+- name: get docker-ce
+  block:
+    - name: include tasks for {{ ansible_distribution }}
+      include_tasks:
+        file: "{{ ansible_distribution|lower }}.yml"
+      tags:
+        - always
+    - name: verify docker-ce is installed correctly
+      shell: docker run --rm hello-world
+      changed_when: false
+
+- name: manage docker as a non-root user
+  block:
+    - name: create the docker group
+      group:
+        name: docker
+        state: present
+
+    - name: add your user to the docker group
+      user:
+        name: "{{ ansible_user }}"
+        groups: docker
+        append: yes
+
+- name: configure docker to start on boot
+  systemd:
+    name: docker
+    enabled: yes
+    state: started

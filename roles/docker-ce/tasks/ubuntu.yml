@@ -1,4 +1,4 @@
-- name: Uninstall old versions
+- name: uninstall old versions
   apt:
     name:
       - docker
@@ -7,7 +7,6 @@
       - containerd
       - runc
     state: absent
-  become: yes
 
 - name: install docker-ce
   block:
@@ -36,6 +35,8 @@
 
     - name: install the latest version of Docker CE
       apt:
-        name: docker-ce
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
         update_cache: yes
-  become: yes

@@ -2,6 +2,7 @@
 
 - hosts: all
   roles:
-    - role: python3
+    - role: docker-ce
       tags:
-        - python3
+        - docker-ce
+      become: yes
