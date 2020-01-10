@@ -8,7 +8,7 @@ More info: [shadowsocks-libev](https://github.com/shadowsocks/shadowsocks-libev)
 
 ## Pugin
 
-Plugin is optional. If you have configured variable `plugin`.
+Plugin is optional and will be enabled if you have configured variable `plugin`.
 
 ### v2ray
 
