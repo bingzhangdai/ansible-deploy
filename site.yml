@@ -6,3 +6,7 @@
       tags:
         - docker-ce
       become: yes
+    - role: shadowsocks-libev
+      tags:
+        - shadowsocks-libev
+  become: yes

@@ -2,81 +2,66 @@
 
 Configure systems and deploy software by using Ansible.
 
-## Requirement
+## Prerequisites
 
-python 3.6 or above and pip installed.
+* python and pip installed.
 
-If you are using Windows, it is strongly recommend to use under Windows Subsystem for Linux ([WSL docs](https://docs.microsoft.com/en-us/windows/wsl)).
+If you are using Windows, it is strongly recommended to use Windows Subsystem for Linux ([WSL docs](https://docs.microsoft.com/en-us/windows/wsl)).
 
-### Config environment
+## This playbook can
+
+* install docker-ce
+* install shadowsocks-libev and optionally v2ray-plugin
+
+## How to use
+
+### Clone and config environment
 
 ```bash
-make env
+git clone https://github.com/bingzhangdai/ansible-deploy
+cd ansible-deploy
+make evn
 ```
 
-This will install all env requirements.
+If you do not have `make` support. Just open the `Makefile` file and run the command under target `env` in your console manually. This will install all env requirements.
 
-### Edit host files and default group vars
+### Edit inventory (hosts)
 
-```bash
-# the console will launch whatever editor you have defined with `$EDITOR`, and defaults to `vi`
-make hosts
-# or you can change the editor
-# if you have `vscode` installed and updated `$PATH`
-make hosts EDITOR=code
-```
-
-Put all your remote servers under file `hosts`.
+Modify hosts and put all your remote servers in file `hosts`.
 
 ```ini
 host_or_ip_0
 host_or_ip_1
 ```
 
-Update `ansible_user` and `ansible_ssh_pass` for ssh login.
+### Modify default group vars
+
+Update vars under `group_vars/all/*`. Change your remote user name and password for varibale `ansible_user` and `ansible_ssh_pass` in file `main.yml` for ssh login.
 
 ```yml
 ansible_user: root
 ansible_ssh_pass: root_passwd
 ```
 
-## Roles
-
-### shadowsocks-libev
-
-#### Edit vars
-
-The minimum you need to change is files under roles/shadowsocks-libev/vars. Execute the following command,
-
-```bash
-python3 vars.py --roles shadowsocks-libev
-# or
-EDITOR=code python3 vars.py --roles shadowsocks-libev
-```
-
-Update the server port and password,
+Modify other vars as needed. For example, edit `shadowsocks-libev.yml` and change the server port and password.
 
 ```yml
 server_port: 8388
 password: mypassword
 ```
 
-or if you want to personalize all variables,
+### Installation
+
+For full installation, run the following command.
 
 ```bash
-python3 vars.py --roles shadowsocks-libev --include-default-vars
-# or
-EDITOR=code python3 vars.py --roles shadowsocks-libev --include-default-vars
+ansible-playbook site.yml -i hosts --skip-tags "docker-ce,shadowsocks-libev"
 ```
 
-#### Run playbook
-
-After configuration you can start deployment.
+You can aslo install only one or more components. Just look at the file `site.yml` and decide.
 
 ```bash
-ansible-playbook shadowsocks-libev.yml -i hosts
+ansible-playbook site.yml -i hosts --tags "shadowsocks-libev"
 ```
 
 Enjoy!
-
-[shadowsocks-libev](roles/shadowsocks-libev/README.md)
