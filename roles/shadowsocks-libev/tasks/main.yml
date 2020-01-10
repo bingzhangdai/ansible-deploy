@@ -1,0 +1,77 @@
+- assert:
+    that:
+      - ansible_os_family == 'Debian'
+
+- name: install shadowsocks-libev
+  apt:
+    name:
+      - shadowsocks-libev
+    update_cache: yes
+    cache_valid_time: 86400
+
+- name: install shadowsocks plugin
+  block:
+    - name: download v2ray {{ plugin.v2ray.version }}
+      unarchive:
+        src: "{{ release.v2ray }}"
+        dest: "/etc/shadowsocks-libev/"
+        remote_src: yes
+      when: plugin.v2ray is defined
+  when: plugin is defined
+
+- name: configure and start shadowsocks-libev
+  block:
+    - name: edit /etc/shadowsocks-libev/shadowsocks.json
+      template:
+        src: shadowsocks.json.j2
+        dest: /etc/shadowsocks-libev/shadowsocks.json
+      notify: restart shadowsocks-libev
+    - name: enable tcp_fastopen
+      sysctl:
+        name: net.ipv4.tcp_fastopen
+        value: '1'
+        sysctl_set: yes
+      when: fast_open | default(false)
+    - name: edit /etc/default/shadowsocks-libev
+      template:
+        src: shadowsocks-libev.j2
+        dest: /etc/default/shadowsocks-libev
+      notify: restart shadowsocks-libev
+    - name: create /etc/systemd/system/shadowsocks-libev.service
+      template:
+        src: shadowsocks-libev.service.j2
+        dest: /etc/systemd/system/shadowsocks-libev.service
+      notify: restart shadowsocks-libev
+    - name: be sure shadowsocks-libev is running and enabled
+      systemd:
+        name: shadowsocks-libev
+        enabled: yes
+        state: started
+    - name: wait for shadowsocks-libev ready
+      wait_for:
+        port: "{{ server_port }}"
+        delay: 1
+        timeout: 10
+
+- name: print server config
+  debug:
+    msg: "ss://{{ conf | b64encode  }}@{{ inventory_hostname }}:{{ server_port }}#{{ ansible_hostname }}"
+  vars:
+    conf: "{{ encrypt_method }}:{{ password }}"
+  ignore_errors: yes
+
+- name: create local config files
+  block:
+    - name: create output folder under {{ output_dir }}
+      file:
+        path: "{{ output_dir }}"
+        state: directory
+    - name: edit local {{ output_dir }}/shadowsocks.json
+      template:
+        src: shadowsocks.local.json.j2
+        dest: "{{ output_dir }}/shadowsocks.json"
+  vars:
+    output_dir: "{{ hostvars['localhost']['playbook_dir'] }}/output/{{ role_name }}"
+  delegate_to: localhost
+  delegate_facts: True
+  run_once: true
