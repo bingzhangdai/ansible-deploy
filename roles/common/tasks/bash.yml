@@ -1,0 +1,10 @@
+- name: update .bashrc and .bash_aliases
+  synchronize:
+    src: bash/
+    dest: "{{ ansible_env.HOME }}"
+    recursive: yes
+    rsync_opts:
+      - "--chmod=Du=rwx,Dog=rx,Fu=rw,Fog=r"
+  become: no
+  tags:
+    - configuration

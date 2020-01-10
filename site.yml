@@ -1,11 +1,12 @@
-- import_playbook: shadowsocks-libev.yml
-
 - hosts: all
   roles:
     - role: docker-ce
       tags:
         - docker-ce
+      become: yes
     - role: shadowsocks-libev
       tags:
         - shadowsocks-libev
-  become: yes
+      become: yes
+    - { role: common, task: bash, tags: [bash] }
+    - { role: common, task: vim, tags: [vim] }

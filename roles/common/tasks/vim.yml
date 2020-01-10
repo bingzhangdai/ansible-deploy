@@ -1,0 +1,18 @@
+- name: install vim
+  package:
+    name: vim
+    state: present
+  become: true
+  tags:
+    - packages
+
+- name: update .vimrc and vim plugin
+  synchronize:
+    src: vim/
+    dest: "{{ ansible_env.HOME }}"
+    recursive: yes
+    rsync_opts:
+      - "--chmod=Du=rwx,Dog=rx,Fu=rw,Fog=r"
+  become: no
+  tags:
+    - configuration
