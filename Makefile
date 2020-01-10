@@ -7,7 +7,7 @@ export ANSIBLE_CONFIG = ansible.cfg
 .PHONY: env hosts encrypt console
 
 env:
-	$(PYTHON) -m pip install -U ansible argparse
+	$(PYTHON) -m pip install -U ansible
 
 encrypt:
 	$(eval $@_VAR := $(shell bash -c 'read -p "varible name: " v && echo "$$v"'))

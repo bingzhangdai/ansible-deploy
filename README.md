@@ -10,15 +10,17 @@ If you are using Windows, it is strongly recommended to use Windows Subsystem fo
 
 ## This playbook can
 
-* install docker-ce
-* install shadowsocks-libev and optionally v2ray-plugin
+* configure bash
+* install and configure vim
+* install latest docker-ce
+* install shadowsocks-libev and optionally v2ray-plugin (click [here](roles/shadowsocks-libev/README.md) for more info)
 
 ## How to use
 
 ### Clone and config environment
 
 ```bash
-git clone https://github.com/bingzhangdai/ansible-deploy
+git clone https://github.com/bingzhangdai/ansible-deploy.git
 cd ansible-deploy
 make evn
 ```
