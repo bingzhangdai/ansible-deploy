@@ -1,0 +1,36 @@
+- name: set authorized keys from public keys'
+  authorized_key:
+    user: "{{ ansible_user }}"
+    key: "{{ lookup('file', 'ssh/id_rsa.pub') }}"
+  tags:
+    - configuration
+
+- name: update sshd_config
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^{{ item.key }} "
+    insertafter: "^#{{ item.key }} "
+    line: "{{ item.key }} {{ item.value }}"
+  with_dict: "{{ sshd_config }}"
+  become: yes
+  notify: restart ssh
+  tags:
+    - configuration
+
+- name: push public and private keys to remote server
+  block:
+    - name: create .ssh folder if not exist
+      file:
+        path: "{{ ansible_env.HOME }}/.ssh"
+        state: directory
+        mode: 0700
+    - name: copy keys
+      synchronize:
+        src: ssh/
+        dest: "{{ ansible_env.HOME }}/.ssh"
+        recursive: yes
+        rsync_opts:
+          - "--chmod=Du=rwx,Dog=,Fu=rw,Fog="
+  when: ssh_push_keys
+  tags:
+    - configuration

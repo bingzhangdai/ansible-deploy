@@ -1,0 +1,5 @@
+- hosts: all
+  roles:
+    - { role: common, task: bash, tags: [bash] }
+    - { role: common, task: vim, tags: [vim] }
+    - { role: common, task: ssh, tags: [ssh] }

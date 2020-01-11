@@ -8,12 +8,13 @@ Configure systems and deploy software by using Ansible.
 
 If you are using Windows, it is strongly recommended to use Windows Subsystem for Linux ([WSL docs](https://docs.microsoft.com/en-us/windows/wsl)).
 
+Note that there are some issues like [[Errno 32] Broken pipe](https://github.com/ansible/ansible/issues/56629) using python2. Python3 is preferred.
+
 ## This playbook can
 
-* configure bash
-* install and configure vim
+* install and configure common softwares like bash, vim, ssh, etc. (more info [here](roles/common/README.md))
 * install latest docker-ce
-* install shadowsocks-libev and optionally v2ray-plugin (click [here](roles/shadowsocks-libev/README.md) for more info)
+* install shadowsocks-libev and optionally v2ray-plugin (more info [here](roles/shadowsocks-libev/README.md))
 
 ## How to use
 
@@ -22,10 +23,17 @@ If you are using Windows, it is strongly recommended to use Windows Subsystem fo
 ```bash
 git clone https://github.com/bingzhangdai/ansible-deploy.git
 cd ansible-deploy
-make evn
+# sudo make env PYTHON=python3
+sudo make evn
 ```
 
 If you do not have `make` support. Just open the `Makefile` file and run the command under target `env` in your console manually. This will install all env requirements.
+
+If you are using WSL, you might need to export `ANSIBLE_CONFIG` environmental varibale.
+
+```bash
+export ANSIBLE_CONFIG=`pwd`/ansible.cfg
+```
 
 ### Edit inventory (hosts)
 
