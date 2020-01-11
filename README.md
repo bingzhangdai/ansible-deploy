@@ -10,10 +10,9 @@ If you are using Windows, it is strongly recommended to use Windows Subsystem fo
 
 ## This playbook can
 
-* configure bash
-* install and configure vim
+* install and configure common softwares like bash, vim, ssh, etc. (more info [here](roles/common/README.md))
 * install latest docker-ce
-* install shadowsocks-libev and optionally v2ray-plugin (click [here](roles/shadowsocks-libev/README.md) for more info)
+* install shadowsocks-libev and optionally v2ray-plugin (more info [here](roles/shadowsocks-libev/README.md))
 
 ## How to use
 
