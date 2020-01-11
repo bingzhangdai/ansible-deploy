@@ -24,13 +24,14 @@
         path: "{{ ansible_env.HOME }}/.ssh"
         state: directory
         mode: 0700
-    - name: copy keys
-      synchronize:
-        src: ssh/
-        dest: "{{ ansible_env.HOME }}/.ssh"
-        recursive: yes
-        rsync_opts:
-          - "--chmod=Du=rwx,Dog=,Fu=rw,Fog="
+    - name: copy public/private keys
+      copy:
+        src: "ssh/{{ item }}"
+        dest: "{{ ansible_env.HOME }}/.ssh/{{ item }}"
+        mode: 0600
+      loop:
+        - id_rsa.pub
+        - id_rsa
   when: ssh_push_keys
   tags:
     - configuration
