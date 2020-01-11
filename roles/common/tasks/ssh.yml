@@ -1,0 +1,19 @@
+- name: set authorized keys from public keys'
+  authorized_key:
+    user: "{{ ansible_user }}"
+    key: "{{ lookup('file', 'ssh/id_rsa.pub') }}"
+  ignore_errors: yes
+  tags:
+    - configuration
+
+- name: update sshd_config
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^{{ item.key }} "
+    insertafter: "^#{{ item.key }} "
+    line: "{{ item.key }} {{ item.value }}"
+  with_dict: "{{ sshd_config }}"
+  become: yes
+  notify: restart ssh
+  tags:
+    - configuration

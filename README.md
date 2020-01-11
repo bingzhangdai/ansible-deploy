@@ -22,10 +22,16 @@ If you are using Windows, it is strongly recommended to use Windows Subsystem fo
 ```bash
 git clone https://github.com/bingzhangdai/ansible-deploy.git
 cd ansible-deploy
-make evn
+sudo make evn
 ```
 
 If you do not have `make` support. Just open the `Makefile` file and run the command under target `env` in your console manually. This will install all env requirements.
+
+If you are using WSL, you might need to export `ANSIBLE_CONFIG` environmental varibale.
+
+```bash
+export ANSIBLE_CONFIG=`pwd`/ansible.cfg
+```
 
 ### Edit inventory (hosts)
 
