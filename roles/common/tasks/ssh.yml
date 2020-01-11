@@ -2,7 +2,6 @@
   authorized_key:
     user: "{{ ansible_user }}"
     key: "{{ lookup('file', 'ssh/id_rsa.pub') }}"
-  ignore_errors: yes
   tags:
     - configuration
 
@@ -15,5 +14,23 @@
   with_dict: "{{ sshd_config }}"
   become: yes
   notify: restart ssh
+  tags:
+    - configuration
+
+- name: push public and private keys to remote server
+  block:
+    - name: create .ssh folder if not exist
+      file:
+        path: "{{ ansible_env.HOME }}/.ssh"
+        state: directory
+        mode: 0700
+    - name: copy keys
+      synchronize:
+        src: ssh/
+        dest: "{{ ansible_env.HOME }}/.ssh"
+        recursive: yes
+        rsync_opts:
+          - "--chmod=Du=rwx,Dog=,Fu=rw,Fog="
+  when: ssh_push_keys
   tags:
     - configuration

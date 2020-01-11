@@ -16,11 +16,11 @@ More info: [v2ray-plugin](https://github.com/shadowsocks/v2ray-plugin).
 
 ## Output
 
-Client side sample config will be put under `output/shadowsocks-libev/shadowsocks.json` just FYI.
+Client-side sample config will be put under `output/shadowsocks-libev/shadowsocks.json` just FYI.
 
 ## Client
 
-Client side installation is not included in this role. Here are just some tips.
+Client-side installation is not included in this role. Here are just some tips.
 
 ### Windows
 

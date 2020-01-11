@@ -1,12 +1,10 @@
 PYTHON = python
 
-export ANSIBLE_CONFIG = ansible.cfg
-
 .PHONY: env encrypt play
 
 env:
-	# $(PYTHON) -m pip install --upgrade ansible
-	# apt -y update && apt install -y sshpass || yum install -y sshpass
+	$(PYTHON) -m pip install --upgrade ansible
+	apt -y update && apt install -y sshpass || yum install -y sshpass
 
 encrypt:
 	$(eval $@_VAR := $(shell bash -c 'read -p "varible name: " v && echo "$$v"'))

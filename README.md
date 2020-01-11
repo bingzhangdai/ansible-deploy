@@ -8,6 +8,8 @@ Configure systems and deploy software by using Ansible.
 
 If you are using Windows, it is strongly recommended to use Windows Subsystem for Linux ([WSL docs](https://docs.microsoft.com/en-us/windows/wsl)).
 
+Note that there are some issues like [[Errno 32] Broken pipe](https://github.com/ansible/ansible/issues/56629) using python2. Python3 is preferred.
+
 ## This playbook can
 
 * install and configure common softwares like bash, vim, ssh, etc. (more info [here](roles/common/README.md))
@@ -21,6 +23,7 @@ If you are using Windows, it is strongly recommended to use Windows Subsystem fo
 ```bash
 git clone https://github.com/bingzhangdai/ansible-deploy.git
 cd ansible-deploy
+# sudo make env PYTHON=python3
 sudo make evn
 ```
 

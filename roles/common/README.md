@@ -18,7 +18,7 @@ Similar to `bash` task, but you can use `--skip-tags "package"` to avoid reinsta
 
 Edit you `sshd_config` under `group_vars/all/common.yml` and put your public key in file.
 
-## Possible actions
+## Use cases
 
 ### Full installation and configuration
 
