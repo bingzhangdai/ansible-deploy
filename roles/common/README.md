@@ -1,6 +1,6 @@
-# common
+# Common tasks
 
-This role is used to install common software and configure systems.
+The tasks under this role are used to install and configure common softwares.
 
 ## Supported tasks
 
