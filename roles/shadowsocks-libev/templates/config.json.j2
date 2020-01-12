@@ -1,8 +1,8 @@
 {
     "server": "0.0.0.0",
-    "server_port": {{ server_port }},
-    "password": "{{ password }}",
-    "timeout": {{ timeout }},
-    "method": "{{ encrypt_method }}",
-    "fast_open": {{ fast_open | lower }}
+    "server_port": {{ shadowsocks_config.server_port }},
+    "password": "{{ shadowsocks_config.password }}",
+    "timeout": {{ shadowsocks_config.timeout }},
+    "method": "{{ shadowsocks_config.encrypt_method }}",
+    "fast_open": {{ shadowsocks_config.fast_open | default(false) | lower }}
 }

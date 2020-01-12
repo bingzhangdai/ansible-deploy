@@ -11,13 +11,13 @@
 
 - name: install shadowsocks plugin
   block:
-    - name: download v2ray {{ plugin.v2ray.version }}
+    - name: download v2ray {{ shadowsocks_config.plugin.v2ray.version }}
       unarchive:
-        src: "{{ release.v2ray }}"
+        src: "{{ ss_plugin_release.v2ray }}"
         dest: "/etc/shadowsocks-libev/"
         remote_src: yes
-      when: plugin.v2ray is defined
-  when: plugin is defined
+      when: shadowsocks_config.plugin.v2ray is defined
+  when: shadowsocks_config.plugin is defined
 
 - name: configure and start shadowsocks-libev
   block:
@@ -31,7 +31,7 @@
         name: net.ipv4.tcp_fastopen
         value: '1'
         sysctl_set: yes
-      when: fast_open | default(false)
+      when: shadowsocks_config.fast_open | default(false)
     - name: edit /etc/default/shadowsocks-libev
       template:
         src: shadowsocks-libev.j2
@@ -57,9 +57,9 @@
 
 - name: print server config
   debug:
-    msg: "ss://{{ conf | b64encode  }}@{{ inventory_hostname }}:{{ server_port }}#{{ ansible_hostname }}"
+    msg: "ss://{{ conf | b64encode  }}@{{ inventory_hostname }}:{{ shadowsocks_config.server_port }}#{{ ansible_hostname }}"
   vars:
-    conf: "{{ encrypt_method }}:{{ password }}"
+    conf: "{{ shadowsocks_config.encrypt_method }}:{{ shadowsocks_config.password }}"
   ignore_errors: yes
 
 - name: create local config files
