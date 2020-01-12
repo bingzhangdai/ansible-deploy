@@ -2,7 +2,7 @@
 START=yes
 
 # Configuration file
-CONFFILE="/etc/shadowsocks-libev/shadowsocks.json"
+CONFFILE="/etc/shadowsocks-libev/config.json"
 
 # Extra command line arguments
 DAEMON_ARGS=
@@ -14,10 +14,10 @@ GROUP=nogroup
 # Number of maximum file descriptors
 MAXFD=32768
 
-{% if plugin is defined %}
+{% if ss_config.plugin is defined %}
 # Plugin file
-{% if plugin.v2ray is defined %}
+{% if ss_config.plugin.v2ray is defined %}
 PLUGIN="/etc/shadowsocks-libev/v2ray-plugin_linux_amd64"
-PLUGINOPTS="{{ plugin.v2ray.opts }}"
+PLUGINOPTS="{{ ss_config.plugin.v2ray.opts }}"
 {% endif %}
 {% endif %}

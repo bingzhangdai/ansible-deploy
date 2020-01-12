@@ -1,0 +1,8 @@
+{
+    "server": "0.0.0.0",
+    "server_port": {{ ss_config.server_port }},
+    "password": "{{ ss_config.password }}",
+    "timeout": {{ ss_config.timeout }},
+    "method": "{{ ss_config.encrypt_method }}",
+    "fast_open": {{ ss_config.fast_open | default(false) | lower }}
+}

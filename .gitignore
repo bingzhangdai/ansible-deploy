@@ -1,3 +1,8 @@
+# program output
 output/
 
+# ansible fact cache
+.cache/
+
+# retry files
 *.retry

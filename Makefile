@@ -11,4 +11,4 @@ encrypt:
 	ansible-vault encrypt_string --ask-vault-pass --stdin-name '$($@_VAR)'
 
 play:
-	ansible-playbook site.yml -i hosts all --ask-vault-pass
+	ansible-playbook site.yml -i hosts --ask-vault-pass

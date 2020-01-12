@@ -11,7 +11,7 @@ EnvironmentFile=/etc/default/shadowsocks-libev
 User=nobody
 Group=nogroup
 LimitNOFILE=32768
-ExecStart=/usr/bin/ss-server -c $CONFFILE $DAEMON_ARGS {% if plugin is defined %} --plugin $PLUGIN --plugin-opts "$PLUGINOPTS" {% endif %}
+ExecStart=/usr/bin/ss-server -c $CONFFILE $DAEMON_ARGS {% if ss_config.plugin is defined %} --plugin $PLUGIN --plugin-opts "$PLUGINOPTS" {% endif %}
 
 [Install]
 WantedBy=multi-user.target
