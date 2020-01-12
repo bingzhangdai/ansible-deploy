@@ -3,4 +3,4 @@
     - { role: common, task: bash, tags: [bash] }
     - { role: common, task: vim, tags: [vim] }
     - { role: common, task: ssh, tags: [ssh] }
-    - { role: common, task: misc, packages: "{{ misc_packages }}", tags: [misc] }
+    - { role: common, task: misc, packages: "{{ misc_packages | unique }}", tags: [misc] }
