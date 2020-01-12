@@ -11,6 +11,7 @@
     src: vim/
     dest: "{{ ansible_env.HOME }}"
     recursive: yes
+    times: no
     rsync_opts:
       - "--chmod=Du=rwx,Dog=rx,Fu=rw,Fog=r"
   become: no
