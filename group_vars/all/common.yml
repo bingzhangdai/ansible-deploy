@@ -7,11 +7,9 @@ ssh_push_keys: false
 
 ## git task
 git_config:
-  user:
-    name: Bingzhang Dai
-    email: bingzdai@outlook.com
-  core:
-    editor:
+  'user.name': Bingzhang Dai
+  'user.email': bingzhangdai@outlook.com
+  'core.editor': vi
 
 ## misc task: soley install these packages
 # these packages should be easily installed through package manager
