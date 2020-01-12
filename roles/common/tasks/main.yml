@@ -1,5 +1,8 @@
 - name: include tasks for {{ task }}
   include_tasks:
     file: "{{ task }}.yml"
+    apply:
+      tags:
+        - common
   tags:
     - always
