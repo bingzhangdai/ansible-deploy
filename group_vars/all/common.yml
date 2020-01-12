@@ -5,6 +5,12 @@ sshd_config:
 # push your private key id_rsa and pubkey id_rsa.pub to remote server
 ssh_push_keys: false
 
+## git task
+git_config:
+  'user.name': Bingzhang Dai
+  'user.email': bingzhangdai@outlook.com
+  'core.editor': vi
+
 ## misc task: soley install these packages
 # these packages should be easily installed through package manager
 misc_packages:

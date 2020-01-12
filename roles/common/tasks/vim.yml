@@ -2,7 +2,7 @@
   package:
     name: vim
     state: present
-  become: true
+  become: yes
   tags:
     - packages
 

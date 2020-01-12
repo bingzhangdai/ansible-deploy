@@ -1,0 +1,23 @@
+- name: install git
+  package:
+    name: git
+    state: present
+  become: yes
+  tags:
+    - packages
+
+- name: check if git installed and list config
+  command: git config --list
+  register: git_config_list
+  changed_when: false
+  tags:
+    - packages
+    - configuration
+
+- name: update git global config
+  command: git config --global {{ item.key }} "{{ item.value }}"
+  changed_when: "'='.join([item.key, item.value]) not in git_config_list.stdout_lines"
+  with_dict: "{{ git_config }}"
+  when: git_config is defined
+  tags:
+    - configuration
