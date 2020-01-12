@@ -1,4 +1,4 @@
-- name: install packages
+- name: install total {{ packages | length }} packages
   package:
     name: "{{ packages }}"
     state: latest
