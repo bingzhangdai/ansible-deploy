@@ -12,7 +12,7 @@ Note that there are some issues like [[Errno 32] Broken pipe](https://github.com
 
 ## This playbook can
 
-* install and configure common softwares like bash, vim, ssh, etc. (more info [here](roles/common/README.md))
+* install and configure common softwares like bash, vim, etc. (more info [here](roles/common/README.md))
 * install latest docker-ce
 * install shadowsocks-libev and optionally v2ray-plugin (more info [here](roles/shadowsocks-libev/README.md))
 

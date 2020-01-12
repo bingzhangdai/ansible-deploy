@@ -4,19 +4,27 @@ The tasks under this role are used to install and configure common softwares.
 
 ## Supported tasks
 
-Put all your personal configuration files under `roles/common/files/*`.
+Put all your personal configuration files under `roles/common/files/*` and modify the varible file `group_vars/all/common.yml`.
 
 ### bash
 
-Files under `roles/common/files/bash/*` will be pushed to you `$HOME` directory associated with `ansible_user` you put in `group_vars`.
+Files under `roles/common/files/bash/` will be pushed to you `$HOME` directory associated with `ansible_user` you put in `group_vars`.
 
 ### vim
 
-Similar to `bash` task, but you can use `--skip-tags "package"` to avoid reinstalling the vim package.
+Put your `.vimrc` and vim plugins under `roles/common/files/vim/`.
 
-### ssh key login
+### setup ssh public key login
 
-Edit you `sshd_config` under `group_vars/all/common.yml` and put your public key in file.
+Modify `sshd_config` and put your public key in file. If you want to push your private key to remote server, place you private key and set `ssh_push_keys=true`
+
+### git
+
+Change `git_config` to your desired value.
+
+### misc
+
+This task is to install common packages by package manager. Just add package name under `misc_packages`.
 
 ## Use cases
 
