@@ -21,10 +21,10 @@
 
 - name: configure and start shadowsocks-libev
   block:
-    - name: edit /etc/shadowsocks-libev/shadowsocks.json
+    - name: edit /etc/shadowsocks-libev/config.json
       template:
-        src: shadowsocks.json.j2
-        dest: /etc/shadowsocks-libev/shadowsocks.json
+        src: config.json.j2
+        dest: /etc/shadowsocks-libev/config.json
       notify: restart shadowsocks-libev
     - name: enable tcp_fastopen
       sysctl:
@@ -48,10 +48,12 @@
         enabled: yes
         state: started
     - name: wait for shadowsocks-libev ready
-      wait_for:
-        port: "{{ server_port }}"
-        delay: 1
-        timeout: 10
+      shell: "systemctl status shadowsocks-libev | grep Active"
+      register: shadowsocks_status
+      until: '"running" in shadowsocks_status.stdout'
+      retries: 10
+      delay: 1
+      changed_when: false
 
 - name: print server config
   debug:
@@ -66,10 +68,10 @@
       file:
         path: "{{ output_dir }}"
         state: directory
-    - name: edit local {{ output_dir }}/shadowsocks.json
+    - name: edit local {{ output_dir }}/config.json
       template:
-        src: shadowsocks.local.json.j2
-        dest: "{{ output_dir }}/shadowsocks.json"
+        src: config.local.json.j2
+        dest: "{{ output_dir }}/config.json"
   vars:
     output_dir: "{{ hostvars['localhost']['playbook_dir'] }}/output/{{ role_name }}"
   delegate_to: localhost
