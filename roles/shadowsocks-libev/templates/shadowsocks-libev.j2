@@ -14,10 +14,10 @@ GROUP=nogroup
 # Number of maximum file descriptors
 MAXFD=32768
 
-{% if shadowsocks_config.plugin is defined %}
+{% if ss_config.plugin is defined %}
 # Plugin file
-{% if shadowsocks_config.plugin.v2ray is defined %}
+{% if ss_config.plugin.v2ray is defined %}
 PLUGIN="/etc/shadowsocks-libev/v2ray-plugin_linux_amd64"
-PLUGINOPTS="{{ shadowsocks_config.plugin.v2ray.opts }}"
+PLUGINOPTS="{{ ss_config.plugin.v2ray.opts }}"
 {% endif %}
 {% endif %}

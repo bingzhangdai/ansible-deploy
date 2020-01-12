@@ -1,10 +1,10 @@
 {
     "server": "{{ inventory_hostname }}",
-    "server_port": {{ shadowsocks_config.server_port }},
+    "server_port": {{ ss_config.server_port }},
     "local_address": "127.0.0.1",
-    "local_port": {{ shadowsocks_config.local_port }},
-    "password": "{{ shadowsocks_config.password }}",
-    "timeout": {{ shadowsocks_config.timeout }},
-    "method": "{{ shadowsocks_config.encrypt_method }}",
-    "fast_open": {{ shadowsocks_config.fast_open | default(false) | lower }}
+    "local_port": {{ ss_config.local_port }},
+    "password": "{{ ss_config.password }}",
+    "timeout": {{ ss_config.timeout }},
+    "method": "{{ ss_config.encrypt_method }}",
+    "fast_open": {{ ss_config.fast_open | default(false) | lower }}
 }

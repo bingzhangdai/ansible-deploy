@@ -1,4 +1,4 @@
-shadowsocks_config:
+ss_config:
   server_port: 2233
   password: !vault |
             $ANSIBLE_VAULT;1.1;AES256

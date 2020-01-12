@@ -1,2 +1,2 @@
 ss_plugin_release:
-  v2ray: "https://github.com/shadowsocks/v2ray-plugin/releases/download/{{ shadowsocks_config.plugin.v2ray.version }}/v2ray-plugin-linux-amd64-{{ shadowsocks_config.plugin.v2ray.version }}.tar.gz"
+  v2ray: "https://github.com/shadowsocks/v2ray-plugin/releases/download/{{ ss_config.plugin.v2ray.version }}/v2ray-plugin-linux-amd64-{{ ss_config.plugin.v2ray.version }}.tar.gz"
