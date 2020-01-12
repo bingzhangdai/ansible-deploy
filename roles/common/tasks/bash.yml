@@ -1,6 +1,3 @@
-- debug:
-    var: ansible_env.HOME
-
 - name: update .bashrc and .bash_aliases
   synchronize:
     src: bash/
