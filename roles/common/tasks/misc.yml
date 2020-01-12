@@ -1,0 +1,7 @@
+- name: install total {{ packages | length }} packages
+  package:
+    name: "{{ packages }}"
+    state: latest
+  become: yes
+  tags:
+    - packages
