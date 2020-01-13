@@ -6,7 +6,7 @@
       # tags:
       #   - always
     - name: verify docker-ce is installed correctly
-      shell: docker run --rm hello-world
+      shell: docker run --rm hello-world # noqa 305
       changed_when: false
 
 - name: manage docker as a non-root user

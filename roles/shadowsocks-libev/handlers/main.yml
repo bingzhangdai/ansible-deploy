@@ -4,3 +4,10 @@
     daemon_reload: yes
     state: restarted
   become: yes
+  notify: wait for shadowsocks-libev ready
+
+- name: wait for shadowsocks-libev ready
+  wait_for:
+    port: "{{ ss_config.server_port }}"
+    delay: 1
+    timeout: 10

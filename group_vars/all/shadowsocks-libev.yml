@@ -1,5 +1,5 @@
 ss_config:
-  server_port: 2233
+  server_port: 2333
   password: !vault |
             $ANSIBLE_VAULT;1.1;AES256
             66393234643561383433343464373833316232396535333735376333316638333233343062653638
