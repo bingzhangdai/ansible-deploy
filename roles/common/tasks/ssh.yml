@@ -33,5 +33,6 @@
         - id_rsa.pub
         - id_rsa
   when: ssh_push_keys
+  # no_log: true
   tags:
     - configuration
