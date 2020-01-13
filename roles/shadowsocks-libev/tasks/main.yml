@@ -1,7 +1,3 @@
-- assert:
-    that:
-      - ansible_os_family == 'Debian'
-
 - name: install shadowsocks-libev
   apt:
     name:
