@@ -28,3 +28,5 @@
     scope: global
     value: "{{ item.value }}"
   with_dict: "{{ git_config }}"
+  tags:
+    - configuration
