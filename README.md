@@ -67,7 +67,7 @@ Modify other vars as needed.
 For full installation, run the following command.
 
 ```bash
-ansible-playbook site.yml -i hosts 
+ansible-playbook site.yml -i hosts
 ```
 
 You can aslo install or skip one or more components. Just look at the file `site.yml` and decide.
