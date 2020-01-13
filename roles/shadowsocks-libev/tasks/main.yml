@@ -4,6 +4,7 @@
       - shadowsocks-libev
     update_cache: yes
     cache_valid_time: 86400
+  notify: restart shadowsocks-libev
 
 - name: install shadowsocks plugin
   block:
@@ -12,6 +13,7 @@
         src: "{{ ss_plugin_release.v2ray }}"
         dest: "/etc/shadowsocks-libev/"
         remote_src: yes
+      notify: restart shadowsocks-libev
       when: ss_config.plugin.v2ray is defined
   when: ss_config.plugin is defined
 
