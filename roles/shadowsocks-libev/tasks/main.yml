@@ -47,13 +47,14 @@
         name: shadowsocks-libev
         enabled: yes
         state: started
-    - name: wait for shadowsocks-libev ready
-      shell: "systemctl status shadowsocks-libev | grep Active"
-      register: shadowsocks_status
-      until: '"running" in shadowsocks_status.stdout'
-      retries: 10
-      delay: 1
-      changed_when: false
+    # use handler instead
+    # - name: wait for shadowsocks-libev ready
+    #   shell: "systemctl status shadowsocks-libev | grep Active"
+    #   register: shadowsocks_status
+    #   until: '"running" in shadowsocks_status.stdout'
+    #   retries: 10
+    #   delay: 1
+    #   changed_when: false
 
 - name: print server config
   debug:
