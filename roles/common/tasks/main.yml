@@ -1,8 +1,4 @@
-- name: include tasks for {{ task }}
-  include_tasks:
-    file: "{{ task }}.yml"
-    apply:
-      tags:
-        - common
+- name: import correspondent task {{ task }}
+  import_tasks: "{{ task }}.yml"
   tags:
-    - always
+    - common
