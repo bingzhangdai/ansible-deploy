@@ -1,4 +1,4 @@
-- name: set authorized keys from public keys'
+- name: set authorized keys from public key
   authorized_key:
     user: "{{ ansible_user }}"
     key: "{{ lookup('file', 'ssh/id_rsa.pub') }}"
