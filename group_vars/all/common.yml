@@ -11,6 +11,11 @@ git_config:
   'user.email': bingzhangdai@outlook.com
   'core.editor': vi
 
+## bash
+bash_plugin:
+  fzf:
+    install_args: --all
+
 ## misc task: soley install these packages
 # these packages should be easily installed through package manager
 misc_packages:

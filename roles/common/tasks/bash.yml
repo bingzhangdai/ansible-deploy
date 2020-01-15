@@ -9,3 +9,13 @@
   become: no
   tags:
     - configuration
+
+- name: install bash plugin
+  include_tasks:
+    file: "bash-{{ item.key }}.yml"
+    apply:
+      tags:
+        - configuration
+  with_dict: "{{ bash_plugin }}"
+  tags:
+    - configuration

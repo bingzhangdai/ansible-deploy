@@ -1,0 +1,11 @@
+- name: make sure git is installed
+  import_tasks: misc.yml
+  vars:
+    packages: ['git']
+- name: clone junegunn/fzf to ~/.fzf
+  git: # noqa 401 Always install the latest version
+    repo: https://github.com/junegunn/fzf.git
+    dest: "{{ ansible_env.HOME }}/.fzf"
+    depth: 1
+- name: install fzf through install script
+  shell: "{{ ansible_env.HOME }}/.fzf/install {{ bash_plugin.fzf.install_args }}" # noqa 305 301
