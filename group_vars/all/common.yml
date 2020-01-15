@@ -1,6 +1,7 @@
 ## ssh task
 sshd_config:
   PasswordAuthentication: 'no'
+  ChallengeResponseAuthentication: 'no'
   PubkeyAuthentication: 'yes'
 # push your private key id_rsa and pubkey id_rsa.pub to remote server
 ssh_push_keys: false
