@@ -1,4 +1,4 @@
-- name: install {{ ', '.join(packages) }}
+- name: install {{ packages | join(', ') }}
   package:
     name: "{{ packages }}"
     state: latest
