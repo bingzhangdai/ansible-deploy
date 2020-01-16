@@ -13,6 +13,7 @@
       loop: "{{ backup_files }}"
       vars:
         backup_files: "{{ block.results | selectattr('changed') | list }}"
+      when: replace_rc_files
     - name: insert block
       blockinfile:
         path: "{{ ansible_env.HOME }}/{{ item | basename }}"
@@ -40,10 +41,10 @@
 
 - name: install bash plugin
   include_tasks:
-    file: "bash-{{ item.key }}.yml"
+    file: "shell-{{ item.key }}.yml"
     apply:
       tags:
         - configuration
-  with_dict: "{{ bash_plugin }}"
+  with_dict: "{{ shell_plugin }}"
   tags:
     - configuration

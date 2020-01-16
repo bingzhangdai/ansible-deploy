@@ -11,4 +11,4 @@
 
 # install through package manager may not setup key bindings
 - name: install fzf through install script
-  shell: "{{ ansible_env.HOME }}/.fzf/install {{ bash_plugin.fzf.install_args }}" # noqa 305 301
+  shell: "{{ ansible_env.HOME }}/.fzf/install {{ shell_plugin.fzf.install_args }}" # noqa 305 301
