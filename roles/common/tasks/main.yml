@@ -1,4 +1,3 @@
 - name: import correspondent task {{ task }}
   import_tasks: "{{ task }}.yml"
-  tags:
-    - common
+

@@ -1,6 +1,7 @@
 ## ssh task
 sshd_config:
   PasswordAuthentication: 'no'
+  ChallengeResponseAuthentication: 'no'
   PubkeyAuthentication: 'yes'
 # push your private key id_rsa and pubkey id_rsa.pub to remote server
 ssh_push_keys: false
@@ -10,6 +11,11 @@ git_config:
   'user.name': Bingzhang Dai
   'user.email': bingzhangdai@outlook.com
   'core.editor': vi
+
+## bash
+bash_plugin:
+  fzf:
+    install_args: --all
 
 ## misc task: soley install these packages
 # these packages should be easily installed through package manager

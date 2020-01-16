@@ -113,7 +113,7 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# colored man
+## colored man
 # export PAGER="most"
 # one scheme
 # export LESS_TERMCAP_mb=$(printf '\e[01;31m') # enter blinking mode - red
@@ -132,4 +132,5 @@ export LESS_TERMCAP_so=$(printf '\e[01;33m') # enter standout mode
 export LESS_TERMCAP_ue=$(printf '\e[0m') # leave underline mode
 export LESS_TERMCAP_us=$(printf '\e[04;32;5;200m') # enter underline mode
 
-PATH=$PATH:~/bin
+## fzf
+export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'

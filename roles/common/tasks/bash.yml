@@ -3,9 +3,20 @@
     src: bash/
     dest: "{{ ansible_env.HOME }}"
     recursive: yes
-    times: no
+    archive: no
+    times: yes
     rsync_opts:
       - "--chmod=Du=rwx,Dog=rx,Fu=rw,Fog=r"
   become: no
+  tags:
+    - configuration
+
+- name: install bash plugin
+  include_tasks:
+    file: "bash-{{ item.key }}.yml"
+    apply:
+      tags:
+        - configuration
+  with_dict: "{{ bash_plugin }}"
   tags:
     - configuration
