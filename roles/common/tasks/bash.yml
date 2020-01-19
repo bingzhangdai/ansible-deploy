@@ -8,12 +8,13 @@
       register: block
       loop: "{{ rcfiles }}"
       ignore_errors: true
+      when: bash_clear_existing | default(false)
     - name: backup bash config files
       command: "mv {{ item.item | basename }} {{ item.item | basename }}.bak"
       loop: "{{ backup_files }}"
       vars:
         backup_files: "{{ block.results | selectattr('changed') | list }}"
-      when: replace_rc_files
+      when: bash_clear_existing | default(false)
     - name: insert block
       blockinfile:
         path: "{{ ansible_env.HOME }}/{{ item | basename }}"

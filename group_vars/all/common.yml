@@ -13,8 +13,8 @@ git_config:
   'core.editor': vi
 
 ## bash
-# if set true, you remote .bashrc file will be replaced entirely
-replace_rc_files: true
+# if set true, you remote files (e.g. .bashrc) will be cleared
+bash_clear_existing: true
 shell_plugin:
   fzf:
     install_args: --all
