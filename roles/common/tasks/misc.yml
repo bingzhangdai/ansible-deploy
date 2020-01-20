@@ -1,4 +1,13 @@
-- name: install {{ ', '.join(packages) }}
+- name: Update repositories cache for Debian
+  apt:
+    update_cache: yes
+    cache_valid_time: 86400
+  become: yes
+  when: ansible_os_family == 'Debian'
+  tags:
+    - packages
+
+- name: install {{ packages | join(', ') }}
   package:
     name: "{{ packages }}"
     state: latest

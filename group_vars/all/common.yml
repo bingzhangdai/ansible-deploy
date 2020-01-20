@@ -13,7 +13,9 @@ git_config:
   'core.editor': vi
 
 ## bash
-bash_plugin:
+# if set true, you remote files (e.g. .bashrc) will be cleared
+bash_clear_existing: true
+shell_plugin:
   fzf:
     install_args: --all
 

@@ -1,22 +1,51 @@
-- name: update .bashrc and .bash_aliases
-  synchronize:
-    src: bash/
-    dest: "{{ ansible_env.HOME }}"
-    recursive: yes
-    archive: no
-    times: yes
-    rsync_opts:
-      - "--chmod=Du=rwx,Dog=rx,Fu=rw,Fog=r"
-  become: no
+- name: copy bash files to remote server
+  block:
+    - name: check if block already exists
+      lineinfile:
+        path: "{{ item | basename }}"
+        line: '# BEGIN ANSIBLE MANAGED BLOCK'
+      check_mode: true
+      register: block
+      loop: "{{ rcfiles }}"
+      ignore_errors: true
+      when: bash_clear_existing | default(false)
+    - name: backup bash config files
+      command: "mv {{ item.item | basename }} {{ item.item | basename }}.bak"
+      loop: "{{ backup_files }}"
+      vars:
+        backup_files: "{{ block.results | selectattr('changed') | list }}"
+      when: bash_clear_existing | default(false)
+    - name: insert block
+      blockinfile:
+        path: "{{ ansible_env.HOME }}/{{ item | basename }}"
+        block: "{{ lookup('file', item) }}"
+        create: yes
+        backup: yes
+      loop: "{{ rcfiles }}"
+  vars:
+    rcfiles: "{{ q('fileglob', 'bash/.*') }}"
   tags:
     - configuration
 
+# - name: update .bashrc and .bash_aliases
+#   synchronize:
+#     src: bash/
+#     dest: "{{ ansible_env.HOME }}"
+#     recursive: yes
+#     archive: no
+#     times: yes
+#     rsync_opts:
+#       - "--chmod=Du=rwx,Dog=rx,Fu=rw,Fog=r"
+#   become: no
+#   tags:
+#     - configuration
+
 - name: install bash plugin
   include_tasks:
-    file: "bash-{{ item.key }}.yml"
+    file: "shell/{{ item.key }}.yml"
     apply:
       tags:
         - configuration
-  with_dict: "{{ bash_plugin }}"
+  with_dict: "{{ shell_plugin }}"
   tags:
     - configuration
