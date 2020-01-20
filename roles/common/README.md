@@ -10,6 +10,8 @@ Put all your personal configuration files under `roles/common/files/*` and modif
 
 Files under `roles/common/files/bash/` will be pushed to you `$HOME` directory associated with `ansible_user` you put in `group_vars`.
 
+If you want to keep your existing configuires in `.bashrc`, you should set `bash_clear_existing=false`. If this varibale is `true`, you current bash config will be backed up and cleared.
+
 ### vim
 
 Put your `.vimrc` and vim plugins under `roles/common/files/vim/`.
