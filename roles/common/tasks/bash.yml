@@ -42,7 +42,7 @@
 
 - name: install bash plugin
   include_tasks:
-    file: "shell-{{ item.key }}.yml"
+    file: "shell/{{ item.key }}.yml"
     apply:
       tags:
         - configuration
