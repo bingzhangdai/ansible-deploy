@@ -39,7 +39,7 @@ export ANSIBLE_CONFIG=`pwd`/ansible.cfg
 Also if you are using windows, it is recommended to change line ending from `CRLF` to `LF` before playing.
 
 ```bash
-find . -type f | grep -v \.git | xargs dos2unix
+git ls-files | xargs dos2unix
 ```
 
 ### Edit inventory (hosts)
