@@ -11,7 +11,7 @@
       when: bash_clear_existing | default(false)
     - name: clear and backup existing bash config files
       copy:
-        content:
+        content: ''
         dest: "{{ item.item | basename }}"
         backup: yes
       loop: "{{ backup_files }}"
