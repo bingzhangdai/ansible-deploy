@@ -133,4 +133,9 @@ export LESS_TERMCAP_ue=$(printf '\e[0m') # leave underline mode
 export LESS_TERMCAP_us=$(printf '\e[04;32;5;200m') # enter underline mode
 
 ## fzf
-export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+if command -v bat > /dev/null; then
+    cat='bat --color=always'
+else
+    cat='cat'
+fi
+export FZF_DEFAULT_OPTS="--height 50% -1 --reverse --multi --inline-info --preview='[[ \$(file --mime {}) = ~binary ]] && echo {} is a binary file || $cat -n {} | head -300'"

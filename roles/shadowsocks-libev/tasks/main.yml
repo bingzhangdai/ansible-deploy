@@ -8,7 +8,14 @@
 
 - name: install shadowsocks plugin
   block:
-    - name: download v2ray {{ ss_config.plugin.v2ray.version }}
+    - name: detect latest v2ray version
+      import_role:
+        name: utils
+        tasks_from: github-release
+      vars:
+        user: "{{ ss_github.user }}"
+        repo: "{{ ss_github.v2ray_repo }}"
+    - name: download v2ray {{ release_version }}
       unarchive:
         src: "{{ ss_plugin_release.v2ray }}"
         dest: "/etc/shadowsocks-libev/"

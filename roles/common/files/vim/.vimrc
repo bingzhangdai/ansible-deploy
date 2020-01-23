@@ -3,6 +3,8 @@
 set guicursor=n-v-c-i:hor100
 set nocompatible
 
+set viminfo='100,<1000,s100,h
+
 let g:rainbow_active = 1
 
 set backspace=indent,eol,start

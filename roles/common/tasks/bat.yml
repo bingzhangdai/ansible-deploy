@@ -1,0 +1,23 @@
+- name: install bat for ubuntu
+  block:
+    - name: install bat through package manager
+      apt:
+        name: bat
+        state: latest
+        update_cache: yes
+        cache_valid_time: 86400
+      when: ansible_distribution == 'Ubuntu' and ansible_distribution_version is version('19.10', '>=')
+    - name: detect latest bat version
+      import_role:
+        name: utils
+        tasks_from: github-release
+      vars:
+        user: "{{ bat_github.user }}"
+        repo: "{{ bat_github.repo }}"
+      when: ansible_distribution != 'Ubuntu' or ansible_distribution_version is version('19.10', '<')
+    - name: install latest bat release
+      apt:
+        deb: "{{ bat_release }}"
+      when: ansible_distribution != 'Ubuntu' or ansible_distribution_version is version('19.10', '<')
+  become: yes
+  when: ansible_os_family == 'Debian'
