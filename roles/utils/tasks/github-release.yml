@@ -5,7 +5,9 @@
   uri:
     url: "https://api.github.com/repos/{{ user }}/{{ repo }}/releases/latest"
   register: github_release
+  run_once: true
 
 - name: set the latest version of {{ user }}/{{ repo }}
   set_fact:
     release_version: "{{ (github_release.json)['tag_name'] | regex_replace('^v') }}"
+  run_once: true

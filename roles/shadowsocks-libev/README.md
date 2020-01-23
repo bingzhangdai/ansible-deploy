@@ -18,7 +18,6 @@ Plugin is optional and you can disable plugin installation by just deleting the 
 ```yml
 plugin:
   v2ray:
-    version: v1.2.0
     opts: server
 ```
 
