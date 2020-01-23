@@ -5,15 +5,18 @@
         path: "{{ item | basename }}"
         line: '# BEGIN ANSIBLE MANAGED BLOCK'
       check_mode: true
-      register: block
+      register: check_block
       loop: "{{ rcfiles }}"
       ignore_errors: true
       when: bash_clear_existing | default(false)
-    - name: backup bash config files
-      command: "mv {{ item.item | basename }} {{ item.item | basename }}.bak"
+    - name: clear and backup existing bash config files
+      copy:
+        content:
+        dest: "{{ item.item | basename }}"
+        backup: yes
       loop: "{{ backup_files }}"
       vars:
-        backup_files: "{{ block.results | selectattr('changed') | list }}"
+        backup_files: "{{ check_block.results | selectattr('changed') | list }}"
       when: bash_clear_existing | default(false)
     - name: insert block
       blockinfile:

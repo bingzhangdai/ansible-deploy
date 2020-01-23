@@ -1,0 +1,4 @@
+bat_github:
+  user: sharkdp
+  repo: bat
+bat_release: "https://github.com/{{ bat_github.user }}/{{ bat_github.repo }}/releases/download/v{{ release_version }}/bat_{{ release_version }}_amd64.deb"
