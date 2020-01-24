@@ -1,6 +1,6 @@
 - name: copy bash files to remote server
   block:
-    - name: check if block already exists
+    - name: check if bash block already exists
       lineinfile:
         path: "{{ item | basename }}"
         line: '# BEGIN ANSIBLE MANAGED BLOCK'
@@ -18,7 +18,7 @@
       vars:
         backup_files: "{{ check_block.results | selectattr('changed') | list }}"
       when: bash_clear_existing | default(false)
-    - name: insert block
+    - name: insert bash block
       blockinfile:
         path: "{{ ansible_env.HOME }}/{{ item | basename }}"
         block: "{{ lookup('file', item) }}"
