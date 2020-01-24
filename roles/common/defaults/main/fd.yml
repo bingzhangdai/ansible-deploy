@@ -1,0 +1,4 @@
+fd_github:
+  user: sharkdp
+  repo: fd
+fd_release: "https://github.com/{{ fd_github.user }}/{{ fd_github.repo }}/releases/download/v{{ release_version }}/fd_{{ release_version }}_amd64.deb"

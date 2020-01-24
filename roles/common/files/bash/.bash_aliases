@@ -5,3 +5,7 @@ alias vi=vim
 if command -v bat > /dev/null; then
     alias cat='bat --style=plain,changes --color=always --paging=never'
 fi
+
+if command -v fdfind > /dev/null; then
+    alias fd='fdfind'
+fi

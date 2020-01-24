@@ -4,7 +4,7 @@ Tested on Ubuntu 18.04+.
 
 ## shadowsocks-libev
 
-Update variable under file `group_vars/all/shadowsocks-libev.yml`. The least you need to change is `server_port` and `password`.
+Update variable under file `group_vars/all/shadowsocks-libev.yml`. The least needed to change is `server_port` and `password`.
 
 ```yml
 server_port: 8388
@@ -18,7 +18,6 @@ Plugin is optional and you can disable plugin installation by just deleting the 
 ```yml
 plugin:
   v2ray:
-    version: v1.2.0
     opts: server
 ```
 

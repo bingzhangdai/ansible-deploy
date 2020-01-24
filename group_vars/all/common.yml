@@ -3,7 +3,7 @@ sshd_config:
   PasswordAuthentication: 'no'
   ChallengeResponseAuthentication: 'no'
   PubkeyAuthentication: 'yes'
-# push your private key id_rsa and pubkey id_rsa.pub to remote server
+# push private key id_rsa and pubkey id_rsa.pub to remote server
 ssh_push_keys: false
 
 ## git task
@@ -13,7 +13,7 @@ git_config:
   'core.editor': vi
 
 ## bash
-# if set true, you remote files (e.g. .bashrc) will be cleared
+# if set true, remote files (e.g. .bashrc) will be cleared
 bash_clear_existing: true
 shell_plugin:
   fzf:
@@ -26,6 +26,3 @@ misc_packages:
   - g++
   - python3
   - python3-pip
-
-## bat
-bat_version: 0.12.0

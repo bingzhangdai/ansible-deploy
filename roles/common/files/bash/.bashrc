@@ -57,7 +57,7 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[00;32m\]\u@\h\[\033[00m\]:\[\033[01;33m\]\w\[\033[00m\]\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
@@ -132,10 +132,22 @@ export LESS_TERMCAP_so=$(printf '\e[01;33m') # enter standout mode
 export LESS_TERMCAP_ue=$(printf '\e[0m') # leave underline mode
 export LESS_TERMCAP_us=$(printf '\e[04;32;5;200m') # enter underline mode
 
+## fd
+FD_OPTIONS="--follow --exclude .git"
+
 ## fzf
 if command -v bat > /dev/null; then
     cat='bat --color=always'
+    less='bat --style=numbers --paging=always'
 else
     cat='cat'
+    less='less -f'
 fi
-export FZF_DEFAULT_OPTS="--height 50% -1 --reverse --multi --inline-info --preview='[[ \$(file --mime {}) = ~binary ]] && echo {} is a binary file || $cat -n {} | head -300'"
+
+export FZF_DEFAULT_OPTS="--height 50% -1 --reverse --multi --inline-info --preview='[[ \$(file --mime {}) = ~binary ]] && echo {} is a binary file || $cat -n {} | head -100' --preview-window='right:hidden:wrap' --bind='f2:toggle-preview,ctrl-p:execute($less -n {}),ctrl-v:execute(vim -n {}),ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-a:select-all+accept'"
+if command -v fdfind > /dev/null; then
+    export FZF_DEFAULT_COMMAND="fdfind --type f --type l --follow --exclude .git"
+    find=''
+elif command -v fd > /dev/null; then
+    export FZF_DEFAULT_COMMAND="fd --type f --type l --follow --exclude .git"
+fi
