@@ -4,25 +4,58 @@ The tasks under this role are used to install and configure common softwares.
 
 ## Supported tasks
 
-Put all your personal configuration files under `roles/common/files/*` and modify the varible file `group_vars/all/common.yml`.
+Put all personal configuration files under `roles/common/files/*` and modify the varible file `group_vars/all/common.yml`.
+
+* [bash](#bash): update `.bashrc`, `.bash_alias`, etc. files.
+* [bat](#bat): install syntax highlighting tool.
+* [fd](#fd): install a simple, fast and user-friendly alternative to 'find'.
+* [git](#git): install and config git global config.
+* [ssh](#ssh): update `sshd_config` and set up public key loging.
+* [vim](#vim): install vim and update vim config.
+* [misc](#misc): simply install by package manager.
 
 ### bash
 
-Files under `roles/common/files/bash/` will be pushed to you `$HOME` directory associated with `ansible_user` you put in `group_vars`.
+Files under `roles/common/files/bash/` will be pushed to `$HOME`.
 
-If you want to keep your existing configuires in `.bashrc`, you should set `bash_clear_existing=false`. If this varibale is `true`, you current bash config will be backed up and cleared.
+if `bash_clear_existing=true`, current bash config will be backed up and cleared for this first time installation.
 
-### vim
+By default, the script will install shell plugins (fzf). Clear the following varible to skip plugin installation.
 
-Put your `.vimrc` and vim plugins under `roles/common/files/vim/`.
+```yml
+shell_plugin:
+  fzf:
+    install_args: --all
+```
 
-### setup ssh public key login
+### bat
 
-Modify `sshd_config` and put your public key in file. If you want to push your private key to remote server, place you private key and set `ssh_push_keys=true`
+Install a syntax highlighting tool [sharkdp/bat](https://github.com/sharkdp/bat).
+
+### fd
+
+install a simple, fast and user-friendly alternative to 'find'. [sharkdp/fd](https://github.com/sharkdp/fd).
 
 ### git
 
 Change `git_config` to your desired value.
+
+### ssh
+
+Modify `sshd_config` and put your public key in file. The following config will enable public key authentication and disable password login.
+
+```yml
+sshd_config:
+  PasswordAuthentication: 'no'
+  ChallengeResponseAuthentication: 'no'
+  PubkeyAuthentication: 'yes'
+```
+
+If you want to push your private key to remote server, place you private key and set `ssh_push_keys=true`.
+
+### vim
+
+Put `.vimrc` and vim plugins under `roles/common/files/vim/`.
 
 ### misc
 

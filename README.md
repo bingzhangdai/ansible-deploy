@@ -44,7 +44,7 @@ git ls-files | xargs dos2unix
 
 ### Edit inventory (hosts)
 
-Modify hosts and put all your remote servers in file `hosts`.
+Modify hosts and put all remote servers in file `hosts`.
 
 ```ini
 host_or_ip_0
@@ -53,7 +53,7 @@ host_or_ip_1
 
 ### Modify default group vars
 
-Update vars under `group_vars/all/*`. Change your remote user name and password for varibale `ansible_user` and `ansible_ssh_pass` in file `group_vars/all/main.yml` for ssh login.
+Update vars under `group_vars/all/*`. Change remote user name and password for varibale `ansible_user` and `ansible_ssh_pass` in file `group_vars/all/main.yml` for ssh login.
 
 ```yml
 ansible_user: root
@@ -70,7 +70,7 @@ For full installation, run the following command.
 ansible-playbook site.yml -i hosts
 ```
 
-You can aslo install or skip one or more components. Just look at the file `site.yml` and decide.
+To install or skip one or more components. Just look at the file `site.yml` and decide.
 
 ```bash
 # install only shadowsocks-libev
