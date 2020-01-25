@@ -4,7 +4,7 @@
     packages: ['git']
 
 - name: clone latest junegunn/fzf to ~/.fzf
-  git: # noqa 401
+  git:
     repo: https://github.com/junegunn/fzf.git
     dest: "{{ ansible_env.HOME }}/.fzf"
     depth: 1

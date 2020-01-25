@@ -56,11 +56,76 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
+# Special prompt variable: https://ss64.com/bash/syntax-prompt.html
+ex_color=$'\033[01;32m'
+ex_code=0
+function _set_ex_code() {
+    ex_code=$?
+
+    if [ $ex_code -ne 0 ]; then
+        ex_color=$'\033[01;31m'
+    else
+        ex_color=$'\033[01;32m'
+    fi
+}
+PROMPT_COMMAND=_set_ex_code
+
+function _collapsed_pwd() {
+    local pwd="$1"
+    local home="$HOME"
+    local size=${#home}
+    [[ $# == 0 ]] && pwd="$PWD"
+    [[ -z "$pwd" ]] && return
+    if [[ "$pwd" == "/" ]]; then
+        echo "/"
+        return
+    elif [[ "$pwd" == "$home" ]]; then
+        echo "~"
+        return
+    fi
+    [[ "$pwd" == "$home/"* ]] && pwd="~${pwd:$size}"
+    if [[ -n "$BASH_VERSION" ]]; then
+        local IFS="/"
+        local elements=($pwd)
+        local length=${#elements[@]}
+        for ((i=0; i<length-1; i++)); do
+            local elem=${elements[$i]}
+            if [[ ${#elem} -gt 1 ]]; then
+                elements[$i]=${elem:0:1}
+            fi
+        done
+    else
+        local elements=("${(s:/:)pwd}")
+        local length=${#elements}
+        for i in {1..$((length-1))}; do
+            local elem=${elements[$i]}
+            if [[ ${#elem} > 1 ]]; then
+                elements[$i]=${elem[1]}
+            fi
+        done
+    fi
+    local IFS="/"
+    echo "${elements[*]}"
+}
+
+function _prompt() {
+    if [ "$UID" -eq 0 ]; then
+        echo '#'
+    else
+        echo '$'
+    fi
+}
+
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    if [ "$UID" -eq 0 ]; then
+        PS1='${debian_chroot:+($debian_chroot)}\[\033[01;31m\]\u@\h\[\033[00m\]:\[\033[01;33m\]$(_collapsed_pwd)\[\033[00m\]\[$ex_color\] $(printf "%d" $ex_code) \[\033[00m\]$(_prompt) '
+    else
+        PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;33m\]$(_collapsed_pwd)\[\033[00m\]\[$ex_color\] $(printf "%d" $ex_code) \[\033[00m\]$(_prompt) '
+    fi
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:$(_collapsed_pwd)\$(_prompt) '
 fi
+
 unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
