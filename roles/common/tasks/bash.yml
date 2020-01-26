@@ -1,3 +1,8 @@
+- name: install bash
+  import_tasks: misc.yml
+  vars:
+    packages: ['bash']
+
 - name: copy bash files to remote server
   block:
     - name: check if bash block already exists
@@ -42,13 +47,3 @@
 #   become: no
 #   tags:
 #     - configuration
-
-- name: install bash plugin
-  include_tasks:
-    file: "shell/{{ item.key }}.yml"
-    apply:
-      tags:
-        - configuration
-  with_dict: "{{ shell_plugin }}"
-  tags:
-    - configuration
