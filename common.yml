@@ -3,6 +3,7 @@
     - { role: common, task: bash, tags: [bash] }
     - { role: common, task: bat, tags: [bat] }
     - { role: common, task: fd, tags: [fd] }
+    - { role: common, task: ripgrep, tags: [ripgrep] }
     - { role: common, task: vim, tags: [vim] }
     - { role: common, task: ssh, tags: [ssh] }
     - { role: common, task: git, tags: [git] }

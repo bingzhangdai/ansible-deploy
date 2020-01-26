@@ -1,2 +1,8 @@
+[ubuntu]
 ss-jpe.japaneast.cloudapp.azure.com
 ss-ea.eastasia.cloudapp.azure.com
+ss-kc.koreacentral.cloudapp.azure.com
+ss-wus2.westus2.cloudapp.azure.com
+
+[centos]
+centos-jpe.japaneast.cloudapp.azure.com

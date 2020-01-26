@@ -19,7 +19,33 @@
       when: ansible_distribution_version is version('19.04', '<')
     - name: install latest bat release
       apt:
-        deb: "{{ bat_release }}"
+        deb: "{{ bat_release.deb }}"
       when: ansible_distribution != 'Ubuntu' or ansible_distribution_version is version('19.10', '<')
   become: yes
   when: ansible_os_family == 'Debian'
+
+- name: install bat for other platforms
+  block:
+    - name: include task for detecting latest bat version
+      include_role:
+        name: utils
+        tasks_from: github-release
+      vars:
+        user: "{{ bat_github.user }}"
+        repo: "{{ bat_github.repo }}"
+    - name: create ~/bin
+      file:
+        path: "{{ ansible_env.HOME }}/bin"
+        state: directory
+    - name: install latest bat release
+      unarchive:
+        src: "{{ bat_release.unknown }}"
+        dest: "{{ ansible_env.HOME }}/bin"
+        extra_opts:
+          - '--strip-components=1'
+          - '--wildcards'
+          - '*/bat'
+        remote_src: yes
+  become: no
+  when:
+    ansible_os_family != 'Debian'

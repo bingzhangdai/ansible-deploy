@@ -1,0 +1,49 @@
+- name: install ripgrep for ubuntu
+  block:
+    - name: install ripgrep through package manager
+      apt:
+        name: ripgrep
+        state: latest
+        update_cache: yes
+        cache_valid_time: 86400
+      when: ansible_distribution_version is version('18.10', '>=')
+    - name: include task for detecting latest ripgrep version
+      include_role:
+        name: utils
+        tasks_from: github-release
+      vars:
+        user: "{{ ripgrep_github.user }}"
+        repo: "{{ ripgrep_github.repo }}"
+      when: ansible_distribution_version is version('18.10', '<')
+    - name: install latest ripgrep release
+      apt:
+        deb: "{{ ripgrep_release.deb }}"
+      when: ansible_distribution_version is version('18.10', '<')
+  become: yes
+  when: ansible_distribution == 'Ubuntu'
+
+- name: install ripgrep for other platforms
+  block:
+    - name: include task for detecting latest ripgrep version
+      include_role:
+        name: utils
+        tasks_from: github-release
+      vars:
+        user: "{{ ripgrep_github.user }}"
+        repo: "{{ ripgrep_github.repo }}"
+    - name: create ~/bin
+      file:
+        path: "{{ ansible_env.HOME }}/bin"
+        state: directory
+    - name: install latest ripgrep release
+      unarchive:
+        src: "{{ ripgrep_release.unknown }}"
+        dest: "{{ ansible_env.HOME }}/bin"
+        extra_opts:
+          - '--strip-components=1'
+          - '--wildcards'
+          - '*/rg'
+        remote_src: yes
+  become: no
+  when:
+    - ansible_os_family != 'Debian'
