@@ -1,4 +1,4 @@
-- name: install fd for ubuntu
+- name: install fd-find for ubuntu
   block:
     - name: install fd through package manager
       apt:
@@ -17,7 +17,33 @@
       when: ansible_distribution_version is version('19.04', '<')
     - name: install latest fd release
       apt:
-        deb: "{{ fd_release }}"
+        deb: "{{ fd_release.deb }}"
       when: ansible_distribution_version is version('19.04', '<')
   become: yes
   when: ansible_distribution == 'Ubuntu'
+
+- name: install fd for other platforms
+  block:
+    - name: include task for detecting latest fd version
+      include_role:
+        name: utils
+        tasks_from: github-release
+      vars:
+        user: "{{ fd_github.user }}"
+        repo: "{{ fd_github.repo }}"
+    - name: create ~/bin
+      file:
+        path: "{{ ansible_env.HOME }}/bin"
+        state: directory
+    - name: install latest fd release
+      unarchive:
+        src: "{{ fd_release.unknown }}"
+        dest: "{{ ansible_env.HOME }}/bin"
+        extra_opts:
+          - '--strip-components=1'
+          - '--wildcards'
+          - '*/fd'
+        remote_src: yes
+  become: no
+  when:
+    - ansible_os_family != 'Debian'

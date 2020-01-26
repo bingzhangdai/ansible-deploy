@@ -1,0 +1,6 @@
+ripgrep_github:
+  user: BurntSushi
+  repo: ripgrep
+ripgrep_release:
+ deb: "https://github.com/{{ ripgrep_github.user }}/{{ ripgrep_github.repo }}/releases/download/{{ release_version }}/ripgrep_{{ release_version }}_amd64.deb"
+ unknown: "https://github.com/{{ ripgrep_github.user }}/{{ ripgrep_github.repo }}/releases/download/{{ release_version }}/ripgrep-{{ release_version }}-x86_64-unknown-linux-musl.tar.gz"

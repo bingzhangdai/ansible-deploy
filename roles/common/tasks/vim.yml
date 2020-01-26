@@ -6,6 +6,8 @@
   tags:
     - packages
 
+# rsync error: received SIGINT, SIGTERM, or SIGHUP (code 20) at rsync.c(644) [sender=3.1.2]
+# Synchronize module doesn't work with vault: https://github.com/ansible/ansible/issues/45161
 - name: update .vimrc and vim plugin
   synchronize:
     src: vim/

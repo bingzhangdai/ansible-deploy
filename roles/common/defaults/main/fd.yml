@@ -1,4 +1,6 @@
 fd_github:
   user: sharkdp
   repo: fd
-fd_release: "https://github.com/{{ fd_github.user }}/{{ fd_github.repo }}/releases/download/v{{ release_version }}/fd_{{ release_version }}_amd64.deb"
+fd_release:
+  deb: "https://github.com/{{ fd_github.user }}/{{ fd_github.repo }}/releases/download/v{{ release_version }}/fd_{{ release_version }}_amd64.deb"
+  unknown: "https://github.com/{{ fd_github.user }}/{{ fd_github.repo }}/releases/download/v{{ release_version }}/fd-v{{ release_version }}-x86_64-unknown-linux-musl.tar.gz"

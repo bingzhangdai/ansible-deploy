@@ -56,20 +56,18 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
-# Special prompt variable: https://ss64.com/bash/syntax-prompt.html
-ex_color=$'\033[01;32m'
-ex_code=0
+_ex_code=""
 function _set_ex_code() {
-    ex_code=$?
-
-    if [ $ex_code -ne 0 ]; then
-        ex_color=$'\033[01;31m'
+    local ex=$?
+    if [ $ex -ne 0 ]; then
+        _ex_code=" $ex "
     else
-        ex_color=$'\033[01;32m'
+        _ex_code=""
     fi
 }
 PROMPT_COMMAND=_set_ex_code
 
+# another: $(p="${PWD#${HOME}}"; [ "${PWD}" != "${p}" ] && printf "~";IFS=/; for q in ${p:1}; do printf /${q:0:1}; done; printf "${q:1}")
 function _collapsed_pwd() {
     local pwd="$1"
     local home="$HOME"
@@ -99,7 +97,7 @@ function _collapsed_pwd() {
         local length=${#elements}
         for i in {1..$((length-1))}; do
             local elem=${elements[$i]}
-            if [[ ${#elem} > 1 ]]; then
+            if [[ ${#elem} -gt 1 ]]; then
                 elements[$i]=${elem[1]}
             fi
         done
@@ -108,22 +106,15 @@ function _collapsed_pwd() {
     echo "${elements[*]}"
 }
 
-function _prompt() {
-    if [ "$UID" -eq 0 ]; then
-        echo '#'
-    else
-        echo '$'
-    fi
-}
-
+# Special prompt variable: https://ss64.com/bash/syntax-prompt.html
 if [ "$color_prompt" = yes ]; then
     if [ "$UID" -eq 0 ]; then
-        PS1='${debian_chroot:+($debian_chroot)}\[\033[01;31m\]\u@\h\[\033[00m\]:\[\033[01;33m\]$(_collapsed_pwd)\[\033[00m\]\[$ex_color\] $(printf "%d" $ex_code) \[\033[00m\]$(_prompt) '
+        PS1='${debian_chroot:+($debian_chroot)}\[\033[01;31m\]\u@\h\[\033[00m\]:\[\033[01;33m\]$(_collapsed_pwd)\[\033[00m\]\[\033[01;31m\]$_ex_code\[\033[00m\]# '
     else
-        PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;33m\]$(_collapsed_pwd)\[\033[00m\]\[$ex_color\] $(printf "%d" $ex_code) \[\033[00m\]$(_prompt) '
+        PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;33m\]$(_collapsed_pwd)\[\033[00m\]\[\033[01;31m\]$_ex_code\[\033[00m\]\$ '
     fi
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:$(_collapsed_pwd)\$(_prompt) '
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:$(_collapsed_pwd)$([ "$UID" -eq 0 ] && echo "#" || echo "\$") '
 fi
 
 unset color_prompt force_color_prompt
@@ -131,7 +122,8 @@ unset color_prompt force_color_prompt
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
 xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    # PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h\a\]$PS1"
     ;;
 *)
     ;;
@@ -141,8 +133,8 @@ esac
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
+    alias dir='dir --color=auto'
+    alias vdir='vdir --color=auto'
 
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
@@ -157,6 +149,10 @@ alias l='ls -CF'
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+if [ -d ~/bin ]; then
+    PATH=$PATH:~/bin
+fi
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -189,11 +185,11 @@ fi
 # export LESS_TERMCAP_ue=$(printf '\e[0m') # leave underline mode
 # export LESS_TERMCAP_us=$(printf '\e[04;36m') # enter underline mode - cyan
 # another scheme
-export LESS_TERMCAP_mb=$(printf '\e[01;31m') # enter blinking mode
+export LESS_TERMCAP_mb=$(printf '\e[01;33m') # enter blinking mode
 export LESS_TERMCAP_md=$(printf '\e[01;38;5;75m') # enter double-bright mode
 export LESS_TERMCAP_me=$(printf '\e[0m') # turn off all appearance modes (mb, md, so, us)
 export LESS_TERMCAP_se=$(printf '\e[0m') # leave standout mode
-export LESS_TERMCAP_so=$(printf '\e[01;33m') # enter standout mode
+export LESS_TERMCAP_so=$(printf '\e[01;31m') # enter standout mode
 export LESS_TERMCAP_ue=$(printf '\e[0m') # leave underline mode
 export LESS_TERMCAP_us=$(printf '\e[04;32;5;200m') # enter underline mode
 

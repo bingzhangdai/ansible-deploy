@@ -1,4 +1,7 @@
 bat_github:
   user: sharkdp
   repo: bat
-bat_release: "https://github.com/{{ bat_github.user }}/{{ bat_github.repo }}/releases/download/v{{ release_version }}/bat_{{ release_version }}_amd64.deb"
+bat_release:
+  deb: "https://github.com/{{ bat_github.user }}/{{ bat_github.repo }}/releases/download/v{{ release_version }}/bat_{{ release_version }}_amd64.deb"
+  unknown: "https://github.com/{{ bat_github.user }}/{{ bat_github.repo }}/releases/download/v{{ release_version }}/bat-v{{ release_version }}-x86_64-unknown-linux-musl.tar.gz"
+
