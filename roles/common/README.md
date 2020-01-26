@@ -7,8 +7,9 @@ The tasks under this role are used to install and configure common softwares.
 Put all personal configuration files under `roles/common/files/*` and modify the varible file `group_vars/all/common.yml`.
 
 * [bash](#bash): update `.bashrc`, `.bash_alias`, etc. files.
-* [bat](#bat): install syntax highlighting tool.
-* [fd](#fd): install a simple, fast and user-friendly alternative to 'find'.
+* [bat](#bat): a syntax highlighting tool.
+* [fd](#fd): a simple, fast and user-friendly alternative to 'find'.
+* [fzf](#fzf): a command-line fuzzy finder.
 * [git](#git): install and config git global config.
 * [ssh](#ssh): update `sshd_config` and set up public key loging.
 * [vim](#vim): install vim and update vim config.
@@ -20,14 +21,6 @@ Files under `roles/common/files/bash/` will be pushed to `$HOME`.
 
 if `bash_clear_existing=true`, current bash config will be backed up and cleared for this first time installation.
 
-By default, the script will install shell plugins (fzf). Clear the following varible to skip plugin installation.
-
-```yml
-shell_plugin:
-  fzf:
-    install_args: --all
-```
-
 ### bat
 
 Install a syntax highlighting tool [sharkdp/bat](https://github.com/sharkdp/bat).
@@ -35,6 +28,10 @@ Install a syntax highlighting tool [sharkdp/bat](https://github.com/sharkdp/bat)
 ### fd
 
 install a simple, fast and user-friendly alternative to 'find'. [sharkdp/fd](https://github.com/sharkdp/fd).
+
+### fzf
+
+Install a command-line fuzzy finder [junegunn/fzf](https://github.com/junegunn/fzf).
 
 ### git
 
