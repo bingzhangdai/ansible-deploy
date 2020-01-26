@@ -5,13 +5,11 @@ Configure systems and deploy software by using Ansible.
 ## Prerequisites
 
 * control machine
-  * python and pip installed.
+  * python and pip installed. (python3 is preferred)
 * remote server
   * python interpreter present (most popular distributions already satisfy this condition)
 
 If you are using Windows, it is strongly recommended to use Windows Subsystem for Linux ([WSL docs](https://docs.microsoft.com/en-us/windows/wsl)).
-
-Note that there are some issues like [[Errno 32] Broken pipe](https://github.com/ansible/ansible/issues/56629) using python2. Python3 is preferred.
 
 ## This playbook can
 
@@ -88,3 +86,14 @@ ansible-playbook site.yml -i hosts --tags "common" --skip-tags "configuration"
 ```
 
 Enjoy!
+
+## Known issues
+
+Ansible known issues
+
+* [Synchronize with password authentication does not work with python 2](https://github.com/ansible/ansible/issues/56629): `[Errno 32] Broken pipe`.
+
+  Workaround: using python3
+* [Synchronize module doesn't work with vault](https://github.com/ansible/ansible/issues/45161)
+
+  Workaround: add argument `--extra-vars 'ansible_ssh_pass=your_passwd'` in `ansible-playbook` command
