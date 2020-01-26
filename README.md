@@ -14,15 +14,15 @@ If you are using Windows, it is strongly recommended to use Windows Subsystem fo
 ## This playbook can
 
 * install and configure common softwares like bash, vim, etc. ([How-to](roles/common/README.md))
-  * tested platform:
+  * tested platforms:
     * Ubuntu 18.04+
     * CentOS 7.5
 * install latest docker-ce
-  * tested platform:
+  * tested platforms:
     * Ubuntu 18.04+
     * CentOS 7.5
 * install shadowsocks-libev and optionally v2ray-plugin ([How-to](roles/shadowsocks-libev/README.md))
-  * tested platform:
+  * tested platforms:
     * Ubuntu 18.04+
 
 ## How to use
@@ -96,4 +96,4 @@ Ansible known issues
   Workaround: using python3
 * [Synchronize module doesn't work with vault](https://github.com/ansible/ansible/issues/45161)
 
-  Workaround: add argument `--extra-vars 'ansible_ssh_pass=your_passwd'` in `ansible-playbook` command
+  If you are using ansible-vault, then a workaround is adding argument `--extra-vars 'ansible_ssh_pass=your_passwd'` in `ansible-playbook` command
