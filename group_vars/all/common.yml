@@ -13,11 +13,8 @@ git_config:
   'core.editor': vi
 
 ## bash
-# if set true, remote files (e.g. .bashrc) will be cleared
+# if set true, remote files (e.g. .bashrc) will be backed up and cleared
 bash_clear_existing: true
-shell_plugin:
-  fzf:
-    install_args: --all
 
 ## misc task: soley install these packages
 # these packages should be easily installed through package manager
