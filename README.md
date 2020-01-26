@@ -16,8 +16,16 @@ Note that there are some issues like [[Errno 32] Broken pipe](https://github.com
 ## This playbook can
 
 * install and configure common softwares like bash, vim, etc. ([How-to](roles/common/README.md))
+  * tested platform:
+    * Ubuntu 18.04+
+    * CentOS 7.5
 * install latest docker-ce
+  * tested platform:
+    * Ubuntu 18.04+
+    * CentOS 7.5
 * install shadowsocks-libev and optionally v2ray-plugin ([How-to](roles/shadowsocks-libev/README.md))
+  * tested platform:
+    * Ubuntu 18.04+
 
 ## How to use
 
