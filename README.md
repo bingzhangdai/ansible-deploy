@@ -36,13 +36,7 @@ cd ansible-deploy
 sudo make evn
 ```
 
-If you are using WSL, you might need to export `ANSIBLE_CONFIG` environmental varibale.
-
-```bash
-export ANSIBLE_CONFIG=`pwd`/ansible.cfg
-```
-
-Also if you are using windows, it is recommended to change line ending from `CRLF` to `LF` before playing.
+If you are using Windows, it is recommended to change the line ending before playing.
 
 ```bash
 git ls-files | xargs dos2unix
@@ -59,7 +53,7 @@ host_or_ip_1
 
 ### Modify default group vars
 
-Update vars under `group_vars/all/*`. Change remote user name and password for varibale `ansible_user` and `ansible_ssh_pass` in file `group_vars/all/main.yml` for ssh login.
+Update vars under `group_vars/all/*`. Change remote user name and password for variable `ansible_user` and `ansible_ssh_pass` in file `group_vars/all/main.yml` for ssh login.
 
 ```yml
 ansible_user: root
@@ -83,6 +77,12 @@ To install or skip one or more components. Just look at the file `site.yml` and 
 ansible-playbook site.yml -i hosts --tags "shadowsocks-libev"
 # install common packages but do not copy config files
 ansible-playbook site.yml -i hosts --tags "common" --skip-tags "configuration"
+```
+
+If you see the warning `[WARNING]: Ansible is being run in a world writable directory`, you can export `ANSIBLE_CONFIG` environmental variable.
+
+```bash
+export ANSIBLE_CONFIG=`pwd`/ansible.cfg
 ```
 
 Enjoy!
