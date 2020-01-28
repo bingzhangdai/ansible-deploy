@@ -1,6 +1,7 @@
 - hosts: all
   roles:
     - { role: common, task: bash, tags: [bash] }
+    - { role: common, task: fzf, tags: [fzf] }
     - { role: common, task: bat, tags: [bat] }
     - { role: common, task: fd, tags: [fd] }
     - { role: common, task: ripgrep, tags: [ripgrep] }
