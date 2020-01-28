@@ -212,3 +212,6 @@ if command -v fdfind > /dev/null; then
 elif command -v fd > /dev/null; then
     export FZF_DEFAULT_COMMAND="fd --type f --type l --follow --exclude .git"
 fi
+
+## vi mode
+set -o vi

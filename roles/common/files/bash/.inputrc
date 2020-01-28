@@ -1,4 +1,15 @@
 set completion-ignore-case on
+
 # TAB: menu-complete
 # "\e[A": history-search-backward
 # "\e[B": history-search-forward
+
+## vi mode
+set editing-mode vi
+set keymap vi
+set show-mode-in-prompt on
+set vi-ins-mode-string ""
+set keymap vi-command
+Control-l: clear-screen
+set keymap vi-insert
+Control-l: clear-screen
