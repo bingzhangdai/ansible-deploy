@@ -17,11 +17,11 @@
     - name: clear and backup existing bash config files
       copy:
         content: ''
-        dest: "{{ item.item | basename }}"
+        dest: "{{ item | basename }}"
         backup: yes
       loop: "{{ backup_files }}"
       vars:
-        backup_files: "{{ check_block.results | selectattr('changed') | list }}"
+        backup_files: "{{ check_block.results | selectattr('changed') | map(attribute='item') | list }}"
       when: bash_clear_existing | default(false)
     - name: insert bash block
       blockinfile:
@@ -35,7 +35,7 @@
   tags:
     - configuration
 
-# - name: update .bashrc and .bash_aliases
+# - name: update bash folder
 #   synchronize:
 #     src: bash/
 #     dest: "{{ ansible_env.HOME }}"

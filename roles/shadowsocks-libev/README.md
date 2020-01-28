@@ -1,6 +1,6 @@
 # shadowsocks-libev + plugin
 
-Tested on Ubuntu 18.04+.
+This task will install shadowsocks-libev on the remote server.
 
 ## shadowsocks-libev
 
