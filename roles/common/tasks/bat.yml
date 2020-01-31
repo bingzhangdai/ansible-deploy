@@ -16,7 +16,7 @@
       vars:
         user: "{{ bat_github.user }}"
         repo: "{{ bat_github.repo }}"
-      when: ansible_distribution_version is version('19.04', '<')
+      when: ansible_distribution_version is version('19.10', '<')
     - name: install latest bat release
       apt:
         deb: "{{ bat_release.deb }}"
