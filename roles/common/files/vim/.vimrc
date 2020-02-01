@@ -5,7 +5,10 @@ set nocompatible
 
 set viminfo='100,<1000,s100,h
 
+call plug#begin()
+Plug 'luochen1990/rainbow'
 let g:rainbow_active = 1
+call plug#end()
 
 set backspace=indent,eol,start
 
@@ -29,8 +32,13 @@ set smartindent
 syntax enable
 syntax on
 set t_Co=256
+
 " colorscheme desert
-colorscheme Monokai-Refined
+colorscheme monokai
+" override background
+hi Normal ctermbg=BLACK 
+hi LineNr ctermbg=BLACK 
+hi NonText ctermbg=BLACK 
 
 set ignorecase
 

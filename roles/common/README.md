@@ -52,7 +52,13 @@ If you want to push your private key to remote server, place you private key and
 
 ### vim
 
-Put `.vimrc` and vim plugins under `roles/common/files/vim/`.
+Put `.vimrc` and other files under `roles/common/files/vim/`. The following settings will install `plug` plugin manager.
+
+```yml
+vim:
+  vundle: false
+  plug: true
+```
 
 ### misc
 
