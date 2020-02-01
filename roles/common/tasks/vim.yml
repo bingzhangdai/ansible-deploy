@@ -1,8 +1,31 @@
-- name: install vim
-  package:
-    name: vim
-    state: present
-  become: yes
+- name: install vim and plugins
+  block:
+    - name: install vim
+      package:
+        name: vim
+        state: present
+      become: yes
+    - name: install vundle
+      block:
+        - import_tasks: misc.yml
+          vars:
+            packages: ['git']
+        - name: clone VundleVim/Vundle.vim
+          git:
+            repo: https://github.com/VundleVim/Vundle.vim.git
+            dest: "{{ ansible_env.HOME }}/.vim/bundle/Vundle.vim"
+      when: vim.vundle | default(false)
+    - name: install plug
+      block:
+        - name: create ~/.vim/autoload/
+          file:
+            path: "{{ ansible_env.HOME }}/.vim/autoload"
+            state: directory
+        - name: download plug.vim and put it in the "autoload" directory
+          get_url:
+            url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+            dest: "{{ ansible_env.HOME }}/.vim/autoload/plug.vim"
+      when: vim.plug | default(false)
   tags:
     - packages
 

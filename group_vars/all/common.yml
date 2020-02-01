@@ -6,6 +6,11 @@ sshd_config:
 # push private key id_rsa and pubkey id_rsa.pub to remote server
 ssh_push_keys: false
 
+## vim plugin manager
+vim:
+  vundle: false
+  plug: true
+
 ## git task
 git_config:
   'user.name': Bingzhang Dai
