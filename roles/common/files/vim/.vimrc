@@ -32,8 +32,13 @@ set smartindent
 syntax enable
 syntax on
 set t_Co=256
+
 " colorscheme desert
 colorscheme monokai
+" override background
+hi Normal ctermbg=BLACK 
+hi LineNr ctermbg=BLACK 
+hi NonText ctermbg=BLACK 
 
 set ignorecase
 
