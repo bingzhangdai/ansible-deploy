@@ -29,7 +29,7 @@
   tags:
     - packages
 
-- name: update .vimrc and vim plugin
+- name: update .vimrc and .vim folder
   synchronize:
     src: vim/
     dest: "{{ ansible_env.HOME }}"
