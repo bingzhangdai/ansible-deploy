@@ -1,0 +1,17 @@
+name: Pull Request Build
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  ansible-lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Lint Ansible Playbook
+      uses: ansible/ansible-lint-action@75a177d
+      with:
+        targets: |
+          site.yml
+          common.yml
