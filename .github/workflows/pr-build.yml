@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Lint Ansible Playbook site.yml
+    - name: Lint Ansible Playbook
       uses: ansible/ansible-lint-action@75a177d
       with:
         targets: |
