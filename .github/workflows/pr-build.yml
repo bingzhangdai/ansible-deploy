@@ -1,4 +1,4 @@
-name: Pull Request Buddy Build   
+name: Pull Request Build
 on:
   pull_request:
     branches:
@@ -8,7 +8,10 @@ jobs:
   ansible-lint:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
     - name: Lint Ansible Playbook site.yml
-      uses: ansible/ansible-lint-action@v4.1.0.post0
+      uses: ansible/ansible-lint-action@75a177d
       with:
-        targets: site.yml
+        targets: |
+          site.yml
+          common.yml
