@@ -1,5 +1,7 @@
 # Ansible deploy
 
+![Syntax Check](https://github.com/bingzhangdai/ansible-deploy/workflows/Syntax%20Check/badge.svg?branch=master&event=push)
+
 Configure systems and deploy software by using Ansible.
 
 ## Prerequisites
