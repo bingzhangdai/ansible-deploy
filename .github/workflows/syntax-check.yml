@@ -1,6 +1,7 @@
-name: Pull Request Build
+name: Syntax Check
 on:
   pull_request:
+  push:
     branches:
       - master
 
