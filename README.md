@@ -64,7 +64,7 @@ ansible_ssh_pass: root_passwd
 
 Modify other vars as needed.
 
-### Encrypt password
+### Encrypt password (optional)
 
 Use ansible-vault to encrypt password, `make encrypt`.
 

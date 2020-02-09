@@ -7,17 +7,18 @@
         update_cache: yes
         cache_valid_time: 86400
       when: ansible_distribution_version is version('18.10', '>=')
-    - name: include task for detecting latest ripgrep version
-      include_role:
-        name: utils
-        tasks_from: github-release
-      vars:
-        user: "{{ ripgrep_github.user }}"
-        repo: "{{ ripgrep_github.repo }}"
-      when: ansible_distribution_version is version('18.10', '<')
-    - name: install latest ripgrep release
-      apt:
-        deb: "{{ ripgrep_release.deb }}"
+    - name: install ripgrep from GitHub release
+      block:
+        - name: include task for detecting latest ripgrep version
+          include_role:
+            name: utils
+            tasks_from: github-release
+          vars:
+            user: "{{ ripgrep_github.user }}"
+            repo: "{{ ripgrep_github.repo }}"
+        - name: install latest ripgrep release
+          apt:
+            deb: "{{ ripgrep_release.deb }}"
       when: ansible_distribution_version is version('18.10', '<')
   become: yes
   when: ansible_distribution == 'Ubuntu'

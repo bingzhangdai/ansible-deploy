@@ -8,21 +8,40 @@
 
 - name: install shadowsocks plugin
   block:
-    - name: detect latest v2ray version
-      import_role:
-        name: utils
-        tasks_from: github-release
-      vars:
-        user: "{{ ss_github.user }}"
-        repo: "{{ ss_github.v2ray_repo }}"
-    - name: download v2ray {{ release_version }}
-      unarchive:
-        src: "{{ ss_plugin_release.v2ray }}"
-        dest: "/etc/shadowsocks-libev/"
-        remote_src: yes
-      notify: restart shadowsocks-libev
+    - name: install v2ray
+      block:
+        - name: detect latest v2ray version
+          import_role:
+            name: utils
+            tasks_from: github-release
+          vars:
+            user: "{{ ss_github.user }}"
+            repo: "{{ ss_github.v2ray_repo }}"
+        - name: download v2ray {{ release_version }}
+          unarchive:
+            src: "{{ ss_plugin_release.v2ray }}"
+            dest: "/etc/shadowsocks-libev/"
+            remote_src: yes
+          notify: restart shadowsocks-libev
+        - name: allow a non-root process to bind to a privileged port
+          command: setcap 'CAP_NET_BIND_SERVICE=+eip' /etc/shadowsocks-libev/v2ray-plugin_linux_amd64
+          when: ss_config.server_port < 1024
       when: ss_config.plugin.v2ray is defined
   when: ss_config.plugin is defined
+
+- name: enable BBR
+  block:
+    - name: directly setting TCP BBR
+      sysctl:
+        name: "{{ item.name }}"
+        value: "{{ item.value }}"
+        sysctl_set: yes
+      loop:
+        - name: net.core.default_qdisc
+          value: fq
+        - name: net.ipv4.tcp_congestion_control
+          value: bbr
+      when: ansible_kernel is version('4.9', '>=')
 
 - name: configure and start shadowsocks-libev
   block:
@@ -34,7 +53,7 @@
     - name: enable tcp_fastopen
       sysctl:
         name: net.ipv4.tcp_fastopen
-        value: '1'
+        value: '3'
         sysctl_set: yes
       when: ss_config.fast_open | default(false)
     - name: edit /etc/default/shadowsocks-libev

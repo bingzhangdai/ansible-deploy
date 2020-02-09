@@ -4,5 +4,6 @@
     "password": "{{ ss_config.password }}",
     "timeout": {{ ss_config.timeout }},
     "method": "{{ ss_config.encrypt_method }}",
+    "nameserver": "8.8.8.8",
     "fast_open": {{ ss_config.fast_open | default(false) | lower }}
 }
