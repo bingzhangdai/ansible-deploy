@@ -90,7 +90,7 @@ export ANSIBLE_CONFIG=`pwd`/ansible.cfg
 
 Enjoy!
 
-## Use case
+## Use cases
 
 ### Install latest docker-ce
 
