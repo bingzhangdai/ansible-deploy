@@ -6,10 +6,7 @@ Configure systems and deploy software by using Ansible.
 
 ## Prerequisites
 
-* control machine
-  * python and pip installed. (python3 is preferred)
-* remote server
-  * python interpreter present (most popular distributions already satisfy this condition)
+python and pip installed. (python3 is preferred). For example,
 
 If you are using Windows, it is strongly recommended to use Windows Subsystem for Linux ([WSL docs](https://docs.microsoft.com/en-us/windows/wsl)).
 
