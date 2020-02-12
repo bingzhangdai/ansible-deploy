@@ -13,14 +13,6 @@ password: mypassword
 
 ## Plugin
 
-Plugin is optional and you can disable plugin installation by just deleting the following lines.
-
-```yml
-plugin:
-  v2ray:
-    opts: server
-```
-
 ### v2ray
 
 Currently only websocket (HTTP) is supported.
@@ -44,6 +36,8 @@ Client-side installation is not included in this role. Here are just some tips.
 Download [shadowsocks-windows](https://github.com/shadowsocks/shadowsocks-windows/releases) and [v2ray-plugin](https://github.com/shadowsocks/v2ray-plugin/releases).
 
 Put unarchived `Shadowsocks.exe` and `v2ray-plugin_windows_amd64.exe` together.
+
+![example-config](images/client-win.png)
 
 ### Android
 
