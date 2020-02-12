@@ -23,7 +23,7 @@ If you are using Windows, it is strongly recommended to use Windows Subsystem fo
   * tested platforms:
     * Ubuntu 18.04+
     * CentOS 7.5
-* install shadowsocks-libev and optionally v2ray-plugin
+* install shadowsocks-libev and v2ray-plugin
   * tested platforms:
     * Ubuntu 18.04+
 

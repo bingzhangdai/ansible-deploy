@@ -13,14 +13,6 @@ password: mypassword
 
 ## Plugin
 
-Plugin is optional and you can disable plugin installation by just deleting the following lines.
-
-```yml
-plugin:
-  v2ray:
-    opts: server
-```
-
 ### v2ray
 
 Currently only websocket (HTTP) is supported.
