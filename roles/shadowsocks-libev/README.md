@@ -45,6 +45,8 @@ Download [shadowsocks-windows](https://github.com/shadowsocks/shadowsocks-window
 
 Put unarchived `Shadowsocks.exe` and `v2ray-plugin_windows_amd64.exe` together.
 
+![example-config](images/client-win.png)
+
 ### Android
 
 It is recommended to install [shadowsocks](https://play.google.com/store/apps/details?id=com.github.shadowsocks) and [v2ray plugin](https://play.google.com/store/apps/details?id=com.github.shadowsocks.plugin.v2ray) through play store.

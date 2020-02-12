@@ -23,7 +23,7 @@ If you are using Windows, it is strongly recommended to use Windows Subsystem fo
   * tested platforms:
     * Ubuntu 18.04+
     * CentOS 7.5
-* install shadowsocks-libev and optionally v2ray-plugin ([How-to](roles/shadowsocks-libev/README.md))
+* install shadowsocks-libev and optionally v2ray-plugin
   * tested platforms:
     * Ubuntu 18.04+
 
@@ -92,6 +92,16 @@ export ANSIBLE_CONFIG=`pwd`/ansible.cfg
 ```
 
 Enjoy!
+
+## Use case
+
+### Install latest docker-ce
+
+```bash
+ansible-playbook site.yml -i hosts --tags "docker-ce"
+```
+
+### [Install shadowsocks-libev and v2ray-plugin](roles/shadowsocks-libev/README.md)
 
 ## Known issues
 

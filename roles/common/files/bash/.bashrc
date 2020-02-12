@@ -67,54 +67,26 @@ function _set_ex_code() {
 }
 PROMPT_COMMAND=_set_ex_code
 
-# another: $(p="${PWD#${HOME}}"; [ "${PWD}" != "${p}" ] && printf "~";IFS=/; for q in ${p:1}; do printf /${q:0:1}; done; printf "${q:1}")
 function _collapsed_pwd() {
-    local pwd="$1"
-    local home="$HOME"
-    local size=${#home}
-    [[ $# == 0 ]] && pwd="$PWD"
-    [[ -z "$pwd" ]] && return
-    if [[ "$pwd" == "/" ]]; then
-        echo "/"
-        return
-    elif [[ "$pwd" == "$home" ]]; then
-        echo "~"
-        return
+    local p="${PWD#$HOME}"
+    if [ "$PWD" != "$p" ]; then
+        printf '~'
     fi
-    [[ "$pwd" == "$home/"* ]] && pwd="~${pwd:$size}"
-    if [[ -n "$BASH_VERSION" ]]; then
-        local IFS="/"
-        local elements=($pwd)
-        local length=${#elements[@]}
-        for ((i=0; i<length-1; i++)); do
-            local elem=${elements[$i]}
-            if [[ ${#elem} -gt 1 ]]; then
-                elements[$i]=${elem:0:1}
-            fi
-        done
-    else
-        local elements=("${(s:/:)pwd}")
-        local length=${#elements}
-        for i in {1..$((length-1))}; do
-            local elem=${elements[$i]}
-            if [[ ${#elem} -gt 1 ]]; then
-                elements[$i]=${elem[1]}
-            fi
-        done
+    if [ "$p" == '/' ]; then
+        printf '/'
     fi
-    local IFS="/"
-    echo "${elements[*]}"
+    local IFS=/
+    for q in ${p:1}; do
+        printf /${q:0:1}
+    done
+    printf "${q:1}"
 }
 
 # Special prompt variable: https://ss64.com/bash/syntax-prompt.html
 if [ "$color_prompt" = yes ]; then
-    if [ "$UID" -eq 0 ]; then
-        PS1='${debian_chroot:+($debian_chroot)}\[\033[01;31m\]\u@\h\[\033[00m\]:\[\033[01;33m\]$(_collapsed_pwd)\[\033[00m\]\[\033[01;31m\]$_ex_code\[\033[00m\]# '
-    else
-        PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;33m\]$(_collapsed_pwd)\[\033[00m\]\[\033[01;31m\]$_ex_code\[\033[00m\]\$ '
-    fi
+    PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;33m\]$(_collapsed_pwd)\[\033[00m\]\[\033[01;31m\]$_ex_code\[\033[00m\]\$ '
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:$(_collapsed_pwd)$([ "$UID" -eq 0 ] && echo "#" || echo "\$") '
+    PS1='\u@\h:$(_collapsed_pwd)\$ '
 fi
 
 unset color_prompt force_color_prompt
@@ -123,7 +95,7 @@ unset color_prompt force_color_prompt
 case "$TERM" in
 xterm*|rxvt*)
     # PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h\a\]$PS1"
+    PS1="\[\e]0;\u@\h: \W\a\]$PS1"
     ;;
 *)
     ;;

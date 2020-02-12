@@ -7,3 +7,5 @@ alias ccat='bat --style=plain,changes --color=always --paging=never'
 if command -v fdfind > /dev/null; then
     alias fd='fdfind'
 fi
+
+alias proxy='http_proxy=http://127.0.0.1:1080 https_proxy=http://127.0.0.1:1080 '

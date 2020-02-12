@@ -70,6 +70,7 @@
       systemd:
         name: shadowsocks-libev
         enabled: yes
+        daemon_reload: yes
         state: started
     # use handler instead
     # - name: wait for shadowsocks-libev ready
@@ -101,4 +102,5 @@
     output_dir: "{{ hostvars['localhost']['playbook_dir'] }}/output/{{ role_name }}"
   delegate_to: localhost
   delegate_facts: True
+  ignore_errors: yes
   run_once: true
