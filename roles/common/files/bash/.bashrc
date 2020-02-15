@@ -78,9 +78,22 @@ function _collapsed_pwd() {
     [ "${q:0:1}" = '.' ] &&  printf '%s' "${q:2}" || printf '%s' "${q:1}"
 }
 
+git_branch=''
+git_color=''
+function _show_git() {
+    git_branch=$(git symbolic-ref -q --short HEAD 2> /dev/null)
+    # local status=$(git status --porcelain -uno 2> /dev/null | tail -n1)
+    if [[ -z "$(git status --porcelain 2> /dev/null | tail -n1)" ]]; then
+        git_color=$'\033[01;32m'
+    else
+        git_color=$'\033[01;31m'
+    fi
+}
+PROMPT_COMMAND="$PROMPT_COMMAND;_show_git"
+
 # Special prompt variable: https://ss64.com/bash/syntax-prompt.html
 if [ "$color_prompt" = yes ]; then
-    PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;33m\]$(_collapsed_pwd)\[\033[00m\]$([ -z "$_ex_code" ] || printf :)\[\033[01;31m\]$_ex_code\[\033[00m\]\$ '
+    PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;33m\]$(_collapsed_pwd)\[\033[00m\]$([ -n "$git_branch" ] && printf "[")\[$git_color\]$git_branch\[\033[00m\]$([ -n "$git_branch" ] && printf "]")$([ -z "$_ex_code" ] || printf :)\[\033[01;31m\]$_ex_code\[\033[00m\]\$ '
 else
     PS1='\u@\h:$(_collapsed_pwd)\$ '
 fi
