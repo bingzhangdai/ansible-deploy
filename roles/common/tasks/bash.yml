@@ -35,15 +35,15 @@
   tags:
     - configuration
 
-# - name: update bash folder
-#   synchronize:
-#     src: bash/
-#     dest: "{{ ansible_env.HOME }}"
-#     recursive: yes
-#     archive: no
-#     times: yes
-#     rsync_opts:
-#       - "--chmod=Du=rwx,Dog=rx,Fu=rw,Fog=r"
-#   become: no
-#   tags:
-#     - configuration
+- name: update .bash folder
+  synchronize:
+    src: bash/.bash/
+    dest: "{{ ansible_env.HOME }}/.bash"
+    recursive: yes
+    archive: no
+    times: yes
+    rsync_opts:
+      - "--chmod=Du=rwx,Dog=rx,Fu=rw,Fog=r"
+  become: no
+  tags:
+    - configuration

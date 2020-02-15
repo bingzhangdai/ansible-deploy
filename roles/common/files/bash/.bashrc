@@ -78,11 +78,14 @@ function _collapsed_pwd() {
     [ "${q:0:1}" = '.' ] &&  printf '%s' "${q:2}" || printf '%s' "${q:1}"
 }
 
+PROMPT_GIT='YES'
+PROMPT_GIT_STATUS='NO'
 git_branch=''
 git_color=''
 function _show_git() {
+    [[ "$PROMPT_GIT" == 'NO' ]] && git_branch='' && return
     git_branch=$(git symbolic-ref -q --short HEAD 2> /dev/null)
-    # local status=$(git status --porcelain -uno 2> /dev/null | tail -n1)
+    [[ "$PROMPT_GIT_STATUS" == 'NO' ]] && git_color=$'\033[1;30m' && return
     if [[ -z "$(git status --porcelain 2> /dev/null | tail -n1)" ]]; then
         git_color=$'\033[0;32m'
     else
@@ -93,6 +96,7 @@ function _show_git() {
         fi
     fi
 }
+
 PROMPT_COMMAND="$PROMPT_COMMAND;_show_git"
 
 # Special prompt variable: https://ss64.com/bash/syntax-prompt.html
@@ -155,44 +159,15 @@ if ! shopt -oq posix; then
   fi
 fi
 
-## colored man
-# export PAGER="most"
-# one scheme
-# export LESS_TERMCAP_mb=$(printf '\e[01;31m') # enter blinking mode - red
-# export LESS_TERMCAP_md=$(printf '\e[01;35m') # enter double-bright mode - bold, magenta
-# export LESS_TERMCAP_me=$(printf '\e[0m') # turn off all appearance modes (mb, md, so, us)
-# export LESS_TERMCAP_se=$(printf '\e[0m') # leave standout mode    
-# export LESS_TERMCAP_so=$(printf '\e[01;33m') # enter standout mode - yellow
-# export LESS_TERMCAP_ue=$(printf '\e[0m') # leave underline mode
-# export LESS_TERMCAP_us=$(printf '\e[04;36m') # enter underline mode - cyan
-# another scheme
-export LESS_TERMCAP_mb=$(printf '\e[01;33m') # enter blinking mode
-export LESS_TERMCAP_md=$(printf '\e[01;38;5;75m') # enter double-bright mode
-export LESS_TERMCAP_me=$(printf '\e[0m') # turn off all appearance modes (mb, md, so, us)
-export LESS_TERMCAP_se=$(printf '\e[0m') # leave standout mode
-export LESS_TERMCAP_so=$(printf '\e[01;31m') # enter standout mode
-export LESS_TERMCAP_ue=$(printf '\e[0m') # leave underline mode
-export LESS_TERMCAP_us=$(printf '\e[04;32;5;200m') # enter underline mode
-
 ## fd
 FD_OPTIONS="--follow --exclude .git"
 
-## fzf
-if command -v bat > /dev/null; then
-    cat='bat --color=always'
-    less='bat --style=numbers --paging=always'
-else
-    cat='cat'
-    less='less -f'
-fi
-
-export FZF_DEFAULT_OPTS="--height 50% -1 --reverse --multi --inline-info --preview='[[ \$(file --mime {}) = ~binary ]] && echo {} is a binary file || $cat -n {} | head -100' --preview-window='right:hidden:wrap' --bind='f2:toggle-preview,ctrl-p:execute($less -n {}),ctrl-v:execute(vim -n {}),ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-a:select-all+accept'"
-if command -v fdfind > /dev/null; then
-    export FZF_DEFAULT_COMMAND="fdfind --type f --type l --follow --exclude .git"
-    find=''
-elif command -v fd > /dev/null; then
-    export FZF_DEFAULT_COMMAND="fd --type f --type l --follow --exclude .git"
-fi
-
 ## vi mode
 set -o vi
+
+# load plugins
+for file_type in "plugins" "completions"; do
+    for file in $(ls -1 ~/.bash/$file_type/*.bash 2> /dev/null); do
+        [[ -e "$file" ]] && source $file || echo "Unable to read $file" > /dev/stderr
+    done
+done
