@@ -84,9 +84,13 @@ function _show_git() {
     git_branch=$(git symbolic-ref -q --short HEAD 2> /dev/null)
     # local status=$(git status --porcelain -uno 2> /dev/null | tail -n1)
     if [[ -z "$(git status --porcelain 2> /dev/null | tail -n1)" ]]; then
-        git_color=$'\033[01;32m'
+        git_color=$'\033[0;32m'
     else
-        git_color=$'\033[01;31m'
+        if [[ -z "$(git status --porcelain -uno 2> /dev/null | tail -n1)" ]]; then
+            git_color=$'\033[0;33m'
+        else
+            git_color=$'\033[0;31m'
+        fi
     fi
 }
 PROMPT_COMMAND="$PROMPT_COMMAND;_show_git"
