@@ -99,7 +99,7 @@ PROMPT_COMMAND="$PROMPT_COMMAND;_show_git"
 if [ "$color_prompt" = yes ]; then
     PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;33m\]$(_collapsed_pwd)\[\033[00m\]$([ -n "$git_branch" ] && printf "[")\[$git_color\]$git_branch\[\033[00m\]$([ -n "$git_branch" ] && printf "]")$([ -z "$_ex_code" ] || printf :)\[\033[01;31m\]$_ex_code\[\033[00m\]\$ '
 else
-    PS1='\u@\h:$(_collapsed_pwd)\$ '
+    PS1='\u@\h:$(_collapsed_pwd)$([ -n "$git_branch" ] && printf "[")$git_branch$([ -n "$git_branch" ] && printf "]")$([ -z "$_ex_code" ] || printf :)$_ex_code\$ '
 fi
 
 unset color_prompt force_color_prompt
