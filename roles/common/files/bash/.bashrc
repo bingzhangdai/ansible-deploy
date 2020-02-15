@@ -60,7 +60,7 @@ _ex_code=""
 function _set_ex_code() {
     local ex=$?
     if [ $ex -ne 0 ]; then
-        _ex_code=" $ex "
+        _ex_code="$ex"
     else
         _ex_code=""
     fi
@@ -69,22 +69,18 @@ PROMPT_COMMAND=_set_ex_code
 
 function _collapsed_pwd() {
     local p="${PWD#$HOME}"
-    if [ "$PWD" != "$p" ]; then
-        printf '~'
-    fi
-    if [ "$p" == '/' ]; then
-        printf '/'
-    fi
-    local IFS=/
+    [ "$PWD" != "$p" ] && printf '~'
+    [ "$p" = '/' ] && printf '/'
+    local IFS='/'
     for q in ${p:1}; do
-        printf /${q:0:1}
+        [ "${q:0:1}" = '.' ] && printf "/${q:0:2}" || printf "/${q:0:1}"
     done
-    printf "${q:1}"
+    [ "${q:0:1}" = '.' ] &&  printf '%s' "${q:2}" || printf '%s' "${q:1}"
 }
 
 # Special prompt variable: https://ss64.com/bash/syntax-prompt.html
 if [ "$color_prompt" = yes ]; then
-    PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;33m\]$(_collapsed_pwd)\[\033[00m\]\[\033[01;31m\]$_ex_code\[\033[00m\]\$ '
+    PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;33m\]$(_collapsed_pwd)\[\033[00m\]$([ -z "$_ex_code" ] || printf :)\[\033[01;31m\]$_ex_code\[\033[00m\]\$ '
 else
     PS1='\u@\h:$(_collapsed_pwd)\$ '
 fi
