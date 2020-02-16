@@ -30,77 +30,6 @@ shopt -s checkwinsize
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-# set variable identifying the chroot you work in (used in the prompt below)
-if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
-fi
-
-# set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in
-    xterm-color) color_prompt=yes;;
-esac
-
-# uncomment for a colored prompt, if the terminal has the capability; turned
-# off by default to not distract the user: the focus in a terminal window
-# should be on the output of commands, not on the prompt
-force_color_prompt=yes
-
-if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
-    else
-	color_prompt=
-    fi
-fi
-
-_ex_code=""
-function _set_ex_code() {
-    local ex=$?
-    if [ $ex -ne 0 ]; then
-        _ex_code=" $ex "
-    else
-        _ex_code=""
-    fi
-}
-PROMPT_COMMAND=_set_ex_code
-
-function _collapsed_pwd() {
-    local p="${PWD#$HOME}"
-    if [ "$PWD" != "$p" ]; then
-        printf '~'
-    fi
-    if [ "$p" == '/' ]; then
-        printf '/'
-    fi
-    local IFS=/
-    for q in ${p:1}; do
-        printf /${q:0:1}
-    done
-    printf "${q:1}"
-}
-
-# Special prompt variable: https://ss64.com/bash/syntax-prompt.html
-if [ "$color_prompt" = yes ]; then
-    PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;33m\]$(_collapsed_pwd)\[\033[00m\]\[\033[01;31m\]$_ex_code\[\033[00m\]\$ '
-else
-    PS1='\u@\h:$(_collapsed_pwd)\$ '
-fi
-
-unset color_prompt force_color_prompt
-
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*)
-    # PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    PS1="\[\e]0;\u@\h: \W\a\]$PS1"
-    ;;
-*)
-    ;;
-esac
-
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
@@ -142,44 +71,18 @@ if ! shopt -oq posix; then
   fi
 fi
 
-## colored man
-# export PAGER="most"
-# one scheme
-# export LESS_TERMCAP_mb=$(printf '\e[01;31m') # enter blinking mode - red
-# export LESS_TERMCAP_md=$(printf '\e[01;35m') # enter double-bright mode - bold, magenta
-# export LESS_TERMCAP_me=$(printf '\e[0m') # turn off all appearance modes (mb, md, so, us)
-# export LESS_TERMCAP_se=$(printf '\e[0m') # leave standout mode    
-# export LESS_TERMCAP_so=$(printf '\e[01;33m') # enter standout mode - yellow
-# export LESS_TERMCAP_ue=$(printf '\e[0m') # leave underline mode
-# export LESS_TERMCAP_us=$(printf '\e[04;36m') # enter underline mode - cyan
-# another scheme
-export LESS_TERMCAP_mb=$(printf '\e[01;33m') # enter blinking mode
-export LESS_TERMCAP_md=$(printf '\e[01;38;5;75m') # enter double-bright mode
-export LESS_TERMCAP_me=$(printf '\e[0m') # turn off all appearance modes (mb, md, so, us)
-export LESS_TERMCAP_se=$(printf '\e[0m') # leave standout mode
-export LESS_TERMCAP_so=$(printf '\e[01;31m') # enter standout mode
-export LESS_TERMCAP_ue=$(printf '\e[0m') # leave underline mode
-export LESS_TERMCAP_us=$(printf '\e[04;32;5;200m') # enter underline mode
-
 ## fd
 FD_OPTIONS="--follow --exclude .git"
 
-## fzf
-if command -v bat > /dev/null; then
-    cat='bat --color=always'
-    less='bat --style=numbers --paging=always'
-else
-    cat='cat'
-    less='less -f'
-fi
-
-export FZF_DEFAULT_OPTS="--height 50% -1 --reverse --multi --inline-info --preview='[[ \$(file --mime {}) = ~binary ]] && echo {} is a binary file || $cat -n {} | head -100' --preview-window='right:hidden:wrap' --bind='f2:toggle-preview,ctrl-p:execute($less -n {}),ctrl-v:execute(vim -n {}),ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-a:select-all+accept'"
-if command -v fdfind > /dev/null; then
-    export FZF_DEFAULT_COMMAND="fdfind --type f --type l --follow --exclude .git"
-    find=''
-elif command -v fd > /dev/null; then
-    export FZF_DEFAULT_COMMAND="fd --type f --type l --follow --exclude .git"
-fi
-
 ## vi mode
 set -o vi
+
+## source scripts in .bash folder
+# plugins, completions
+for file_type in "plugins" "completions"; do
+    for file in $(sort <(ls -1 ~/.bash/$file_type/*.bash 2> /dev/null)); do
+        [[ -e "$file" ]] && source $file || echo "Unable to read $file" > /dev/stderr
+    done
+done
+# theme
+source ~/.bash/theme.bash

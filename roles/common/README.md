@@ -21,6 +21,8 @@ Files under `roles/common/files/bash/` will be pushed to `$HOME`.
 
 if `bash_clear_existing=true`, current bash config will be backed up and cleared for this first time installation.
 
+Put the customized theme under `roles/common/files/bash/.bash/theme.bash` and customized plugins under `roles/common/files/bash/.bash/plugins/`. These scripts will be sourced in `.bashrc`.
+
 ### bat
 
 Install a syntax highlighting tool [sharkdp/bat](https://github.com/sharkdp/bat).
