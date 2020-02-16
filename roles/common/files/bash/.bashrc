@@ -30,94 +30,6 @@ shopt -s checkwinsize
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-# set variable identifying the chroot you work in (used in the prompt below)
-if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
-fi
-
-# set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in
-    xterm-color) color_prompt=yes;;
-esac
-
-# uncomment for a colored prompt, if the terminal has the capability; turned
-# off by default to not distract the user: the focus in a terminal window
-# should be on the output of commands, not on the prompt
-force_color_prompt=yes
-
-if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
-    else
-	color_prompt=
-    fi
-fi
-
-_ex_code=""
-function _set_ex_code() {
-    local ex=$?
-    if [ $ex -ne 0 ]; then
-        _ex_code="$ex"
-    else
-        _ex_code=""
-    fi
-}
-PROMPT_COMMAND=_set_ex_code
-
-function _collapsed_pwd() {
-    local p="${PWD#$HOME}"
-    [ "$PWD" != "$p" ] && printf '~'
-    [ "$p" = '/' ] && printf '/'
-    local IFS='/'
-    for q in ${p:1}; do
-        [ "${q:0:1}" = '.' ] && printf "/${q:0:2}" || printf "/${q:0:1}"
-    done
-    [ "${q:0:1}" = '.' ] &&  printf '%s' "${q:2}" || printf '%s' "${q:1}"
-}
-
-PROMPT_GIT='YES'
-PROMPT_GIT_STATUS='NO'
-git_branch=''
-git_color=''
-function _show_git() {
-    [[ "$PROMPT_GIT" == 'NO' ]] && git_branch='' && return
-    git_branch=$(git symbolic-ref -q --short HEAD 2> /dev/null)
-    [[ "$PROMPT_GIT_STATUS" == 'NO' ]] && git_color=$'\033[1;30m' && return
-    if [[ -z "$(git status --porcelain 2> /dev/null | tail -n1)" ]]; then
-        git_color=$'\033[0;32m'
-    else
-        if [[ -z "$(git status --porcelain -uno 2> /dev/null | tail -n1)" ]]; then
-            git_color=$'\033[0;33m'
-        else
-            git_color=$'\033[0;31m'
-        fi
-    fi
-}
-
-PROMPT_COMMAND="$PROMPT_COMMAND;_show_git"
-
-# Special prompt variable: https://ss64.com/bash/syntax-prompt.html
-if [ "$color_prompt" = yes ]; then
-    PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;33m\]$(_collapsed_pwd)\[\033[00m\]$([ -n "$git_branch" ] && printf "[")\[$git_color\]$git_branch\[\033[00m\]$([ -n "$git_branch" ] && printf "]")$([ -z "$_ex_code" ] || printf :)\[\033[01;31m\]$_ex_code\[\033[00m\]\$ '
-else
-    PS1='\u@\h:$(_collapsed_pwd)$([ -n "$git_branch" ] && printf "[")$git_branch$([ -n "$git_branch" ] && printf "]")$([ -z "$_ex_code" ] || printf :)$_ex_code\$ '
-fi
-
-unset color_prompt force_color_prompt
-
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*)
-    # PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    PS1="\[\e]0;\u@\h: \W\a\]$PS1"
-    ;;
-*)
-    ;;
-esac
-
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
@@ -165,9 +77,12 @@ FD_OPTIONS="--follow --exclude .git"
 ## vi mode
 set -o vi
 
-# load plugins
+## source scripts in .bash folder
+# plugins, completions
 for file_type in "plugins" "completions"; do
-    for file in $(ls -1 ~/.bash/$file_type/*.bash 2> /dev/null); do
+    for file in $(sort <(ls -1 ~/.bash/$file_type/*.bash 2> /dev/null)); do
         [[ -e "$file" ]] && source $file || echo "Unable to read $file" > /dev/stderr
     done
 done
+# theme
+source ~/.bash/theme.bash

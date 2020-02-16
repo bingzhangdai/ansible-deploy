@@ -4,22 +4,10 @@ elif [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ]; then
     source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash
 fi
 
-fe() {
-    local IFS=$'\n'
-    local files
-    files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0))
-    [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
-}
-
 fcd() {
     local dir
     dir=$(find ${1:-.} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf +m) &&
     cd "$dir"
-}
-
-vf() {
-    local file
-    file="$(fasd -Rfl "$1" | fzf -1 -0 --no-sort +m)" && vi "${file}" || return 1
 }
 
 if command -v bat > /dev/null; then
