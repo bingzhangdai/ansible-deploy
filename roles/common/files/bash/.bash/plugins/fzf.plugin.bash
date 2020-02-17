@@ -4,25 +4,30 @@ elif [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ]; then
     source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash
 fi
 
-if command -v fdfind > /dev/null; then
-    export FZF_DEFAULT_COMMAND="fdfind --type f --type l --follow --hidden --exclude .git"
-elif command -v fd > /dev/null; then
-    export FZF_DEFAULT_COMMAND="fd --type f --type l --follow --hidden --exclude .git"
+command -v fdfind > /dev/null && alias fd=fdfind && fd=fdfind
+
+if command -v fd > /dev/null; then
+    export FZF_DEFAULT_COMMAND="${fd:-fd} --type f --type l --follow --hidden --exclude .git"
+    _fzf_compgen_path() {
+        fd --hidden --follow --exclude ".git" . "$1"
+    }
+    _fzf_compgen_dir() {
+        fd --type d --hidden --follow --exclude ".git" . "$1"
+    }
 fi
 
 fcd() {
-    local dir
-    if command -v fdfind > /dev/null; then
-        dir=$(fdfind ${1:-.} --type d --hidden --exclude .git 2> /dev/null | fzf +m)
-    elif command -v fd > /dev/null; then
-        dir=$(fd ${1:-.} --type d --hidden --exclude .git 2> /dev/null | fzf +m)
+    if command -v fd > /dev/null; then
+        local dir=$(fd ${1:-.} --type d --hidden --follow --exclude .git 2> /dev/null | fzf +m)
     else
-        dir=$(find ${1:-.} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf +m)
+        local dir=$(find ${1:-.} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf +m)
     fi
     ex=$?
     [[ "$ex" -ne 0 ]] && return $ex
     cd "$dir"
 }
+
+unset fd
 
 alias fvi='vi `fzf`'
 
