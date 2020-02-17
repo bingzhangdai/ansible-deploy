@@ -24,7 +24,6 @@ bash_clear_existing: true
 ## misc task: soley install these packages
 # these packages should be easily installed through package manager
 misc_packages:
-  - gcc
-  - g++
+  - bash-completion
   - python3
   - python3-pip
