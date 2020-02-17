@@ -1,7 +1,10 @@
-- name: make sure git is installed
-  import_tasks: misc.yml
-  vars:
-    packages: ['git']
+- name: make sure git is present
+  package:
+    name: git
+    state: present
+  become: yes
+  tags:
+    - packages
 
 - name: clone latest junegunn/fzf to ~/.fzf
   git:

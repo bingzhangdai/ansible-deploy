@@ -1,7 +1,7 @@
-- name: install git
+- name: install latest git
   package:
     name: git
-    state: present
+    state: latest
   become: yes
   tags:
     - packages

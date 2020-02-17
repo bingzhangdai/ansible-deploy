@@ -7,9 +7,11 @@
       become: yes
     - name: install vundle
       block:
-        - import_tasks: misc.yml
-          vars:
-            packages: ['git']
+        - name: make sure git is present
+          package:
+            name: git
+            state: present
+          become: yes
         - name: clone VundleVim/Vundle.vim
           git:
             repo: https://github.com/VundleVim/Vundle.vim.git

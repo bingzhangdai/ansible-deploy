@@ -1,7 +1,10 @@
-- name: install bash
-  import_tasks: misc.yml
-  vars:
-    packages: ['bash']
+- name: install latest bash
+  package:
+    name: bash
+    state: latest
+  become: yes
+  tags:
+    - packages
 
 - name: copy bash files to remote server
   block:
