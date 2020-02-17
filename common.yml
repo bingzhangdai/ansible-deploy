@@ -3,7 +3,7 @@
     - name: turn on the EPEL repo on CentOS/RHEL
       yum:
         name: epel-release
-        state: latest
+        state: present
       become: yes
       when: ansible_distribution == 'CentOS'
       tags: always
