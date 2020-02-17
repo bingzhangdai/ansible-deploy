@@ -1,4 +1,12 @@
 - hosts: all
+  pre_tasks:
+    - name: turn on the EPEL repo on CentOS/RHEL
+      yum:
+        name: epel-release
+        state: latest
+      become: yes
+      when: ansible_distribution == 'CentOS'
+      tags: always
   roles:
     - { role: common, task: bash, tags: [bash] }
     - { role: common, task: fzf, tags: [fzf] }
