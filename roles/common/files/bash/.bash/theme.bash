@@ -42,6 +42,7 @@ function _set_ex_code() {
 
 _git_branch=''
 function _show_git() {
+    (! command -v git > /dev/null) && return
     _git_branch=$(git symbolic-ref -q --short HEAD 2> /dev/null)
 }
 
