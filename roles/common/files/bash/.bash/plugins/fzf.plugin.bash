@@ -1,8 +1,27 @@
-if [ -f ~/.fzf.bash ]; then
-    source ~/.fzf.bash
-elif [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ]; then
-    source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash
-fi
+function setup_using_package() {
+    (command -v dpkg > /dev/null && dpkg -s fzf &> /dev/null) || return 1
+
+    # Auto-completion
+    local completions="/usr/share/bash-completion/completions/fzf"
+    [[ $- == *i* ]] && source $completions 2> /dev/null
+
+    # Key bindings
+    local key_bindings="/usr/share/doc/fzf/examples/key-bindings.bash"
+    source $key_bindings
+}
+
+function setup_using_base_dir() {
+    if [ -f ~/.fzf.bash ]; then
+        source ~/.fzf.bash
+    elif [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ]; then
+        source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash
+    else
+        return 1
+    fi
+}
+
+setup_using_package || setup_using_base_dir || return 1
+
 
 command -v fdfind > /dev/null && alias fd=fdfind && fd=fdfind
 
