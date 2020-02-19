@@ -15,14 +15,14 @@
       when: ansible_os_family == 'Debian'
       tags: always
   roles:
-    - { role: common, task: ssh, tags: [ssh] }
-    - { role: common, task: fzf, tags: [fzf] }
     - { role: common, task: bat, tags: [bat] }
     - { role: common, task: fd, tags: [fd] }
-    - { role: common, task: ripgrep, tags: [ripgrep] }
-    - { role: common, task: vim, tags: [vim] }
-    - { role: common, task: bash, tags: [bash] }
+    - { role: common, task: fzf, tags: [fzf] }
     - { role: common, task: git, tags: [git] }
+    - { role: common, task: ripgrep, tags: [ripgrep] }
+    - { role: common, task: shell, tags: [shell] }
+    - { role: common, task: ssh, tags: [ssh] }
+    - { role: common, task: vim, tags: [vim] }
     - { role: common, task: misc, packages: "{{ misc_packages | default([]) | unique }}", tags: [misc] }
   tags:
     - common

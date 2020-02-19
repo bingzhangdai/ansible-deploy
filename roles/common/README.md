@@ -6,22 +6,23 @@ The tasks under this role are used to install and configure common softwares.
 
 Put all personal configuration files under `roles/common/files/*` and modify the varible file `group_vars/all/common.yml`.
 
-* [bash](#bash): update `.bashrc`, `.bash_alias`, etc. files.
+* [shell](#shell): update `.xxx` rc files and `.xxx` folders for your favorite shell like bash, zsh.
 * [bat](#bat): a syntax highlighting tool.
 * [fd](#fd): a simple, fast and user-friendly alternative to 'find'.
 * [fzf](#fzf): a command-line fuzzy finder.
 * [git](#git): install and config git global config.
+* [ripgrep](#ripgrep) a line-oriented search tool that recursively searches directories for a regex pattern
 * [ssh](#ssh): update `sshd_config` and set up public key loging.
 * [vim](#vim): install vim and update vim config.
 * [misc](#misc): simply install by package manager.
 
-### bash
+### shell
 
-Files under `roles/common/files/bash/` will be pushed to `$HOME`.
+Files under `roles/common/files/shell/` will be copied to `$HOME` and appended at the end if files already exist. Directories will be `rsync`ed to `$HOME`.
 
-if `bash_clear_existing=true`, current bash config will be backed up and cleared for this first time installation.
+For example, put `.bashrc` file, `.local` folder, etc. under `roles/common/files/shell/`.
 
-Put the customized theme under `roles/common/files/bash/.bash/theme.bash` and customized plugins under `roles/common/files/bash/.bash/plugins/`. These scripts will be sourced in `.bashrc`.
+If `shell_clear_existing=true`, current `.xxx` file content will be backed up and cleared if it is the first time running this task.
 
 ### bat
 
@@ -38,6 +39,10 @@ Install a command-line fuzzy finder [junegunn/fzf](https://github.com/junegunn/f
 ### git
 
 Change `git_config` to your desired value.
+
+### ripgrep
+
+A line-oriented search tool that recursively searches your current directory for a regex pattern. ripgrep is similar to other popular search tools like The Silver Searcher, ack and grep. [BurntSushi/ripgrep](https://github.com/BurntSushi/ripgrep).
 
 ### ssh
 

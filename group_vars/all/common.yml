@@ -17,9 +17,9 @@ git_config:
   'user.email': bingzhangdai@outlook.com
   'core.editor': vi
 
-## bash
-# if set true, remote files (e.g. .bashrc) will be backed up and cleared
-bash_clear_existing: true
+## shell
+# if set true, remote files (e.g. .bashrc) will be backed up and cleared, if it is the first time running this task.
+shell_clear_existing: true
 
 ## misc task: soley install these packages
 # these packages should be easily installed through package manager

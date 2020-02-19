@@ -1,0 +1,48 @@
+- name: copy shell rc files to remote server
+  block:
+    - name: clear existing lines in rc files for the first time
+      block:
+        - name: check if block in rc files already exists
+          lineinfile:
+            path: "{{ item | basename }}"
+            line: '# BEGIN ANSIBLE MANAGED BLOCK'
+          check_mode: true
+          register: check_block
+          loop: "{{ rcfiles }}"
+          ignore_errors: true
+        - name: clear and backup existing shell config files
+          copy:
+            content: ''
+            dest: "{{ item | basename }}"
+            backup: yes
+          loop: "{{ backup_files }}"
+          vars:
+            backup_files: "{{ check_block.results | selectattr('changed') | map(attribute='item') | list }}"
+      when: shell_clear_existing | default(false)
+    - name: insert block in shell rc files
+      blockinfile:
+        path: "{{ ansible_env.HOME }}/{{ item | basename }}"
+        block: "{{ lookup('file', item) }}"
+        create: yes
+        backup: yes
+      loop: "{{ rcfiles }}"
+  vars:
+    rcfiles: "{{ q('fileglob', 'shell/.*') }}"
+  tags:
+    - configuration
+
+# https://github.com/ansible/ansible/issues/17136#issuecomment-324112974
+- name: update .xxx folder
+  synchronize:
+    src: "{{ item }}"
+    dest: "{{ ansible_env.HOME }}/{{ item | basename }}"
+    recursive: yes
+    archive: no
+    times: yes
+    rsync_opts:
+      - "--chmod=Du=rwx,Dog=rx,Fu=rw,Fog=r"
+  become: no
+  with_lines:
+    - "find {{ role_path }}/files/shell -type d -name '.*'"
+  tags:
+    - configuration
