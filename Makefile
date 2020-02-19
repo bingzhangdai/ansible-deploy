@@ -13,3 +13,7 @@ encrypt:
 
 fact:
 	ansible -i hosts all --ask-vault-pass -m setup > /dev/null
+
+wsl:
+	@git ls-files | xargs -i dos2unix {} 2> /dev/null || true
+	@printf 'export ANSIBLE_CONFIG=`pwd`/ansible.cfg\n'
