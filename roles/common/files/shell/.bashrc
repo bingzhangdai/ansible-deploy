@@ -9,8 +9,11 @@ case $- in
 esac
 
 # don't put duplicate lines or lines starting with space in the history.
+# eliminate duplicates across the whole history
 # See bash(1) for more options
-HISTCONTROL=ignoreboth
+HISTCONTROL=ignoreboth:erasedups
+
+# HISTTIMEFORMAT='%F %T '
 
 # append to the history file, don't overwrite it
 shopt -s histappend
@@ -23,8 +26,9 @@ shopt -u lithist
 HISTSIZE=100000
 HISTFILESIZE=200000
 
+# https://unix.stackexchange.com/questions/18212/bash-history-ignoredups-and-erasedups-setting-conflict-with-common-history
 # store history immediately
-PROMPT_COMMAND="$PROMPT_COMMAND (history -a);"
+# PROMPT_COMMAND="$PROMPT_COMMAND (history -a);"
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -32,7 +36,7 @@ shopt -s checkwinsize
 
 # If set, the pattern "**" used in a pathname expansion context will
 # match all files and zero or more directories and subdirectories.
-#shopt -s globstar
+shopt -s globstar
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"

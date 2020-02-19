@@ -34,7 +34,7 @@
 # https://github.com/ansible/ansible/issues/17136#issuecomment-324112974
 - name: update .xxx folder
   synchronize:
-    src: "{{ item }}"
+    src: "{{ item }}/"
     dest: "{{ ansible_env.HOME }}/{{ item | basename }}"
     recursive: yes
     archive: no
