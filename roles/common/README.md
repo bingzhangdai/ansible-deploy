@@ -18,11 +18,11 @@ Put all personal configuration files under `roles/common/files/*` and modify the
 
 ### shell
 
-Files under `roles/common/files/shell/` will be copied to `$HOME` and appended at the end if files already exit. Directories will be `rsync`ed to `$HOME`.
+Files under `roles/common/files/shell/` will be copied to `$HOME` and appended at the end if files already exist. Directories will be `rsync`ed to `$HOME`.
 
 For example, put `.bashrc` file, `.local` folder, etc. under `roles/common/files/shell/`.
 
-if `shell_clear_existing=true`, current `.xxx` file content will be backed up and cleared if it is the first time running this task.
+If `shell_clear_existing=true`, current `.xxx` file content will be backed up and cleared if it is the first time running this task.
 
 ### bat
 
