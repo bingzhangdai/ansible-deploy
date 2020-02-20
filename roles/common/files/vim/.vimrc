@@ -10,12 +10,26 @@ Plug 'luochen1990/rainbow'
 let g:rainbow_active = 1
 call plug#end()
 
+" Enhance command-line completion
+set wildmenu
+" Allow backspace in insert mode
 set backspace=indent,eol,start
-
+" Optimize for fast terminal connections
+set ttyfast
+" Add the g flag to search/replace by default
+set gdefault
+" Don’t create backups when editing files in certain directories
+set backupskip=/tmp/*,/private/tmp/*
+" Enable line numbers
 set number
 set numberwidth=1
+" Highlight current line
+" set cursorline
+" Show the cursor position
 set ruler
-
+" Show the current mode
+set showmode
+" Show the (partial) command as it’s being typed
 set showcmd
 
 set history=1000
@@ -30,6 +44,7 @@ set cindent
 set smartindent
 
 syntax enable
+" Enable syntax highlighting
 syntax on
 set t_Co=256
 
@@ -40,10 +55,14 @@ hi Normal ctermbg=BLACK
 hi LineNr ctermbg=BLACK 
 hi NonText ctermbg=BLACK 
 
-set ignorecase
-
+" Always show status line
+set laststatus=2
+" Enable mouse in all modes
 set mouse=a
-
+" Disable error bells
+set noerrorbells
+" Show the filename in the window titlebar
+set title
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
@@ -58,18 +77,23 @@ filetype on
 filetype indent on
 highlight CursorLine cterm=NONE ctermbg=blue ctermfg=white
 highlight ColorColumn guibg=Red
-
+" Highlight searches
 set hlsearch
-nmap <silent> <C-N> :silent noh<CR>
+" Ignore case of searches
+set ignorecase
+" Highlight dynamically as pattern is typed
 set incsearch
+
+nmap <silent> <C-N> :silent noh<CR>
 
 au BufRead,BufNewFile *.asm,*ASM set filetype=masm
 set foldenable
 set foldmethod=manual
 set autoread
+" Use the OS clipboard by default (on versions compiled with `+clipboard`)
 set clipboard+=unnamed
-
-set shortmess=atI "
+" Don’t show the intro message when starting Vim
+set shortmess=atI
 
 
 autocmd BufNewFile *.cpp,*.c exec ":call SetTitle()" 
@@ -89,4 +113,3 @@ func SetTitle()
     call append(line(".")+5, "}")
     call append(line(".")+6, "")
 endfunc
-
