@@ -25,6 +25,7 @@ function _collapsed_pwd() {
     [ "$PWD" != "$p" ] && cpwd+='~'
     [ "$p" = '/' ] && cpwd+='/'
     local IFS='/'
+    local q=''
     for q in ${p:1}; do
         [ "${q:0:1}" = '.' ] && cpwd+="/${q:0:2}" || cpwd+="/${q:0:1}"
     done
@@ -60,6 +61,7 @@ if [ "$color_prompt" = yes ]; then
     PS1+='$(_show_git "\[${DARK_GRAY}\]" "\[${NONE}\]")' # [_git_branch]
     PS1+='$(_show_exit_code "\[${RED}\]" "\[${NONE}\]")' # :exit_code
     PS1+='\$ '
+    PS2="\[${YELLOW}\]→ \[${NONE}\]";
 else
     PS1='\u@\h'
     PS1+=':$(_collapsed_pwd)'

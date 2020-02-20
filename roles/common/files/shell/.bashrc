@@ -12,9 +12,17 @@ esac
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-# If set, the pattern "**" used in a pathname expansion context will
-# match all files and zero or more directories and subdirectories.
+# Case-insensitive globbing (used in pathname expansion)
+shopt -s nocaseglob;
+
+# Recursive globbing, e.g. `echo **/*.txt`
 shopt -s globstar
+
+# `autocd`, e.g. `**/qux` will enter `./foo/bar/baz/qux`
+shopt -s autocd
+
+# Autocorrect typos in path names when using `cd`
+shopt -s cdspell;
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
@@ -59,5 +67,6 @@ for path in ~/.bash/{lib,plugins,completions}; do
         [[ -e "$file" ]] && source $file || echo "Unable to read $file" > /dev/stderr
     done
 done
+unset path file
 # theme
 source ~/.bash/theme.bash
