@@ -21,38 +21,52 @@ fi
 
 function _collapsed_pwd() {
     local p="${PWD#$HOME}"
-    [ "$PWD" != "$p" ] && printf '~'
-    [ "$p" = '/' ] && printf '/'
+    local cpwd=''
+    [ "$PWD" != "$p" ] && cpwd+='~'
+    [ "$p" = '/' ] && cpwd+='/'
     local IFS='/'
     for q in ${p:1}; do
-        [ "${q:0:1}" = '.' ] && printf "/${q:0:2}" || printf "/${q:0:1}"
+        [ "${q:0:1}" = '.' ] && cpwd+="/${q:0:2}" || cpwd+="/${q:0:1}"
     done
-    [ "${q:0:1}" = '.' ] &&  printf '%s' "${q:2}" || printf '%s' "${q:1}"
+    [ "${q:0:1}" = '.' ] &&  cpwd+="${q:2}" || cpwd+="${q:1}"
+    printf '%s' "${1}${cpwd}${2}"
 }
 
-_ex_code=""
-function _set_ex_code() {
-    local ex=$?
-    if [ $ex -ne 0 ]; then
-        _ex_code="$ex"
-    else
-        _ex_code=""
+function _show_git() {
+    (! command -v git > /dev/null) && return
+    local _git_branch=$(git symbolic-ref -q --short HEAD 2> /dev/null)
+    [[ -z "$_git_branch" ]] && return
+    printf '%s' "[${1}${_git_branch}${2}]"
+}
+
+_exit_code=""
+function _show_exit_code() {
+    if [[ "$_exit_code" != "0" ]]; then
+        printf '%s' ":${1}${_exit_code}${2}"
     fi
 }
 
-_git_branch=''
-function _show_git() {
-    (! command -v git > /dev/null) && return
-    _git_branch=$(git symbolic-ref -q --short HEAD 2> /dev/null)
-}
+PROMPT_COMMAND="_exit_code=\$?;${PROMPT_COMMAND}"
 
-PROMPT_COMMAND="_set_ex_code;${PROMPT_COMMAND} _show_git;"
 
+
+NONE=$'\033[00m'
+BOLD_GREEN=$'\033[01;32m'
+BOLD_YELLOW=$'\033[01;33m'
+BOLD_RED=$'\033[01;31m'
+BOLD_DARK_GRAY=$'\033[1;30m'
 # Special prompt variable: https://ss64.com/bash/syntax-prompt.html
 if [ "$color_prompt" = yes ]; then
-    PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;33m\]$(_collapsed_pwd)\[\033[00m\]$([ -n "$_git_branch" ] && printf "[")\[\033[1;30m\]$_git_branch\[\033[00m\]$([ -n "$_git_branch" ] && printf "]")$([ -z "$_ex_code" ] || printf :)\[\033[01;31m\]$_ex_code\[\033[00m\]\$ '
+    PS1='\[${BOLD_GREEN}\]\u@\h\[${NONE}\]' # username@hostname
+    PS1+=':$(_collapsed_pwd "\[${BOLD_YELLOW}\]" "\[${NONE}\]")' # :_collapsed_pwd
+    PS1+='$(_show_git "\[${BOLD_DARK_GRAY}\]" "\[${NONE}\]")' # [_git_branch]
+    PS1+='$(_show_exit_code "\[${BOLD_RED}\]" "\[${NONE}\]")' # :exit_code
+    PS1+='\$ '
 else
-    PS1='\u@\h:$(_collapsed_pwd)$([ -z "$_ex_code" ] || printf :)$_ex_code\$ '
+    PS1='\u@\h'
+    PS1+=':$(_collapsed_pwd)'
+    PS1+='$(_show_exit_code)'
+    PS1+='\$ '
 fi
 
 unset color_prompt force_color_prompt
