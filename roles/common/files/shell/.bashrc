@@ -15,6 +15,9 @@ HISTCONTROL=ignoreboth:erasedups
 
 # HISTTIMEFORMAT='%F %T '
 
+# Ignore these commands
+HISTIGNORE="ls:pwd"
+
 # append to the history file, don't overwrite it
 shopt -s histappend
 
@@ -74,13 +77,10 @@ fi
 ## fd
 FD_OPTIONS="--follow --exclude .git"
 
-## vi mode
-set -o vi
-
 ## source scripts in .bash folder
 # plugins, completions
-for file_type in "plugins" "completions"; do
-    for file in $(sort <(ls -1 ~/.bash/$file_type/*.bash 2> /dev/null)); do
+for path in ~/.bash/{plugins,completions}; do
+    for file in $(sort <(ls -1 $path/*.bash 2> /dev/null)); do
         [[ -e "$file" ]] && source $file || echo "Unable to read $file" > /dev/stderr
     done
 done

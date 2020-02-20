@@ -1,15 +1,69 @@
+# bind -V: list the current Readline variable names and values
+
+# Readline performs filename matching and completion in a case-insensitive fashion.
 set completion-ignore-case on
 
+# Readline displays the common prefix of the set of possible completions using a different color.
+# The color definitions are taken from the value of the LS_COLORS environment variable.
+set colored-completion-prefix on
+
+# Readline displays possible completions using different colors to indicate their file type.
+# The color definitions are taken from the value of the LS_COLORS environment variable.
+set colored-stats on
+
+# Readline treats hyphens (‘-’) and underscores (‘_’) as equivalent 
+# when performing case-insensitive filename matching and completion.
+set completion-map-case on
+
+# If set to ‘on’, words which have more than one possible completion 
+# cause the matches to be listed immediately instead of ringing the bell.
+set show-all-if-ambiguous on
+
+# Do not autocomplete hidden files unless the pattern explicitly begins with a dot
+set match-hidden-files off
+
+# Show extra file information when completing, like `ls -F` does
+set visible-stats on
+
+# If enabled, readline does not insert characters from the completion that 
+# match characters after point in the word being completed, 
+# so portions of the word following the cursor are not duplicated.
+set skip-completed-text on
+
+# Allow UTF-8 input and output, instead of showing stuff like $'\0123\0456'
+set input-meta on
+set output-meta on
+set convert-meta off
+
+## vi mode
+set editing-mode vi
+set show-mode-in-prompt on
+set vi-ins-mode-string ""
+
+# \C- control prefix 
+# \M- meta prefix 
+# \e  an escape character 
+# \\  backslash 
+# \"  ", a double quotation mark 
+# \'  ', a single quote or apostrophe 
+# \a  alert (bell) 
+# \b  backspace 
+# \d  delete 
+# \f  form feed 
+# \n  newline 
+# \r  carriage return 
+# \t  horizontal tab 
+# \v  vertical tab 
+
+# bind -p: list the current Readline function names and bindings
 # TAB: menu-complete
 # "\e[A": history-search-backward
 # "\e[B": history-search-forward
 
-## vi mode
-set editing-mode vi
-set keymap vi
-set show-mode-in-prompt on
-set vi-ins-mode-string ""
+# in vi-command mode
 set keymap vi-command
 Control-l: clear-screen
+
+# in vi-insert mode
 set keymap vi-insert
 Control-l: clear-screen
