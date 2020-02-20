@@ -2,7 +2,7 @@
 # https://github.com/rupa/z
 
 p=$(cd `dirname $BASH_SOURCE[0]` && pwd)
-zsh_plugin="${p}/cache/z.plugin.bash"
+zsh_plugin="${p}/../cache/z.plugin.bash"
 
 # download rupa/z if not exist
 if [[ ! -e "$zsh_plugin" ]]; then
