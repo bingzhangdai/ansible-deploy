@@ -79,7 +79,7 @@ FD_OPTIONS="--follow --exclude .git"
 
 ## source scripts in .bash folder
 # plugins, completions
-for path in ~/.bash/{plugins,completions}; do
+for path in ~/.bash/{lib,plugins,completions}; do
     for file in $(sort <(ls -1 $path/*.bash 2> /dev/null)); do
         [[ -e "$file" ]] && source $file || echo "Unable to read $file" > /dev/stderr
     done

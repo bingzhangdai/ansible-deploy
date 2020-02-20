@@ -48,19 +48,17 @@ function _show_exit_code() {
 
 PROMPT_COMMAND="_exit_code=\$?;${PROMPT_COMMAND}"
 
-
-
-NONE=$'\033[00m'
-BOLD_GREEN=$'\033[01;32m'
-BOLD_YELLOW=$'\033[01;33m'
-BOLD_RED=$'\033[01;31m'
-BOLD_DARK_GRAY=$'\033[1;30m'
+# color can be found in lib/color.lib.bash
 # Special prompt variable: https://ss64.com/bash/syntax-prompt.html
 if [ "$color_prompt" = yes ]; then
-    PS1='\[${BOLD_GREEN}\]\u@\h\[${NONE}\]' # username@hostname
-    PS1+=':$(_collapsed_pwd "\[${BOLD_YELLOW}\]" "\[${NONE}\]")' # :_collapsed_pwd
-    PS1+='$(_show_git "\[${BOLD_DARK_GRAY}\]" "\[${NONE}\]")' # [_git_branch]
-    PS1+='$(_show_exit_code "\[${BOLD_RED}\]" "\[${NONE}\]")' # :exit_code
+    if [[ "$UID" == "0" ]]; then
+        PS1='\[${RED}\]\u@\h\[${NONE}\]' # username@hostname
+    else
+        PS1='\[${GREEN}\]\u@\h\[${NONE}\]'
+    fi
+    PS1+=':$(_collapsed_pwd "\[${ORANGE}\]" "\[${NONE}\]")' # :_collapsed_pwd
+    PS1+='$(_show_git "\[${DARK_GRAY}\]" "\[${NONE}\]")' # [_git_branch]
+    PS1+='$(_show_exit_code "\[${RED}\]" "\[${NONE}\]")' # :exit_code
     PS1+='\$ '
 else
     PS1='\u@\h'
