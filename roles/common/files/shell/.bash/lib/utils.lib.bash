@@ -1,9 +1,9 @@
 _eprintf() {
-    printf "$@" > /dev/stderr
+    printf "${RED}$@${NONE}" > /dev/stderr
 }
 
-_echo() {
-    echo "$@" > /dev/stderr
+_eecho() {
+    echo "${RED}$@${NONE}" > /dev/stderr
 }
 
 _download() {
@@ -27,11 +27,11 @@ _download() {
     elif [[ -x "$(which wget)" ]]; then
         wget "$URL" -O "$DEST"
     else
-        _echo "${RED}ERROR: Please install curl or wget before downloading! ${NONE}"
+        _eecho "ERROR: Please install curl or wget before downloading!"
         return 1
     fi
     if [[ $? -ne 0 ]]; then
-        _echo "${RED}ERROR: downloading ${URL##*/} failed! ${NONE}"
+        _eecho "ERROR: downloading ${URL##*/} failed!"
         return 1
     fi
 }
