@@ -53,12 +53,12 @@ PROMPT_COMMAND="_exit_code=\$?;${PROMPT_COMMAND}"
 # Special prompt variable: https://ss64.com/bash/syntax-prompt.html
 if [ "$color_prompt" = yes ]; then
     if [[ "$UID" == "0" ]]; then
-        PS1='\[${RED}\]\u@\h\[${NONE}\]' # username@hostname
+        PS1='\[${ORANGE}\]\u@\h\[${NONE}\]' # username@hostname
     else
         PS1='\[${GREEN}\]\u@\h\[${NONE}\]'
     fi
-    PS1+=':$(_collapsed_pwd "\[${ORANGE}\]" "\[${NONE}\]")' # :_collapsed_pwd
-    PS1+='$(_show_git "\[${DARK_GRAY}\]" "\[${NONE}\]")' # [_git_branch]
+    PS1+=':$(_collapsed_pwd "\[${YELLOW}\]" "\[${NONE}\]")' # :_collapsed_pwd
+    PS1+='$(_show_git "\[${VIOLET}\]" "\[${NONE}\]")' # [_git_branch]
     PS1+='$(_show_exit_code "\[${RED}\]" "\[${NONE}\]")' # :exit_code
     PS1+='\$ '
     PS2="\[${YELLOW}\]${PS2}\[${NONE}\]"
