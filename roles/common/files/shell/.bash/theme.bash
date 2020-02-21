@@ -61,13 +61,12 @@ if [ "$color_prompt" = yes ]; then
     PS1+='$(_show_git "\[${DARK_GRAY}\]" "\[${NONE}\]")' # [_git_branch]
     PS1+='$(_show_exit_code "\[${RED}\]" "\[${NONE}\]")' # :exit_code
     PS1+='\$ '
-    PS2='\[${YELLOW}\]> \[${NONE}\]' 
+    PS2="\[${YELLOW}\]${PS2}\[${NONE}\]"
 else
     PS1='\u@\h'
     PS1+=':$(_collapsed_pwd)'
     PS1+='$(_show_exit_code)'
     PS1+='\$ '
-    PS2='> ';
 fi
 
 unset color_prompt force_color_prompt
