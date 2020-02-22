@@ -16,6 +16,15 @@ git_config:
   'user.name': Bingzhang Dai
   'user.email': bingzhangdai@outlook.com
   'core.editor': vi
+  'merge.log': 'true'
+  'alias.last': log -1 HEAD
+  # Prune local tracking branches that do not exist on remote anymore
+  'alias.aliases': config --get-regexp alias
+  'alias.sync': fetch --all --prune
+  # Amend the currently staged files to the latest commit
+  'alias.amend': 'commit --amend --reuse-message=HEAD'
+  # Automatically correct and execute mistyped commands
+  'help.autocorrect': '1'
 
 ## shell
 # if set true, remote files (e.g. .bashrc) will be backed up and cleared, if it is the first time running this task.
