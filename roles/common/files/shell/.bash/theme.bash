@@ -41,12 +41,6 @@ function _show_git() {
 }
 
 _exit_code=""
-function _show_exit_code() {
-    if [[ "$_exit_code" != "0" ]]; then
-        printf '%s' ":${1}${_exit_code}${2}"
-    fi
-}
-
 PROMPT_COMMAND="_exit_code=\$?;${PROMPT_COMMAND}"
 
 # color can be found in lib/color.lib.bash
@@ -59,13 +53,12 @@ if [ "$color_prompt" = yes ]; then
     fi
     PS1+=':$(_collapsed_pwd "\[${YELLOW}\]" "\[${NONE}\]")' # :_collapsed_pwd
     PS1+='$(_show_git "\[${DARK_GRAY}\]" "\[${NONE}\]")' # [_git_branch]
-    PS1+='$(_show_exit_code "\[${RED}\]" "\[${NONE}\]")' # :exit_code
-    PS1+='\$ '
+    PS1+='$([[ "$_exit_code" != "0" ]] && printf '%s' "\[${RED}\]")\$\[${NONE}\] '
     PS2="\[${YELLOW}\]${PS2}\[${NONE}\]"
 else
     PS1='\u@\h'
     PS1+=':$(_collapsed_pwd)'
-    PS1+='$(_show_exit_code)'
+    PS1+='$_exit_code'
     PS1+='\$ '
 fi
 
