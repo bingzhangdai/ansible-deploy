@@ -1,8 +1,7 @@
 # z - jump around
 # https://github.com/rupa/z
 
-p=$(cd `dirname $BASH_SOURCE[0]` && pwd)
-zsh_plugin="${p}/../cache/z.plugin.bash"
+zsh_plugin="${_DOT_BASH_CACHE}/z.plugin.bash"
 
 # download rupa/z if not exist
 if [[ ! -e "$zsh_plugin" ]]; then
@@ -21,4 +20,4 @@ function j() {
     fi
 }
 
-unset p zsh_plugin
+unset zsh_plugin

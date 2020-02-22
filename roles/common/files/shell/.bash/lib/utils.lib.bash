@@ -1,3 +1,5 @@
+export _DOT_BASH_CACHE="$(cd $(dirname $BASH_SOURCE[0])/../ && pwd)/cache"
+
 _eprintf() {
     printf "${RED}$@${NONE}" > /dev/stderr
 }

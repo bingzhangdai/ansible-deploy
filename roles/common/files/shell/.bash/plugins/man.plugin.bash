@@ -1,7 +1,6 @@
 ## colored man
 # export PAGER="most"
 export LESS_TERMCAP_mb="$GREEN" # enter blinking mode
-
 export LESS_TERMCAP_md="$GREEN" # enter double-bright mode
 export LESS_TERMCAP_me="$NONE" # turn off all appearance modes (mb, md, so, us)
 export LESS_TERMCAP_se="$NONE" # leave standout mode

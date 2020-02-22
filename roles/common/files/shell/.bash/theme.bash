@@ -53,12 +53,12 @@ if [ "$color_prompt" = yes ]; then
     fi
     PS1+=':$(_collapsed_pwd "\[${YELLOW}\]" "\[${NONE}\]")' # :_collapsed_pwd
     PS1+='$(_show_git "\[${DARK_GRAY}\]" "\[${NONE}\]")' # [_git_branch]
-    PS1+='$([[ "$_exit_code" != "0" ]] && printf '%s' "\[${RED}\]")\$\[${NONE}\] '
+    PS1+='$([[ "$_exit_code" == "0" ]] || printf "\[${RED}\]")\$\[${NONE}\] '
     PS2="\[${YELLOW}\]${PS2}\[${NONE}\]"
 else
     PS1='\u@\h'
     PS1+=':$(_collapsed_pwd)'
-    PS1+='$_exit_code'
+    PS1+='$([[ "$_exit_code" == "0" ]] || printf ":$_exit_code")'
     PS1+='\$ '
 fi
 

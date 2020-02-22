@@ -1,7 +1,6 @@
 # bash/zsh completion support for core Git.
 
-p=$(cd `dirname $BASH_SOURCE[0]` && pwd)
-git_plugin="${p}/../cache/git.completion.bash"
+git_plugin="${_DOT_BASH_CACHE}/git.completion.bash"
 
 # download rupa/z if not exist
 if [[ ! -e "$git_plugin" ]]; then
@@ -12,4 +11,4 @@ fi
 
 source $git_plugin
 
-unset p git_plugin
+unset git_plugin
