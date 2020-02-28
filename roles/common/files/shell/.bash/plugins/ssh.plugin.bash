@@ -6,5 +6,26 @@ function sshadd() {
 }
 
 function sshlist() {
-    awk '$1 ~ /Host$/ {for (i=2; i<=NF; i++) print $i}' ~/.ssh/config
+    [[ ! -e ~/.ssh/config ]] && return
+    awk -v color=$DARK_GRAY -v none=$NONE '
+        BEGIN{ print color "Host User@HostName" none }
+        $1 == "Host" {
+            host = $2;
+            next;
+        }
+        $1 == "User" {
+            user = $2;
+            next;
+        }
+        $1 == "HostName" {
+            hostname = $2
+            next;
+        }
+        host != "" && user != "" && hostname != ""{
+            printf "%s %s@%s\n", host, user, hostname;
+            host = "";
+            user = ""
+            hostname = ""
+        }
+    ' ~/.ssh/config | column -t
 }
