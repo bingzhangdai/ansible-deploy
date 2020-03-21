@@ -35,12 +35,6 @@ cd ansible-deploy
 sudo make evn
 ```
 
-If you are using Windows, it is recommended to change the line ending before playing.
-
-```bash
-git ls-files | xargs dos2unix
-```
-
 ### Edit inventory (hosts)
 
 Modify hosts and put all remote servers in file `hosts`.
@@ -63,17 +57,37 @@ Modify other vars as needed.
 
 ### Encrypt password (optional)
 
-Use ansible-vault to encrypt password, `make encrypt`.
-
-### Installation
-
-For full installation, run the following command.
+Use ansible-vault to encrypt password, if you want to check in your password.
 
 ```bash
-ansible-playbook site.yml -i hosts
+make encrypt
 ```
 
-To install or skip one or more components. Just look at the file `site.yml` and decide.
+### Windows control machine
+
+#### Export `ANSIBLE_CONFIG` env on Windows
+
+If you see the warning `[WARNING]: Ansible is being run in a world writable directory`, Export `ANSIBLE_CONFIG` environmental variable.
+
+```bash
+export ANSIBLE_CONFIG=`pwd`/ansible.cfg
+```
+
+#### Change the line ending
+
+```bash
+git ls-files | xargs dos2unix
+```
+
+### Bootstrap remote machines
+
+```bash
+ansible-playbook bootstrap.yml -i hosts
+```
+
+### Use cases
+
+The playbook `site.yml` contains all the tasks. But usually we want to skip one or more components. Just look at it and decide.
 
 ```bash
 # install only shadowsocks-libev
@@ -82,23 +96,13 @@ ansible-playbook site.yml -i hosts --tags "shadowsocks-libev"
 ansible-playbook site.yml -i hosts --tags "common" --skip-tags "configuration"
 ```
 
-If you see the warning `[WARNING]: Ansible is being run in a world writable directory`, you can export `ANSIBLE_CONFIG` environmental variable.
-
-```bash
-export ANSIBLE_CONFIG=`pwd`/ansible.cfg
-```
-
-Enjoy!
-
-## Use cases
-
-### Install latest docker-ce
+#### Install latest docker-ce
 
 ```bash
 ansible-playbook site.yml -i hosts --tags "docker-ce"
 ```
 
-### [Install shadowsocks-libev and v2ray-plugin](roles/shadowsocks-libev/README.md)
+#### [Install shadowsocks-libev and v2ray-plugin](roles/shadowsocks-libev/README.md)
 
 ## Known issues
 

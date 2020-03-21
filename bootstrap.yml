@@ -32,7 +32,6 @@
 
     - name: gather facts
       setup:
-      tags: always # required for tags, see ansible issue: #14228
 
     - name: turn on the EPEL repo on CentOS/RHEL
       yum:

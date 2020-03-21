@@ -12,7 +12,7 @@ encrypt:
 	ansible-vault encrypt_string --ask-vault-pass --stdin-name '$($@_VAR)'
 
 fact:
-	ansible -i hosts all --ask-vault-pass -m setup > /dev/null
+	ansible -i hosts all --ask-vault-pass -m setup -a 'filter=ansible_user_*'
 
 wsl:
 	@git ls-files | xargs -i dos2unix {} 2> /dev/null || true
