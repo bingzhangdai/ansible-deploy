@@ -38,4 +38,4 @@ alias rl="exec ${SHELL} -l"
 alias path='echo -e ${PATH//:/\\n}'
 
 # Prune local tracking branches that do not exist on remote anymore
-alias git-remove-untracked="git branch -r | awk '{print \$1}' | egrep -v -f /dev/fd/0 <(git branch -vv | grep origin) | awk '{print \$1}' | xargs -r git branch -d"
+alias git-remove-untracked="git branch -r | awk '{print \$1}' | egrep -v -f /dev/fd/0 <(git branch -vv | grep origin) | awk '{print \$1}' | xargs -r git branch -D"
