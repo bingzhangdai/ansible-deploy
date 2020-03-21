@@ -39,6 +39,9 @@ fi
 ## fd
 FD_OPTIONS="--follow --exclude .git"
 
+## less
+export LESS='--clear-screen --raw-control-chars --long-prompt --ignore-case --jump-target=10 --shift .2'
+
 ## source scripts in .bash folder
 # lib should sourced first. It contais predefined vars and funcs 
 for path in ~/.bash/{lib,plugins,completions}; do

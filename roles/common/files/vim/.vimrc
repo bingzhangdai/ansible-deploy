@@ -57,8 +57,8 @@ hi NonText ctermbg=BLACK
 
 " Always show status line
 set laststatus=2
-" Enable mouse in all modes
-set mouse=a
+" Enable mouse in normal and visual mode
+set mouse=nv
 " Disable error bells
 set noerrorbells
 " Show the filename in the window titlebar

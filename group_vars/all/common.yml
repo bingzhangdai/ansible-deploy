@@ -16,6 +16,7 @@ git_config:
   'user.name': Bingzhang Dai
   'user.email': bingzhangdai@outlook.com
   'core.editor': vi
+  'core.pager': 'less -F -X -R -S -+C'
   'merge.log': 'true'
   'alias.last': log -1 HEAD
   # Prune local tracking branches that do not exist on remote anymore

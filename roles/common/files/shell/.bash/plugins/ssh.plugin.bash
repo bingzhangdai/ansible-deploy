@@ -8,7 +8,7 @@ function sshadd() {
 function sshlist() {
     [[ ! -e ~/.ssh/config ]] && return
     awk -v color=$DARK_GRAY -v none=$NONE '
-        BEGIN{ print color "Host User@HostName" none }
+        BEGIN{ print color "Host User HostName" none }
         $1 == "Host" {
             host = $2;
             next;
@@ -22,7 +22,7 @@ function sshlist() {
             next;
         }
         host != "" && user != "" && hostname != ""{
-            printf "%s %s@%s\n", host, user, hostname;
+            printf "%s %s %s\n", host, user, hostname;
             host = "";
             user = ""
             hostname = ""

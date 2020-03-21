@@ -1,3 +1,20 @@
+- hosts: all
+  pre_tasks:
+    - name: turn on the EPEL repo on CentOS/RHEL
+      yum:
+        name: epel-release
+        state: present
+      become: yes
+      when: ansible_distribution == 'CentOS'
+      tags: always
+    - name: update repositories cache for Debian
+      apt:
+        update_cache: yes
+        cache_valid_time: 86400
+      become: yes
+      when: ansible_os_family == 'Debian'
+      tags: always
+
 - import_playbook: common.yml
 
 - hosts: all
