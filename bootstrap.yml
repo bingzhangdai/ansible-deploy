@@ -7,7 +7,6 @@
       raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal) || (yum install -y python2 python-simplejson)
       register: output
       changed_when: output.stdout | length > 0
-      tags: always
       when:
       - ansible_version.full is version_compare('2.8', '<')
       - ( ansible_python_interpreter is not defined or ansible_python_interpreter == "/usr/bin/python" )
@@ -26,7 +25,6 @@
       raw: test -e /usr/bin/python || (apt -y update && apt install -y python3-minimal) || (yum install -y python2 python-simplejson)
       register: output
       changed_when: output.stdout | length > 0
-      tags: always
       when:
       - ansible_version.full is version('2.8', '>=') or ( ansible_python_interpreter is defined and ansible_python_interpreter == "/usr/bin/python3" )
       # ansible_os_family conds. cannot be used as this is before gathering facts (where ansible is required)
@@ -41,11 +39,10 @@
         name: epel-release
         state: present
       when: ansible_distribution == 'CentOS'
-      tags: always
 
     - name: update repositories cache for Debian
       apt:
         update_cache: yes
         cache_valid_time: 86400
       when: ansible_os_family == 'Debian'
-      tags: always
+  tags: always
