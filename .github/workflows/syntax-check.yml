@@ -14,5 +14,6 @@ jobs:
       uses: ansible/ansible-lint-action@75a177d
       with:
         targets: |
+          bootstrap.yml
           site.yml
           common.yml
