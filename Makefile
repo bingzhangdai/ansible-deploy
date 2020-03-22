@@ -1,6 +1,6 @@
 PYTHON = python
 
-.PHONY: env encrypt fact
+.PHONY: env encrypt fact wsl
 
 env:
 	@command -v sshpass > /dev/null || (apt -y update 2> /dev/null && apt install -y sshpass || yum install -y sshpass)

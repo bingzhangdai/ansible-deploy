@@ -81,8 +81,10 @@ git ls-files | xargs dos2unix
 
 ### Bootstrap remote machines
 
+Set up remote machines environment and update repository.
+
 ```bash
-ansible-playbook bootstrap.yml -i hosts
+ansible-playbook bootstrap.yml -i hosts --tags "repo"
 ```
 
 ### Use cases
