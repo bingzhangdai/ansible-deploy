@@ -6,7 +6,7 @@ HISTCONTROL=ignoreboth:erasedups
 # HISTTIMEFORMAT='%F %T '
 
 # Ignore these commands
-HISTIGNORE="ls:pwd"
+[[ -z "$HISTIGNORE" ]] && HISTIGNORE="ls:j:pwd"
 
 # append to the history file, don't overwrite it
 shopt -s histappend
@@ -16,8 +16,8 @@ shopt -s cmdhist
 shopt -u lithist
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=100000
-HISTFILESIZE=200000
+[[ -z "$HISTSIZE" ]] && HISTSIZE=100000
+[[ -z "$HISTFILESIZE" ]] && HISTFILESIZE=200000
 
 # https://unix.stackexchange.com/questions/18212/bash-history-ignoredups-and-erasedups-setting-conflict-with-common-history
 # store history immediately

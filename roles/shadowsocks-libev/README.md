@@ -35,7 +35,7 @@ Client-side installation is not included in this role. Here are just some tips.
 
 Download [shadowsocks-windows](https://github.com/shadowsocks/shadowsocks-windows/releases) and [v2ray-plugin](https://github.com/shadowsocks/v2ray-plugin/releases).
 
-Put unarchived `Shadowsocks.exe` and `v2ray-plugin_windows_amd64.exe` together.
+Put extracted binary files `Shadowsocks.exe` and `v2ray-plugin_windows_amd64.exe` together.
 
 ![example-config](images/client-win.png)
 
