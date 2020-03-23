@@ -16,16 +16,21 @@ git_config:
   'user.name': Bingzhang Dai
   'user.email': bingzhangdai@outlook.com
   'core.editor': vi
-  'core.pager': 'less -F -X -R -S -+C'
+  'core.pager': 'less -FXR -+C'
   'merge.log': 'true'
-  'alias.last': log -1 HEAD
-  # Prune local tracking branches that do not exist on remote anymore
-  'alias.aliases': config --get-regexp alias
-  'alias.sync': fetch --all --prune
-  # Amend the currently staged files to the latest commit
-  'alias.amend': 'commit --amend --reuse-message=HEAD'
-  # Automatically correct and execute mistyped commands
+  # automatically correct and execute mistyped commands
   'help.autocorrect': '1'
+  # list all git aliases
+  'alias.aliases': config --get-regexp alias
+  # show last commit message
+  'alias.last': log -1 HEAD
+  # amend the currently staged files to the latest commit
+  'alias.amend': 'commit --amend --reuse-message=HEAD'
+  # fetch all and remove non-existent remote branches
+  'alias.sync': fetch --all --prune
+  # remove local tracking branches that do not exist on remote anymore
+  'alias.purge': '!bash -c "git branch -r | awk ''{print \$1}'' | egrep -v -f /dev/fd/0 <(git
+  branch -vv | grep origin) | awk ''{print \$1}'' | xargs -r git branch -D"'
 
 ## shell
 # if set true, remote files (e.g. .bashrc) will be backed up and cleared, if it is the first time running this task.

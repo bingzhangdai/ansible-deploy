@@ -8,21 +8,10 @@ case $- in
       *) return;;
 esac
 
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
-shopt -s checkwinsize
-
-# Case-insensitive globbing (used in pathname expansion)
-shopt -s nocaseglob;
-
-# Recursive globbing, e.g. `echo **/*.txt`
-shopt -s globstar
-
-# `autocd`, e.g. `**/qux` will enter `./foo/bar/baz/qux`
-shopt -s autocd
-
-# Autocorrect typos in path names when using `cd`
-shopt -s cdspell;
+# This defines where cd looks for targets
+# Add the directories you want to have fast access to, separated by colon
+# Ex: CDPATH=".:~:~/projects" will look for targets in the current working directory, in home and in the ~/projec
+CDPATH="."
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
@@ -40,11 +29,11 @@ fi
 FD_OPTIONS="--follow --exclude .git"
 
 ## less
-export LESS='--clear-screen --raw-control-chars --long-prompt --ignore-case --jump-target=10 --shift .2'
+export LESS='-F -X -R -S -M -i -# .2'
 
 ## source scripts in .bash folder
 # lib should sourced first. It contais predefined vars and funcs 
-for path in ~/.bash/{lib,plugins,completions}; do
+for path in ~/.bash/{lib,plugins,completions,aliases}; do
     for file in $(sort <(ls -1 $path/*.bash 2> /dev/null)); do
         [[ -e "$file" ]] && source $file || echo "Unable to read $file" > /dev/stderr
     done
