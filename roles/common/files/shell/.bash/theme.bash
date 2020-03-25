@@ -40,7 +40,7 @@ function _show_git() {
     printf '%s' "[${1}${_git_branch}${2}]"
 }
 
-_exit_code=""
+declare -i _exit_code
 PROMPT_COMMAND="_exit_code=\$?;${PROMPT_COMMAND}"
 
 # color can be found in lib/color.lib.bash

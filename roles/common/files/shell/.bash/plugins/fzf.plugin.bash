@@ -1,4 +1,4 @@
-function setup_using_package() {
+function _setup_using_package() {
     (command -v dpkg > /dev/null && dpkg -s fzf &> /dev/null) || return 1
 
     # Auto-completion
@@ -10,7 +10,7 @@ function setup_using_package() {
     source $key_bindings || return 1
 }
 
-function setup_using_base_dir() {
+function _setup_using_base_dir() {
     if [ -f ~/.fzf.bash ]; then
         source ~/.fzf.bash
     elif [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ]; then
@@ -20,7 +20,7 @@ function setup_using_base_dir() {
     fi
 }
 
-setup_using_package || setup_using_base_dir || return 1
+_setup_using_package || _setup_using_base_dir || return 1
 
 
 command -v fdfind > /dev/null && alias fd=fdfind && fd=fdfind
@@ -50,14 +50,16 @@ unset fd
 
 alias fvi='vi `fzf`'
 
-if command -v bat > /dev/null; then
-    cat='bat --color=always'
-    less='bat --style=numbers --paging=always'
-else
-    cat='cat'
-    less='less -f'
-fi
+function _set_fzf_default_opts() {
+    if command -v bat > /dev/null; then
+        local cat='bat --color=always'
+        local less='bat --style=numbers --paging=always'
+    else
+        local cat='cat'
+        local less='less -f'
+    fi
 
-export FZF_DEFAULT_OPTS="--height 50% -1 --reverse --multi --inline-info --preview='[[ \$(file --mime {}) = ~binary ]] && echo {} is a binary file || $cat -n {} | head -100' --preview-window='right:hidden:wrap' --bind='f2:toggle-preview,ctrl-p:execute($less -n {}),ctrl-v:execute(vim -n {}),ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-a:select-all+accept'"
+    export FZF_DEFAULT_OPTS="--height 50% -1 --reverse --multi --inline-info --preview='[[ \$(file --mime {}) = ~binary ]] && echo {} is a binary file || $cat -n {} | head -100' --preview-window='right:hidden:wrap' --bind='f2:toggle-preview,ctrl-p:execute($less -n {}),ctrl-v:execute(vim -n {}),ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-a:select-all+accept'"
+}
 
-unset cat less
+_set_fzf_default_opts

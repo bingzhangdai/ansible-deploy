@@ -27,7 +27,7 @@ git_config:
   # amend the currently staged files to the latest commit
   'alias.amend': 'commit --amend --reuse-message=HEAD'
   # fetch all and remove non-existent remote branches
-  'alias.sync': fetch --all --prune
+  'alias.update': fetch --all --prune
   # remove local tracking branches that do not exist on remote anymore
   'alias.purge': '!bash -c "git branch -r | awk ''{print \$1}'' | egrep -v -f /dev/fd/0 <(git
   branch -vv | grep origin) | awk ''{print \$1}'' | xargs -r git branch -D"'

@@ -1,6 +1,16 @@
-" highlight Cursor guifg=white guibg=black
-" highlight iCursor guifg=white guibg=steelblue
-set guicursor=n-v-c-i:hor100
+" change cursor shape
+"  1 -> blinking block
+"  2 -> solid block 
+"  3 -> blinking underscore
+"  4 -> solid underscore
+"  5 -> blinking vertical bar
+"  6 -> solid vertical bar
+let &t_SI.="\e[5 q" "SI = INSERT mode
+let &t_SR.="\e[4 q" "SR = REPLACE mode
+let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
+" reset cursor on start:
+autocmd VimEnter * silent !echo -ne "\e[2 q"
+
 set nocompatible
 
 set viminfo='100,<1000,s100,h
