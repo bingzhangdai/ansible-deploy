@@ -87,8 +87,8 @@ $if mode=vi
     "\C-e": end-of-line
     "\e[1;5D": backward-word
     "\e[1;5C": forward-word
-    "\e[3;3~": kill-word
-    "\e[3;6~" backward-kill-word
+    "\e[1;7C": kill-word
+    "\e[1;7D" backward-kill-word
 $endif
 
 "\es": "\C-asudo \C-e"
