@@ -16,7 +16,8 @@ git_config:
   'user.name': Bingzhang Dai
   'user.email': bingzhangdai@outlook.com
   'core.editor': vi
-  'core.pager': 'less -FXR -+C'
+  # force ignore LESS variable
+  'core.pager': 'LESS=FRX less -S'
   'merge.log': 'true'
   # automatically correct and execute mistyped commands
   'help.autocorrect': '1'

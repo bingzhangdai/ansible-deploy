@@ -29,7 +29,7 @@ fi
 FD_OPTIONS="--follow --exclude .git"
 
 ## less
-export LESS='-F -R -S -M -i -# .2'
+export LESS='-R -S -M -i -# .2'
 
 ## source scripts in .bash folder
 # lib should sourced first. It contais predefined vars and funcs 
