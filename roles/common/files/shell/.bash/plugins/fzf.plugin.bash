@@ -20,13 +20,13 @@ function _setup_using_base_dir() {
     fi
 }
 
-_setup_using_package || _setup_using_base_dir || return 1
-
+_setup_using_package || _setup_using_base_dir || util_log_warn "Setup fzf failed"
 
 command -v fdfind > /dev/null && alias fd=fdfind && fd=fdfind
 
 if command -v fd > /dev/null; then
     export FZF_DEFAULT_COMMAND="${fd:-fd} --type f --type l --follow --hidden --exclude .git"
+    export FZF_ALT_C_COMMAND="${fd:-fd} --type d --type l --follow --hidden 2> /dev/null"
     _fzf_compgen_path() {
         fd --hidden --follow --exclude ".git" . "$1"
     }
@@ -35,9 +35,9 @@ if command -v fd > /dev/null; then
     }
 fi
 
-fcd() {
+function fcd() {
     if command -v fd > /dev/null; then
-        local dir=$(fd ${1:-.} --type d --hidden --follow --exclude .git 2> /dev/null | fzf +m)
+        local dir=$(fd . ${1:-.} --type d --hidden --follow --exclude .git 2> /dev/null | fzf +m)
     else
         local dir=$(find ${1:-.} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf +m)
     fi
@@ -48,8 +48,6 @@ fcd() {
 
 unset fd
 
-alias fvi='vi `fzf`'
-
 function _set_fzf_default_opts() {
     if command -v bat > /dev/null; then
         local cat='bat --color=always'
@@ -58,8 +56,7 @@ function _set_fzf_default_opts() {
         local cat='cat'
         local less='less -f'
     fi
-
-    export FZF_DEFAULT_OPTS="--height 50% -1 --reverse --multi --inline-info --preview='[[ \$(file --mime {}) = ~binary ]] && echo {} is a binary file || $cat -n {} | head -100' --preview-window='right:hidden:wrap' --bind='f2:toggle-preview,ctrl-p:execute($less -n {}),ctrl-v:execute(vim -n {}),ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-a:select-all+accept'"
+    export FZF_DEFAULT_OPTS="--height 50% -1 --reverse --multi --inline-info --preview='([[ -d {} ]] && ls -Al --color=always {}) || ([[ \$(file --mime {}) =~ binary ]] && stat {}) || $cat -n {} | head -100' --preview-window='right:hidden:wrap' --bind='f2:toggle-preview,ctrl-p:execute($less -n {}),ctrl-v:execute(vim -n {}),ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-a:select-all+accept'"
 }
 
 _set_fzf_default_opts

@@ -1,14 +1,22 @@
 export _DOT_BASH_CACHE="$(cd $(dirname $BASH_SOURCE[0])/../ && pwd)/cache"
 
-_eprintf() {
-    printf "${RED}$@${NONE}" > /dev/stderr
+util_log_info() {
+    printf '%s\n' "$@"
 }
 
-_eecho() {
-    echo "${RED}$@${NONE}" > /dev/stderr
+util_log_sucess() {
+    printf '%s\n' "${GREEN}$@${NONE}"
 }
 
-_download() {
+util_log_warn() {
+    printf '%s\n' "${YELLOW}$@${NONE}" > /dev/stderr
+}
+
+util_log_error() {
+    printf '%s\n' "${RED}$@${NONE}" > /dev/stderr
+}
+
+util_download() {
     local URL="$1"
     local DEST="${2}"
     if [[ -z "$2" ]]; then
@@ -24,16 +32,16 @@ _download() {
         mkdir "$DIR"
     fi
 
-    if [[ -x "$(which curl)" ]]; then
+    if command -v curl > /dev/null; then
         curl -L "$URL" -o "$DEST"
-    elif [[ -x "$(which wget)" ]]; then
+    elif command -v wget > /dev/null; then
         wget "$URL" -O "$DEST"
     else
-        _eecho "ERROR: Please install curl or wget before downloading!"
+        util_log_error "ERROR: Please install curl or wget before downloading!"
         return 1
     fi
     if [[ $? -ne 0 ]]; then
-        _eecho "ERROR: downloading ${URL##*/} failed!"
+        util_log_error "ERROR: downloading ${URL##*/} failed!"
         return 1
     fi
 }

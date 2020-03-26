@@ -1,5 +1,5 @@
 function sshadd() {
-    [[ $# -ne 3 ]] && echo "add_ssh host user hostname" && return 1
+    [[ $# -ne 3 ]] && util_log_error "add_ssh host user hostname" && return 1
     [[ ! -d ~/.ssh ]] && mkdir -m 700 ~/.ssh
     [[ ! -e ~/.ssh/config ]] && touch ~/.ssh/config && chmod 600 ~/.ssh/config
     echo -en "\n\nHost $1\n  User $2\n  HostName $3\n  ServerAliveInterval 30\n  ServerAliveCountMax 120" >> ~/.ssh/config

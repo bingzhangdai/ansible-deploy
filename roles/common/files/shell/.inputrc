@@ -83,13 +83,20 @@ $if mode=vi
     # these are for vi-insert mode
     set keymap vi-insert
     Control-l: clear-screen
+    # Ctrl + A
     "\C-a": beginning-of-line
+    # Ctrl + E
     "\C-e": end-of-line
+    # Ctrl + Left
     "\e[1;5D": backward-word
+    # Ctrl + Right
     "\e[1;5C": forward-word
-    "\e[1;7C": kill-word
-    "\e[1;7D" backward-kill-word
+    # Ctrl + Del
+    "\e[3;5~": kill-word
+    # Ctrl + Backspace # Ctrl + H
+    # https://unix.stackexchange.com/questions/264791/ctrl-backspace-and-ctrl-delete-in-bash
+    "\C-h": backward-kill-word
+    # Short cut
+    "\es": "\e\eIsudo \e\eA"
+    "\ep": "\e\eIproxy \e\eA"
 $endif
-
-"\es": "\C-asudo \C-e"
-"\ep": "\C-aproxy \C-e"

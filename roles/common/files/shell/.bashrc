@@ -11,7 +11,7 @@ esac
 # This defines where cd looks for targets
 # Add the directories you want to have fast access to, separated by colon
 # Ex: CDPATH=".:~:~/projects" will look for targets in the current working directory, in home and in the ~/projec
-CDPATH="."
+CDPATH=".:~"
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
@@ -30,6 +30,9 @@ FD_OPTIONS="--follow --exclude .git"
 
 ## less
 export LESS='-R -S -M -i -# .2'
+
+## default editor
+export EDITOR=vi
 
 ## source scripts in .bash folder
 # lib should sourced first. It contais predefined vars and funcs 

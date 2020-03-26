@@ -39,6 +39,7 @@ function _show_pwd() {
     local prefix=''
     [[ "$path" != "$PWD" ]] && prefix='~'
     printf '%s' "${1}${prefix}$(_collapse "$path")${2}"
+    # printf '%s' "${1}$(_collapse $(dirs))${2}"
 }
 
 function _show_git() {

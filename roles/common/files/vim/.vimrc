@@ -1,3 +1,4 @@
+" https://vimhelp.org/
 " change cursor shape
 "  1 -> blinking block
 "  2 -> solid block 
@@ -89,8 +90,8 @@ highlight CursorLine cterm=NONE ctermbg=blue ctermfg=white
 highlight ColorColumn guibg=Red
 " Highlight searches
 set hlsearch
-" Ignore case of searches
-set ignorecase
+" Ignore case when the pattern contains lowercase letters only
+set smartcase
 " Highlight dynamically as pattern is typed
 set incsearch
 

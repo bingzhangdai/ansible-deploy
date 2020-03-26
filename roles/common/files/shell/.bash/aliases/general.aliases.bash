@@ -22,7 +22,7 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 alias ..='cd ..'
 alias sudo='sudo '
 alias g++='g++ -g -std=c++17'
-alias vi=vim
+command -v vim > /dev/null && alias vi=vim
 alias wget='wget -c'
 alias mkdir='mkdir -pv'
 alias du='du -h'
