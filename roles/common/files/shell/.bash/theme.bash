@@ -19,25 +19,33 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
-function _collapsed_pwd() {
-    local p="${PWD#$HOME}"
-    local cpwd=''
-    [ "$PWD" != "$p" ] && cpwd+='~'
-    [ "$p" = '/' ] && cpwd+='/'
+function _collapse() {
+    local path="$*"
+    local path="${path%%*(/)}"
+    local base="${path##*/}"
+    local dir=''
+    [[ "${path:0:1}" == '/' ]] && dir='/'
+    local d
     local IFS='/'
-    local q=''
-    for q in ${p:1}; do
-        [ "${q:0:1}" = '.' ] && cpwd+="/${q:0:2}" || cpwd+="/${q:0:1}"
+    for d in ${path%$base}; do
+        [[ -z "$d" ]] && continue
+        [[ "${d:0:1}" == '.' ]] && dir+="${d:0:2}/" || dir+="${d:0:1}/"
     done
-    [ "${q:0:1}" = '.' ] &&  cpwd+="${q:2}" || cpwd+="${q:1}"
-    printf '%s' "${1}${cpwd}${2}"
+    printf '%s' "${dir}${base}"
+}
+
+function _show_pwd() {
+    local path="${PWD#$HOME}"
+    local prefix=''
+    [[ "$path" != "$PWD" ]] && prefix='~'
+    printf '%s' "${1}${prefix}$(_collapse "$path")${2}"
 }
 
 function _show_git() {
     (! command -v git > /dev/null) && return
     local _git_branch=$(git symbolic-ref -q --short HEAD 2> /dev/null)
     [[ -z "$_git_branch" ]] && return
-    printf '%s' "[${1}${_git_branch}${2}]"
+    printf '%s' "[${1}$(_collapse ${_git_branch})${2}]"
 }
 
 declare -i _exit_code
@@ -51,13 +59,13 @@ if [ "$color_prompt" = yes ]; then
     else
         PS1='\[${GREEN}\]\u@\h\[${NONE}\]'
     fi
-    PS1+=':$(_collapsed_pwd "\[${YELLOW}\]" "\[${NONE}\]")' # :_collapsed_pwd
+    PS1+=':$(_show_pwd "\[${YELLOW}\]" "\[${NONE}\]")' # :_show_pwd
     PS1+='$(_show_git "\[${DARK_GRAY}\]" "\[${NONE}\]")' # [_git_branch]
     PS1+='$([[ "$_exit_code" == "0" ]] || printf "\[${RED}\]")\$\[${NONE}\] '
     PS2="\[${YELLOW}\]${PS2}\[${NONE}\]"
 else
     PS1='\u@\h'
-    PS1+=':$(_collapsed_pwd)'
+    PS1+=':$(_show_pwd)'
     PS1+='$([[ "$_exit_code" == "0" ]] || printf ":$_exit_code")'
     PS1+='\$ '
 fi

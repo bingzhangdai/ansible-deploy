@@ -46,22 +46,22 @@ set input-meta on
 set output-meta on
 set convert-meta off
 
-# terminal codes: https://wiki.bash-hackers.org/scripting/terminalcodes
-# \C- control prefix 
-# \M- meta prefix 
-# \e  an escape character 
-# \\  backslash 
-# \"  ", a double quotation mark 
-# \'  ', a single quote or apostrophe 
-# \a  alert (bell) 
-# \b  backspace 
-# \d  delete 
-# \f  form feed 
-# \n  newline 
-# \r  carriage return 
-# \t  horizontal tab 
-# \v  vertical tab 
 # bind -p: list the current Readline function names and bindings
+# terminal codes: https://wiki.bash-hackers.org/scripting/terminalcodes
+# \C- control prefix
+# \M- meta prefix
+# \e  an escape character
+# \\  backslash
+# \"  ", a double quotation mark
+# \'  ', a single quote or apostrophe
+# \a  alert (bell)
+# \b  backspace
+# \d  delete
+# \f  form feed
+# \n  newline
+# \r  carriage return
+# \t  horizontal tab
+# \v  vertical tab
 
 ## vi mode
 set editing-mode vi
