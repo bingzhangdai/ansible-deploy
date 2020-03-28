@@ -37,7 +37,9 @@ git_config:
   # undo last commit
   'alias.uncommit': reset --soft HEAD~1
   # removes a file from the index
-  'alias.unstage': rm --cached
+  'alias.unstage': reset HEAD --
+  # tracted unstaged file status
+  'alias.stat': diff --stat
 
 
 

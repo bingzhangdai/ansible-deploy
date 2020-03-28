@@ -46,8 +46,11 @@ set input-meta on
 set output-meta on
 set convert-meta off
 
+# 50 milliseconds timeout for Readline
+set keyseq-timeout 50
+
 # bind -p: list the current Readline function names and bindings
-# terminal codes: https://wiki.bash-hackers.org/scripting/terminalcodes
+# showkey -a 
 # \C- control prefix
 # \M- meta prefix
 # \e  an escape character

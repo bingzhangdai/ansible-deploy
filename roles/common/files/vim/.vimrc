@@ -21,6 +21,12 @@ Plug 'luochen1990/rainbow'
 let g:rainbow_active = 1
 call plug#end()
 
+if $TMUX != ''
+    set ttimeoutlen=20
+elseif &ttimeoutlen > 60 || &ttimeoutlen <= 0
+    set ttimeoutlen=60
+endif
+
 " Enhance command-line completion
 set wildmenu
 " Allow backspace in insert mode
@@ -29,7 +35,7 @@ set backspace=indent,eol,start
 set ttyfast
 " Add the g flag to search/replace by default
 set gdefault
-" Don’t create backups when editing files in certain directories
+" Don't create backups when editing files in certain directories
 set backupskip=/tmp/*,/private/tmp/*
 " Enable line numbers
 set number
@@ -40,7 +46,7 @@ set numberwidth=1
 set ruler
 " Show the current mode
 set showmode
-" Show the (partial) command as it’s being typed
+" Show the (partial) command as it's being typed
 set showcmd
 
 set history=1000
@@ -103,7 +109,7 @@ set foldmethod=manual
 set autoread
 " Use the OS clipboard by default (on versions compiled with `+clipboard`)
 set clipboard+=unnamed
-" Don’t show the intro message when starting Vim
+" Don't show the intro message when starting Vim
 set shortmess=atI
 
 
