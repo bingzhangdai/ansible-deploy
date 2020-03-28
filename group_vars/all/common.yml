@@ -32,6 +32,14 @@ git_config:
   # remove local tracking branches that do not exist on remote anymore
   'alias.purge': '!bash -c "git branch -r | awk ''{print \$1}'' | egrep -v -f /dev/fd/0 <(git
   branch -vv | grep origin) | awk ''{print \$1}'' | xargs -r git branch -D"'
+  # show graph of commits
+  'alias.graph': log --graph --all --pretty=format:'%Cred%h%Creset - %s %Cgreen(%cr) %C(bold blue)%an%Creset %C(yellow)%d%Creset'
+  # undo last commit
+  'alias.uncommit': reset --soft HEAD~1
+  # removes a file from the index
+  'alias.unstage': rm --cached
+
+
 
 ## shell
 # if set true, remote files (e.g. .bashrc) will be backed up and cleared, if it is the first time running this task.

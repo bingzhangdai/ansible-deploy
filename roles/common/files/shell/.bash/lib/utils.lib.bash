@@ -1,19 +1,19 @@
 export _DOT_BASH_CACHE="$(cd $(dirname $BASH_SOURCE[0])/../ && pwd)/cache"
 
 util_log_info() {
-    printf '%s\n' "$@"
+    printf -- "$@\n"
 }
 
 util_log_sucess() {
-    printf '%s\n' "${GREEN}$@${NONE}"
+    printf -- "${GREEN}$@${NONE}\n"
 }
 
 util_log_warn() {
-    printf '%s\n' "${YELLOW}$@${NONE}" > /dev/stderr
+    printf -- "${YELLOW}$@${NONE}\n" > /dev/stderr
 }
 
 util_log_error() {
-    printf '%s\n' "${RED}$@${NONE}" > /dev/stderr
+    printf -- "${RED}$@${NONE}\n" > /dev/stderr
 }
 
 util_download() {

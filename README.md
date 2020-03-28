@@ -63,9 +63,9 @@ Use ansible-vault to encrypt password, if you want to check in your password.
 make encrypt
 ```
 
-### Windows control machine
+### Windows control machine or WSL
 
-#### Export `ANSIBLE_CONFIG` env on Windows
+#### Export `ANSIBLE_CONFIG` env
 
 If you see the warning `[WARNING]: Ansible is being run in a world writable directory`, Export `ANSIBLE_CONFIG` environmental variable.
 
