@@ -45,7 +45,7 @@ git_config:
 
 ## shell
 # if set true, remote files (e.g. .bashrc) will be backed up and cleared, if it is the first time running this task.
-shell_clear_existing: true
+shell_clear_existing: false
 
 ## misc task: soley install these packages
 # these packages should be easily installed through package manager
