@@ -13,11 +13,11 @@ if [ -x /usr/bin/dircolors ]; then
     if test -e /usr/share/source-highlight/src-hilite-lesspipe.sh; then
         alias cless='LESSOPEN="| /usr/share/source-highlight/src-hilite-lesspipe.sh %s" less'
     elif command -v bat > /dev/null; then
-        alias cless='LESSOPEN="| bat --style=plain,changes --color=always --paging=never %s" less'
+        alias cless='LESSOPEN="| bat --style=plain --color=always --paging=never %s" less'
     fi
 
     # colored cat
-    command -v bat > /dev/null && alias ccat='bat --style=plain,changes --color=always --paging=never'
+    command -v bat > /dev/null && alias ccat='bat --style=plain --color=always --paging=never'
 
     # colored diff
     command -v icdiff > /dev/null && alias cdiff='icdiff --line-numbers'
@@ -34,6 +34,7 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 
 alias ..='cd ..'
 alias sudo='sudo '
+alias xargs='xargs '
 alias g++='g++ -g -std=c++17'
 command -v vim > /dev/null && alias vi=vim
 alias wget='wget -c'

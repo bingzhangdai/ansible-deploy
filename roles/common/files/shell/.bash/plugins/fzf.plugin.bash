@@ -26,7 +26,7 @@ command -v fdfind > /dev/null && alias fd=fdfind && fd=fdfind
 
 if command -v fd > /dev/null; then
     export FZF_DEFAULT_COMMAND="${fd:-fd} --type f --type l --follow --hidden --exclude .git"
-    export FZF_ALT_C_COMMAND="${fd:-fd} --type d --type l --follow --hidden 2> /dev/null"
+    export FZF_ALT_C_COMMAND="${fd:-fd} --type d --type l --follow --hidden --exclude .git 2> /dev/null"
     _fzf_compgen_path() {
         fd --hidden --follow --exclude ".git" . "$1"
     }

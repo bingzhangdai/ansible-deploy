@@ -41,6 +41,8 @@
     times: yes
     rsync_opts:
       - "--chmod=Du=rwx,Dog=rx,Fu=rw,Fog=r"
+      # rsync: This rsync lacks old-style --compress due to its external zlib.  Try -zz.
+      - "-zz"
   become: no
   with_lines:
     - "find {{ role_path }}/files/shell -type d -name '.*'"
