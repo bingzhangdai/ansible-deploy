@@ -42,7 +42,7 @@ function _show_pwd() {
     local format='%s'
     format="${1:-$format}"
     [[ "$path" != "$PWD" ]] && prefix='~'
-    printf -- "$format" $(_collapse "$path")
+    printf -- "$format" "$(_collapse "$path")"
     # printf '%s' "${1}$(_collapse $(dirs))${2}"
     return $exit
 }
@@ -55,7 +55,7 @@ function _show_git() {
     (! command -v git > /dev/null) && return $exit
     local _git_branch=$(git symbolic-ref -q --short HEAD 2> /dev/null)
     [[ -z "$_git_branch" ]] && return $exit
-    printf -- "$format" $(_collapse ${_git_branch})
+    printf -- "$format" "$(_collapse ${_git_branch})"
     return $exit
 }
 

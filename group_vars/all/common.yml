@@ -30,7 +30,7 @@ git_config:
   # fetch all and remove non-existent remote branches
   'alias.update': fetch --all --prune
   # remove local tracking branches that do not exist on remote anymore
-  'alias.purge': '!bash -c "git branch -r | awk ''{print \$1}'' | egrep -v -f /dev/fd/0 <(git
+  'alias.purge': '!bash -c "git branch -r | awk ''{print \$1}'' | grep -E -v -f /dev/fd/0 <(git
   branch -vv | grep origin) | awk ''{print \$1}'' | xargs -r git branch -D"'
   # show graph of commits
   'alias.graph': log --graph --all --pretty=format:'%Cred%h%Creset - %s %Cgreen(%cr) %C(bold blue)%an%Creset %C(yellow)%d%Creset'
