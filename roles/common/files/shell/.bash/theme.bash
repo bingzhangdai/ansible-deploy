@@ -35,22 +35,29 @@ function _collapse() {
 }
 
 function _show_pwd() {
+    # preserve exit status
+    local exit=$?
     local path="${PWD#$HOME}"
     local prefix=''
+    local format='%s'
+    format="${1:-$format}"
     [[ "$path" != "$PWD" ]] && prefix='~'
-    printf '%s' "${1}${prefix}$(_collapse "$path")${2}"
+    printf -- "$format" $(_collapse "$path")
     # printf '%s' "${1}$(_collapse $(dirs))${2}"
+    return $exit
 }
 
 function _show_git() {
-    (! command -v git > /dev/null) && return
+    # preserve exit status
+    local exit=$?
+    local format='[%s]'
+    format="${1:-$format}"
+    (! command -v git > /dev/null) && return $exit
     local _git_branch=$(git symbolic-ref -q --short HEAD 2> /dev/null)
-    [[ -z "$_git_branch" ]] && return
-    printf '%s' "[${1}$(_collapse ${_git_branch})${2}]"
+    [[ -z "$_git_branch" ]] && return $exit
+    printf -- "$format" $(_collapse ${_git_branch})
+    return $exit
 }
-
-declare -i _exit_code
-PROMPT_COMMAND="_exit_code=\$?;${PROMPT_COMMAND}"
 
 # color can be found in lib/color.lib.bash
 # Special prompt variable: https://ss64.com/bash/syntax-prompt.html
@@ -60,14 +67,14 @@ if [ "$color_prompt" = yes ]; then
     else
         PS1='\[${GREEN}\]\u@\h\[${NONE}\]'
     fi
-    PS1+=':$(_show_pwd "\[${YELLOW}\]" "\[${NONE}\]")' # :_show_pwd
-    PS1+='$(_show_git "\[${DARK_GRAY}\]" "\[${NONE}\]")' # [_git_branch]
-    PS1+='$([[ "$_exit_code" == "0" ]] || printf "\[${RED}\]")\$\[${NONE}\] '
+    PS1+=':$(_show_pwd "\[${YELLOW}\]%s\[${NONE}\]")' # :_show_pwd
+    PS1+='$(_show_git "[\[${DARK_GRAY}\]%s\[${NONE}\]]")' # [_git_branch]
+    PS1+='$([[ "$?" == "0" ]] || printf "\[${RED}\]")\$\[${NONE}\] '
     PS2="\[${YELLOW}\]${PS2}\[${NONE}\]"
 else
     PS1='\u@\h'
     PS1+=':$(_show_pwd)'
-    PS1+='$([[ "$_exit_code" == "0" ]] || printf ":$_exit_code")'
+    PS1+='$(exit=$?; [[ "$exit" == "0" ]] || printf ":$exit")'
     PS1+='\$ '
 fi
 
