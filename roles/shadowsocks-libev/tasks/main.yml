@@ -89,7 +89,7 @@
         src: config.json.j2
         dest: /etc/shadowsocks-libev/config.json
       notify: restart shadowsocks-libev
-    - name: turn on TCP Fast Open on both client and server side
+    - name: turn on TCP Fast Open on server side
       sysctl:
         name: net.ipv4.tcp_fastopen
         value: '3'
