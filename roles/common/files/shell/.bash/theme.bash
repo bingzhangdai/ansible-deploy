@@ -43,7 +43,6 @@ function _show_pwd() {
     format="${1:-$format}"
     [[ "$path" != "$PWD" ]] && prefix='~'
     printf -- "$format" "$(_collapse "$path")"
-    # printf '%s' "${1}$(_collapse $(dirs))${2}"
     return $exit
 }
 

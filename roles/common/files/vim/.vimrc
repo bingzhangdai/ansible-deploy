@@ -112,6 +112,8 @@ set clipboard+=unnamed
 " Don't show the intro message when starting Vim
 set shortmess=atI
 
+" Syntax highlighting in Bash vi-input mode
+au BufRead,BufNewFile bash-fc.* set filetype=sh
 
 autocmd BufNewFile *.cpp,*.c exec ":call SetTitle()" 
 func SetTitle()
