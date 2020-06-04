@@ -42,7 +42,8 @@ function _show_pwd() {
     local format='%s'
     format="${1:-$format}"
     [[ "$path" != "$PWD" ]] && prefix='~'
-    printf -- "$format" "$(_collapse "$path")"
+    [[ "$path" == '/' ]] && prefix='/'
+    printf -- "$format" "$prefix$(_collapse "$path")"
     return $exit
 }
 
