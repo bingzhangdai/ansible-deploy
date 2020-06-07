@@ -3,4 +3,5 @@ alias speedtest="wget -O /dev/null http://speedtest.wdc01.softlayer.com/download
 alias ipaddr='curl ipinfo.io/ip'
 # real public ip
 alias digip='dig +short myip.opendns.com @resolver1.opendns.com'
-alias ports='lsof -i | grep LISTEN'
+# always include the first line
+alias ports='lsof -i | awk "NR==1 || /LISTEN/"'

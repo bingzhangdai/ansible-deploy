@@ -33,18 +33,25 @@
 
 # https://github.com/ansible/ansible/issues/17136#issuecomment-324112974
 - name: update .xxx folder
-  synchronize:
-    src: "{{ item }}/"
-    dest: "{{ ansible_env.HOME }}/{{ item | basename }}"
-    recursive: yes
-    archive: no
-    times: yes
-    rsync_opts:
-      - "--chmod=Du=rwx,Dog=rx,Fu=rw,Fog=r"
-      # rsync: This rsync lacks old-style --compress due to its external zlib.  Try -zz.
-      - "-zz"
-  become: no
-  with_lines:
-    - "find {{ role_path }}/files/shell -type d -name '.*'"
+  block:
+    - name: install rsync
+      package:
+        name: rsync
+        state: present
+      become: yes
+    - name: sync .xxx folder
+      synchronize:
+        src: "{{ item }}/"
+        dest: "{{ ansible_env.HOME }}/{{ item | basename }}"
+        recursive: yes
+        archive: no
+        times: yes
+        rsync_opts:
+          - "--chmod=Du=rwx,Dog=rx,Fu=rw,Fog=r"
+          # rsync: This rsync lacks old-style --compress due to its external zlib.  Try -zz.
+          - "-zz"
+      become: no
+      with_lines:
+        - "find {{ role_path }}/files/shell -type d -name '.*'"
   tags:
     - configuration

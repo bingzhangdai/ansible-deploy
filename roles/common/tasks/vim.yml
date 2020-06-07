@@ -33,6 +33,11 @@
 
 - name: update .vimrc and .vim folder
   block:
+    - name: install rsync
+      package:
+        name: rsync
+        state: present
+      become: yes
     - name: insert .vimrc
       blockinfile:
         path: "{{ ansible_env.HOME }}/.vimrc"
