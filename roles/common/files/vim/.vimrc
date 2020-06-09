@@ -97,6 +97,7 @@ highlight ColorColumn guibg=Red
 " Highlight searches
 set hlsearch
 " Ignore case when the pattern contains lowercase letters only
+set ignorecase
 set smartcase
 " Highlight dynamically as pattern is typed
 set incsearch
