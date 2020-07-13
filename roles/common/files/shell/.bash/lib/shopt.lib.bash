@@ -23,4 +23,4 @@ shopt -s cdspell;
 
 # This allows you to bookmark your favorite places across the file system
 # Define a variable containing a path and you will be able to cd into it regardless of the directory you're in
-shopt -s cdable_vars
+# shopt -s cdable_vars
