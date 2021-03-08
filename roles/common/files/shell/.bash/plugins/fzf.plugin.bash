@@ -2,7 +2,7 @@ function _setup_using_package() {
     (command -v dpkg > /dev/null && dpkg -s fzf &> /dev/null) || return 1
 
     # Auto-completion
-    local completions="/usr/share/bash-completion/completions/fzf"
+    local completions="/usr/share/doc/fzf/examples/completion.bash"
     [[ $- == *i* ]] && source $completions 2> /dev/null || return 1
 
     # Key bindings
