@@ -17,6 +17,7 @@ if [ -x /usr/bin/dircolors ]; then
     fi
 
     # colored cat
+    command -v batcat > /dev/null && alias bat=batcat
     command -v bat > /dev/null && alias ccat='bat --style=plain --color=always --paging=never'
 
     # colored diff
