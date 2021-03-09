@@ -106,6 +106,10 @@ ansible-playbook site.yml -i hosts --tags "docker-ce"
 
 #### [Install shadowsocks-libev and v2ray-plugin](roles/shadowsocks-libev/README.md)
 
+## FAQ
+
+* [How to start SSH server under WSL](https://gist.github.com/bingzhangdai/c71569aa5ad97ca928d24470326e06ee)
+
 ## Known issues
 
 Ansible known issues
