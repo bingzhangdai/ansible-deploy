@@ -19,13 +19,6 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
-function _get_wsl_version() {
-    local version="$(cat /proc/version)"
-    if echo "$version" | grep -iqF microsoft; then
-        echo "$version" | grep -iqF wsl2 && printf WSL2 || printf WSL1
-    fi
-}
-
 function _collapse() {
     local path="$*"
     local path="${path%%*(/)}"
@@ -70,7 +63,7 @@ function _show_git() {
 # Special prompt variable: https://ss64.com/bash/syntax-prompt.html
 
 hostname="$(_get_wsl_version)"
-[[ -n "$hostname" ]] || hostname='\h'
+[[ -n "$hostname" ]] && hostname="WSL${hostname}" || hostname='\h'
 
 if [ "$color_prompt" = yes ]; then
     if [[ "$UID" == "0" ]]; then

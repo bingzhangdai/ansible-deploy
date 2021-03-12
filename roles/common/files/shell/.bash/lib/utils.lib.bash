@@ -45,3 +45,10 @@ util_download() {
         return 1
     fi
 }
+
+function _get_wsl_version() {
+    local version="$(cat /proc/version)"
+    if echo "$version" | grep -iqF microsoft; then
+        echo "$version" | grep -iqF wsl2 && printf 2 || printf 1
+    fi
+}
