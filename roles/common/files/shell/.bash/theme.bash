@@ -19,6 +19,13 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
+function _get_wsl_version() {
+    local version="$(cat /proc/version)"
+    if echo "$version" | grep -iqF microsoft; then
+        echo "$version" | grep -iqF wsl2 && printf WSL2 || printf WSL1
+    fi
+}
+
 function _collapse() {
     local path="$*"
     local path="${path%%*(/)}"
@@ -61,18 +68,22 @@ function _show_git() {
 
 # color can be found in lib/color.lib.bash
 # Special prompt variable: https://ss64.com/bash/syntax-prompt.html
+
+hostname="$(_get_wsl_version)"
+[[ -n "$hostname" ]] || hostname='\h'
+
 if [ "$color_prompt" = yes ]; then
     if [[ "$UID" == "0" ]]; then
-        PS1='\[${ORANGE}\]\u@\h\[${NONE}\]' # username@hostname
+        PS1="\[${ORANGE}\]\u@${hostname}\[${NONE}\]" # username@hostname
     else
-        PS1='\[${GREEN}\]\u@\h\[${NONE}\]'
+        PS1="\[${GREEN}\]\u@${hostname}\[${NONE}\]"
     fi
     PS1+=':$(_show_pwd "\[${YELLOW}\]%s\[${NONE}\]")' # :_show_pwd
     PS1+='$(_show_git "[\[${DARK_GRAY}\]%s\[${NONE}\]]")' # [_git_branch]
     PS1+='$([[ "$?" == "0" ]] || printf "\[${RED}\]")\$\[${NONE}\] '
     PS2="\[${YELLOW}\]${PS2}\[${NONE}\]"
 else
-    PS1='\u@\h'
+    PS1="\u@${hostname}"
     PS1+=':$(_show_pwd)'
     PS1+='$(exit=$?; [[ "$exit" == "0" ]] || printf ":$exit")'
     PS1+='\$ '
@@ -84,8 +95,10 @@ unset color_prompt force_color_prompt
 case "$TERM" in
 xterm*|rxvt*)
     # PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    PS1="\[\e]0;\u@\h: \W\a\]$PS1"
+    PS1="\[\e]0;\u@${hostname}: \W\a\]$PS1"
     ;;
 *)
     ;;
 esac
+
+unset hostname
