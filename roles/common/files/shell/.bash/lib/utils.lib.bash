@@ -52,3 +52,7 @@ function _get_wsl_version() {
         echo "$version" | grep -iqF wsl2 && printf 2 || printf 1
     fi
 }
+
+if [ -f /etc/os-release ]; then
+    . /etc/os-release
+fi

@@ -63,7 +63,7 @@ function _show_git() {
 # Special prompt variable: https://ss64.com/bash/syntax-prompt.html
 
 hostname="$(_get_wsl_version)"
-[[ -n "$hostname" ]] && hostname="WSL${hostname}" || hostname='\h'
+[[ -n "$hostname" ]] && hostname="${NAME:-WSL}${hostname}" || hostname='\h'
 
 if [ "$color_prompt" = yes ]; then
     if [[ "$UID" == "0" ]]; then
