@@ -1,17 +1,45 @@
-- name: make sure git is present
-  package:
-    name: git
-    state: present
-  become: yes
-  tags:
-    - packages
-
-- name: clone latest junegunn/fzf to ~/.fzf
-  git:
-    repo: https://github.com/junegunn/fzf.git
-    dest: "{{ ansible_env.HOME }}/.fzf"
-    depth: 1
-
-# install through package manager may not setup key bindings
-- name: install fzf through install script
-  shell: "{{ ansible_env.HOME }}/.fzf/install --all" # noqa 305 301
+- name: install fzf for ubuntu
+  block:
+    - name: install fzf using package manager (Ubuntu)
+      apt:
+        name: fzf
+        state: latest
+        update_cache: yes
+        cache_valid_time: 86400
+      register: result_ubuntu
+      become: yes
+      when:
+        - ansible_distribution == 'Ubuntu'
+        - ansible_distribution_version is version('19.10', '>=')
+    - name: install fzf using package manager (Debian)
+      apt:
+        name: fzf
+        state: latest
+        update_cache: yes
+        cache_valid_time: 86400
+      register: result_debian
+      become: yes
+      when:
+        - ansible_distribution == 'Debian'
+        - ansible_distribution_major_version | int >= 9
+    - name: install fzf using git
+      block:
+        - name: make sure git is present
+          package:
+            name: git
+            state: present
+          become: yes
+          tags:
+            - packages
+        - name: clone latest junegunn/fzf to ~/.fzf
+          git:
+            repo: https://github.com/junegunn/fzf.git
+            dest: "{{ ansible_env.HOME }}/.fzf"
+            depth: 1
+        # install through package manager may not setup key bindings
+        - name: install fzf through install script
+          shell: "{{ ansible_env.HOME }}/.fzf/install --all" # noqa 305 301
+      when:
+        - result_ubuntu and result_ubuntu.failed
+        - result_debian and result_debian.failed
+  when: ansible_os_family == 'Debian'
