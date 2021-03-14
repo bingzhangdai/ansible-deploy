@@ -40,5 +40,5 @@
     - name: install fzf through install script
       shell: "{{ ansible_env.HOME }}/.fzf/install --all" # noqa 305 301
   when:
-    - result_ubuntu and result_ubuntu.failed
-    - result_debian and result_debian.failed
+    - result_ubuntu is undefined or result_ubuntu.failed
+    - result_debian is undefined or result_debian.failed
