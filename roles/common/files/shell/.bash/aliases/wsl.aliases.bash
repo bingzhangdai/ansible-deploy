@@ -1,4 +1,4 @@
-if [[ -z "${_get_wsl_version}" ]]; then
+if [[ -n "$(_get_wsl_version)" ]]; then
     function git() {
         if /usr/bin/git config --get remote.origin.url | \grep -q 'visualstudio\|azure'; then
             if [[ "$1" == "update" ]]; then
