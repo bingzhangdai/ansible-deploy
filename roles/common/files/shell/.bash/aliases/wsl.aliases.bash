@@ -14,4 +14,6 @@ if [[ -n "$(_get_wsl_version)" ]]; then
     }
 
     alias cmd='cmd.exe'
+
+    alias explorer='explorer.exe .'
 fi
