@@ -80,7 +80,7 @@ function _get_git_branch() {
     while [[ -n "$_dir" ]]; do
         _head_file="$_dir/.git/HEAD"
         if [[ -f "$_dir/.git" ]]; then
-            read -r _head_file < "$_dir/.git" && _head_file="${_head_file#gitdir:}" && _head_file="${_head_file##* }/HEAD"
+            read -r _head_file < "$_dir/.git" && _head_file="${_head_file#gitdir: }/HEAD"
         fi
         [[ -e "$_head_file" ]] && break
         _dir="${_dir%/*}"
