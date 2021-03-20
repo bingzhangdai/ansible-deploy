@@ -21,10 +21,10 @@ fi
 
 function _collapse() {
     local path="$*"
-    local path="${path%%*(/)}"
-    local base="${path##*/}"
     local dir=''
     [[ "${path:0:1}" == '/' ]] && dir='/'
+    local path="${path%%*(/)}"
+    local base="${path##*/}"
     local d
     local IFS='/'
     for d in ${path%$base}; do
@@ -42,7 +42,6 @@ function _show_pwd() {
     local format='%s'
     format="${1:-$format}"
     [[ "$path" != "$PWD" ]] && prefix='~'
-    [[ "$path" == '/' ]] && prefix='/'
     printf -- "$format" "$prefix$(_collapse "$path")"
     return $exit
 }
@@ -83,7 +82,7 @@ function _get_git_branch() {
     while [[ -n "$_dir" ]]; do
         _head_file="$_dir/.git/HEAD"
         if [[ -f "$_dir/.git" ]]; then
-            read -r _head_file < "$_dir/.git" && _head_file="${_head_file##*:}" && _head_file="${_head_file##* }/HEAD"
+            read -r _head_file < "$_dir/.git" && _head_file="${_head_file#gitdir:}" && _head_file="${_head_file##* }/HEAD"
         fi
         [[ -e "$_head_file" ]] && break
         _dir="${_dir%/*}"
@@ -92,8 +91,8 @@ function _get_git_branch() {
     if [[ -e "$_head_file" ]]; then
         read -r _head < "$_head_file" || return
         case "$_head" in
-            ref:*) printf "${_head##*/}" ;;
-            "") printf '';;
+            ref:*) printf "${_head#ref: refs/heads/}" ;;
+            "") ;;
             # HEAD detached
             *) printf "${_head:0:7}" ;;
         esac
