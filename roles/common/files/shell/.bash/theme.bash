@@ -47,6 +47,22 @@ function _show_pwd() {
     return $exit
 }
 
+# function _show_git() {
+#     # preserve exit status
+#     local exit=$?
+#     local format='[%s]'
+#     format="${1:-$format}"
+#     (! command -v git > /dev/null) && return $exit
+#     # "git symbolic-ref --short -q HEAD" is 40% faster than "git rev-parse --abbrev-ref HEAD"
+#     local _git_branch=$(git symbolic-ref --short HEAD 2>&1)
+#     [[ "$_git_branch" = *"fatal: not a git repository"* ]] && return $exit
+#     [[ "$_git_branch" = *"fatal: ref HEAD is not a symbolic ref"* ]] && _git_branch=$(git rev-parse --short HEAD 2> /dev/null)
+#     [[ -z "$_git_branch" ]] && return $exit
+#     printf -- "$format" "$(_collapse ${_git_branch})"
+#     return $exit
+# }
+
+# 100% pure Bash version
 function _show_git() {
     # preserve exit status
     local exit=$?
@@ -54,12 +70,37 @@ function _show_git() {
     format="${1:-$format}"
     (! command -v git > /dev/null) && return $exit
     # "git symbolic-ref --short -q HEAD" is 40% faster than "git rev-parse --abbrev-ref HEAD"
-    local _git_branch=$(git symbolic-ref --short HEAD 2>&1)
-    [[ "$_git_branch" = *"fatal: not a git repository"* ]] && return $exit
-    [[ "$_git_branch" = *"fatal: ref HEAD is not a symbolic ref"* ]] && _git_branch=$(git rev-parse --short HEAD 2> /dev/null)
+    local _git_branch=$(_get_git_branch)
     [[ -z "$_git_branch" ]] && return $exit
     printf -- "$format" "$(_collapse ${_git_branch})"
     return $exit
+}
+
+function _get_git_branch() {
+    local _head_file _head
+    local _dir="$PWD"
+
+    while [[ -n "$_dir" ]]; do
+        _head_file="$_dir/.git/HEAD"
+        if [[ -f "$_dir/.git" ]]; then
+            read -r _head_file < "$_dir/.git" && _head_file="${_head_file##*:}" && _head_file="${_head_file##* }/HEAD"
+        fi
+        [[ -e "$_head_file" ]] && break
+        _dir="${_dir%/*}"
+    done
+
+    if [[ -e "$_head_file" ]]; then
+        read -r _head < "$_head_file" || return
+        case "$_head" in
+            ref:*) printf "${_head##*/}" ;;
+            "") printf '';;
+            # HEAD detached
+            *) printf "${_head:0:7}" ;;
+        esac
+        return 0
+    fi
+
+    return 1
 }
 
 # color can be found in lib/color.lib.bash
