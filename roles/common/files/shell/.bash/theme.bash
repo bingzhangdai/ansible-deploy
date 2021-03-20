@@ -53,7 +53,7 @@ function _show_git() {
     local format='[%s]'
     format="${1:-$format}"
     (! command -v git > /dev/null) && return $exit
-    local _git_branch=$(git symbolic-ref -q --short HEAD 2>&1)
+    local _git_branch=$(git symbolic-ref --short HEAD 2>&1)
     [[ "$_git_branch" = *"fatal: not a git repository"* ]] && return $exit
     [[ "$_git_branch" = *"fatal: ref HEAD is not a symbolic ref"* ]] && _git_branch=$(git rev-parse --short HEAD 2> /dev/null)
     [[ -z "$_git_branch" ]] && return $exit
