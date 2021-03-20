@@ -67,7 +67,6 @@ function _show_git() {
     local exit=$?
     local format='[%s]'
     format="${1:-$format}"
-    # "git symbolic-ref --short -q HEAD" is 40% faster than "git rev-parse --abbrev-ref HEAD"
     local _git_branch=$(_get_git_branch)
     [[ -z "$_git_branch" ]] && return $exit
     printf -- "$format" "$(_collapse ${_git_branch})"
