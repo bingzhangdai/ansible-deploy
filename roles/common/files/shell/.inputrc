@@ -82,10 +82,13 @@ $if mode=vi
     # these are for vi-command mode
     set keymap vi-command
     Control-l: clear-screen
+    j: history-search-forward
+    k: history-search-backward
 
     # these are for vi-insert mode
     set keymap vi-insert
     Control-l: clear-screen
+
     # Ctrl + A
     "\C-a": beginning-of-line
     # Ctrl + E

@@ -36,7 +36,7 @@ export EDITOR='vi'
 
 ## source scripts in .bash folder
 # lib should sourced first. It contais predefined vars and funcs 
-for path in ~/.bash/{lib,plugins,completions,aliases}; do
+for path in ~/.bash/{lib,completions,plugins,aliases}; do
     for file in $(sort <(ls -1 $path/*.bash 2> /dev/null)); do
         [[ -e "$file" ]] && source $file || echo "Unable to read $file" > /dev/stderr
     done
