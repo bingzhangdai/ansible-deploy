@@ -54,6 +54,7 @@ function _show_git() {
     format="${1:-$format}"
     (! command -v git > /dev/null) && return $exit
     local _git_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
+    [[ "$_git_branch" == 'HEAD' ]] && _git_branch=$(git rev-parse --short HEAD 2> /dev/null)
     [[ -z "$_git_branch" ]] && return $exit
     printf -- "$format" "$(_collapse ${_git_branch})"
     return $exit
