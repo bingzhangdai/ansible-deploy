@@ -54,14 +54,10 @@ function _get_wsl_version() {
 }
 
 function _is_in_wsl() {
-    if [[ -n "$WSL_DISTRO_NAME" ]]; then
-        # $WSL_DISTRO_NAME is available since WSL builds 18362, also for WSL2
-        return 0
-    else
-        WSL_BUILD=$(uname -r | sed -E 's/^[0-9.]+-([0-9]+)-Microsoft.*|.*/\1/')
-        return [[ -n "$WSL_BUILD" ]]
-    fi
-    return 1
+    # $WSL_DISTRO_NAME is available since WSL builds 18362, also for WSL2
+    [[ -n "$WSL_DISTRO_NAME" ]] && return
+    [[ -n "$(uname -r | sed -E 's/^[0-9.]+-([0-9]+)-Microsoft.*|.*/\1/')" ]] && return
+    [[ -n "$(_get_wsl_version)" ]]
 }
 
 if [ -f /etc/os-release ]; then
