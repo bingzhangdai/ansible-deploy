@@ -103,8 +103,14 @@ function _get_git_branch() {
 # color can be found in lib/color.lib.bash
 # Special prompt variable: https://ss64.com/bash/syntax-prompt.html
 
-hostname="$(_get_wsl_version)"
-[[ -n "$hostname" ]] && hostname="${NAME:-WSL}${hostname}" || hostname='\h'
+hostname='\h'
+if _is_in_wsl; then
+    if [[ -n "$WSL_DISTRO_NAME" ]]; then
+        hostname="$WSL_DISTRO_NAME"
+    else
+        hostname="${NAME:-WSL}-$(_get_wsl_version)"
+    fi
+fi
 
 if [ "$color_prompt" = yes ]; then
     if [[ "$UID" == "0" ]]; then
