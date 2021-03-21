@@ -15,5 +15,15 @@ if [[ -n "$(_get_wsl_version)" ]]; then
 
     alias cmd='cmd.exe'
 
-    alias explorer='explorer.exe .'
+    # https://github.com/microsoft/WSL/issues/6565
+    # explorer.exe always return 1 regardless the result
+    function explorer() {
+        if [[ $# -eq 0 ]]; then
+            powershell.exe start explorer.exe .
+        else
+            local _winpath="$(wslpath -w $* 2> /dev/null || echo $*)"
+            [[ -z "$_winpath" ]] && _winpath='.'
+            powershell.exe start explorer.exe "$_winpath"
+        fi
+    }
 fi
