@@ -80,7 +80,7 @@ function _get_git_branch() {
     while [[ -n "$_dir" ]]; do
         _head_file="$_dir/.git/HEAD"
         if [[ -f "$_dir/.git" ]]; then
-            read -r _head_file < "$_dir/.git" && _head_file="${_head_file#gitdir: }/HEAD"
+            read -r _head_file < "$_dir/.git" && _head_file="$_dir/${_head_file#gitdir: }/HEAD"
         fi
         [[ -e "$_head_file" ]] && break
         _dir="${_dir%/*}"
@@ -92,7 +92,7 @@ function _get_git_branch() {
             ref:*) printf "${_head#ref: refs/heads/}" ;;
             "") ;;
             # HEAD detached
-            *) printf "${_head:0:7}" ;;
+            *) printf "${_head:0:9}" ;;
         esac
         return 0
     fi
