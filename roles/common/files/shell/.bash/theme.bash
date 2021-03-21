@@ -97,7 +97,7 @@ function _get_git_branch() {
         return 0
     fi
 
-    return 1
+    return 128
 }
 
 # color can be found in lib/color.lib.bash
