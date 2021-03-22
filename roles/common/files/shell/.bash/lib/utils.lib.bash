@@ -38,11 +38,12 @@ util_download() {
         wget "$URL" -O "$DEST"
     else
         util_log_error "ERROR: Please install curl or wget before downloading!"
-        return 1
+        return 127
     fi
-    if [[ $? -ne 0 ]]; then
+    local ex=$?
+    if [[ $ex -ne 0 ]]; then
         util_log_error "ERROR: downloading ${URL##*/} failed!"
-        return 1
+        return $ex
     fi
 }
 

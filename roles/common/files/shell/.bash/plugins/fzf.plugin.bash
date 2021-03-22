@@ -1,13 +1,11 @@
 function _setup_using_package() {
-    (command -v dpkg > /dev/null && dpkg -s fzf &> /dev/null) || return 1
-
     # Auto-completion
     local completions="/usr/share/doc/fzf/examples/completion.bash"
-    [[ $- == *i* ]] && source $completions 2> /dev/null || return 1
+    [[ $- == *i* ]] && source $completions 2> /dev/null || return
 
     # Key bindings
     local key_bindings="/usr/share/doc/fzf/examples/key-bindings.bash"
-    source $key_bindings || return 1
+    source $key_bindings
 }
 
 function _setup_using_base_dir() {
@@ -41,7 +39,7 @@ function fcd() {
     else
         local dir=$(find ${1:-.} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf +m)
     fi
-    ex=$?
+    local ex=$?
     [[ "$ex" -ne 0 ]] && return $ex
     cd "$dir"
 }
