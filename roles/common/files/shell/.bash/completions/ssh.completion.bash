@@ -28,8 +28,6 @@ _sshcomplete() {
     if [ -r /etc/hosts ]; then
         COMPREPLY=( ${COMPREPLY[@]} $(compgen -W "$( grep -v '^[[:space:]]*$' /etc/hosts | grep -v '^#' | awk '{for (i=2; i<=NF; i++) print $i}' )" ${OPTIONS}) )
     fi
-
-    return 0
 }
 
 complete -o default -o nospace -F _sshcomplete ssh scp

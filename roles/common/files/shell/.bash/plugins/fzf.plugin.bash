@@ -14,7 +14,7 @@ function _setup_using_base_dir() {
     elif [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ]; then
         source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash
     else
-        return 1
+        false
     fi
 }
 
