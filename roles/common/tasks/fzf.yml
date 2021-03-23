@@ -5,6 +5,7 @@
     update_cache: yes
     cache_valid_time: 86400
   register: result_ubuntu
+  ignore_errors: true
   become: yes
   when:
     - ansible_distribution == 'Ubuntu'
@@ -17,6 +18,7 @@
     update_cache: yes
     cache_valid_time: 86400
   register: result_debian
+  ignore_errors: true
   become: yes
   when:
     - ansible_distribution == 'Debian'
@@ -40,5 +42,5 @@
     - name: install fzf through install script
       shell: "{{ ansible_env.HOME }}/.fzf/install --all" # noqa 305 301
   when:
-    - result_ubuntu is undefined or result_ubuntu.failed
-    - result_debian is undefined or result_debian.failed
+    - result_ubuntu is skipped or result_ubuntu is failed
+    - result_debian is skipped or result_debian is failed
