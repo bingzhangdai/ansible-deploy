@@ -33,6 +33,7 @@
     - name: gathering facts
       setup:
       tags: always
+      become: no
     - name: setup repo
       block:
         - name: turn on the EPEL repo on CentOS/RHEL
