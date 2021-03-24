@@ -46,7 +46,7 @@ set input-meta on
 set output-meta on
 set convert-meta off
 
-# 50 milliseconds timeout for Readline
+# 250 milliseconds timeout for Readline
 set keyseq-timeout 50
 
 # bind -p: list the current Readline function names and bindings
@@ -103,6 +103,6 @@ $if mode=vi
     # https://unix.stackexchange.com/questions/264791/ctrl-backspace-and-ctrl-delete-in-bash
     "\C-h": backward-kill-word
     # Short cut
-    "\es": "\e\eIsudo \e\eA"
-    "\ep": "\e\eIproxy \e\eA"
+    "\es": "\eIsudo \eA"
+    "\ep": "\eIproxy \eA"
 $endif
