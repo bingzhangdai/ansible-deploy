@@ -44,8 +44,8 @@ extract() {
         fi
 
         if "$in_tmp"; then
-            local -r filename=$(basename -- $1)
-            local -r filedirname=$(dirname -- $1)
+            local filename=$(basename -- $1)
+            local filedirname=$(dirname -- $1)
             local targetdirname=$(sed 's/\(\.tar\.bz2$\|\.tar\.gz$\|\.tar\.xz$\|\.tar\.Z$\)//g' <<< $filename)
             if [ "$filename" == "$targetdirname" ]; then
                 targetdirname="${1%.*}"
