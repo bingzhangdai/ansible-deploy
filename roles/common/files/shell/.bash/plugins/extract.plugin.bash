@@ -22,10 +22,10 @@ extract() {
 
         if [ -f "$1" ]; then
            case "$1" in
-                *.tar.bz2|*.tbz|*.tbz2) tar "xjf" "$1" -C "$tmp" && in_tmp=true ;;
-                *.tar.gz|*.tgz) tar "xzf" "$1" -C "$tmp" && in_tmp=true ;;
-                *.tar.xz|*.txz) tar "xJf" "$1" -C "$tmp" && in_tmp=true ;;
-                *.tar.Z) tar "xZf" "$1" -C "$tmp" && in_tmp=true ;;
+                *.tar.bz2|*.tbz|*.tbz2) tar "xjf" "$1" -C "$tmp" > /dev/null && in_tmp=true ;;
+                *.tar.gz|*.tgz) tar "xzf" "$1" -C "$tmp" > /dev/null && in_tmp=true ;;
+                *.tar.xz|*.txz) tar "xJf" "$1" -C "$tmp" > /dev/null && in_tmp=true ;;
+                *.tar.Z) tar "xZf" "$1" -C "$tmp" > /dev/null && in_tmp=true ;;
                 *.bz2) bunzip2 -q "$1" ;;
                 *.deb) dpkg-deb -x "$1" "${1:0:-4}" ;;
                 *.pax.gz) gunzip "$1"; set -- "$@" "${1:0:-3}" ;;
@@ -34,11 +34,11 @@ extract() {
                 *.pkg) pkgutil --expand "$1" "${1:0:-4}" ;;
                 *.rar) unrar x "$1" "$tmp" > /dev/null && in_tmp=true ;;
                 *.rpm) rpm2cpio "$1" | cpio -idm ;;
-                *.tar) tar "xf" "$1" -C "$tmp" && in_tmp=true ;;
+                *.tar) tar "xf" "$1" -C "$tmp" > /dev/null && in_tmp=true ;;
                 *.xz) xz --decompress "$1" ;;
                 *.zip|*.war|*.jar|*.nupkg) unzip "$1" -d "$tmp" > /dev/null && in_tmp=true ;;
                 *.Z) uncompress "$1" ;;
-                *.7z) 7za x -o"$tmp" "$1" && in_tmp=true ;;
+                *.7z) 7za x -o"$tmp" "$1" > /dev/null && in_tmp=true ;;
                 *) echo "'$1' cannot be extracted via extract" >&2;;
             esac
         fi
