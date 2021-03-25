@@ -28,6 +28,7 @@ util_download() {
     fi
 
     local DIR="${DEST%${DEST##*/}}"
+    # local DIR="$(dirname -- ${DEST})"
     if [[ -n "$DIR" ]] && [[ ! -d "$DIR" ]]; then
         mkdir "$DIR"
     fi
