@@ -1,9 +1,6 @@
 # https://github.com/Bash-it/bash-it/blob/master/plugins/available/extract.plugin.bash
 
 # extract file(s) from compressed status
-# https://github.com/Bash-it/bash-it/blob/master/plugins/available/extract.plugin.bash
-
-# extract file(s) from compressed status
 extract() {
     [ $# -eq 0 ] && extract -h && return 1
     while [ $# -gt 0 ]; do
