@@ -53,10 +53,22 @@ extract() {
 
             if [ "$(\ls --almost-all -1 $tmp | wc -l)" = "1" ]; then
                 local file=$(\ls $tmp)
+                if [ -e "$file" ]; then
+                    echo "$file already exists." >&2
+                    rm -rf "$tmp"
+                    shift
+                    continue
+                fi
                 mv "$tmp"/* .
                 rm -rf "$tmp"
-                echo "extracted file: '$file'"
+                echo "extracted $([ -d $file ] && printf directory || printf file): '$file'"
             else
+                if [ -e "$targetdirname" ]; then
+                    echo "$targetdirname already exists." >&2
+                    rm -rf "$tmp"
+                    shift
+                    continue
+                fi
                 mv "$tmp" "$targetdirname"
                 echo "extracted files under '$targetdirname'"
             fi
