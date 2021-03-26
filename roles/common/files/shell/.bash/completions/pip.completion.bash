@@ -3,7 +3,10 @@
 function _setup_pip_completion() {
     local -r _pip_completion="${_DOT_BASH_CACHE}/pip.completion.bash"
     
-    [ -e "$_pip_completion" ] && source "$_pip_completion" && return
+    if [ -e "$_pip_completion" ]; then
+        source "$_pip_completion"
+        return
+    fi
 
     local _pip
     if command -v pip3 > /dev/null; then

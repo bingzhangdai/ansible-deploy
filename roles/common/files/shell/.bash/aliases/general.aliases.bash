@@ -43,7 +43,3 @@ alias mkdir='mkdir -pv'
 alias du='du -h'
 alias df='df -h'
 alias cls='clear'
-
-if command -v fdfind > /dev/null; then
-    alias fd='fdfind'
-fi
