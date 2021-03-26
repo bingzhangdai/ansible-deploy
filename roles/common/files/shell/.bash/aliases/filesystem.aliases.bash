@@ -13,9 +13,22 @@ function _qfind() {
     while [ $# -gt 0 ]; do
         printf -- '%s\n' "${RED}${1}${NONE}:"
         if command -v fd > /dev/null; then
-            fd ${FD_OPTIONS} --glob "$1" .
+            fd --type f ${FD_OPTIONS} --glob "$1" .
         else
-            find . -type d \( -name .git \) -prune -false -o -name "$1"
+            find . -type d \( -name .git \) -prune -false -o -iname "$1"
+        fi
+        shift
+    done
+    set +o noglob
+}
+
+function _rfind() {
+    while [ $# -gt 0 ]; do
+        printf -- '%s\n' "${RED}${1}${NONE}:"
+        if command -v fd > /dev/null; then
+            fd --type f ${FD_OPTIONS} "$1" .
+        else
+            find . -type d \( -name .git \) -prune -false -o -iregex "$1"
         fi
         shift
     done
@@ -25,3 +38,5 @@ function _qfind() {
 # temporarily stop shell wildcard character expansion
 # re-enable expansion in _qfind function
 alias qfind='set -o noglob; _qfind'
+# regex find
+alias rfind='set -o noglob; _rfind'
