@@ -11,7 +11,7 @@ fi
 # quickly search for file
 function _qfind() {
     while [ $# -gt 0 ]; do
-        printf -- '%s\n' "${RED}${1}${NONE}:"
+        # printf -- '%s\n' "${RED}${1}${NONE}:"
         if command -v fd > /dev/null; then
             fd --type f ${FD_OPTIONS} --glob "$1" .
         else
@@ -24,7 +24,7 @@ function _qfind() {
 
 function _rfind() {
     while [ $# -gt 0 ]; do
-        printf -- '%s\n' "${RED}${1}${NONE}:"
+        # printf -- '%s\n' "${RED}${1}${NONE}:"
         if command -v fd > /dev/null; then
             fd --type f ${FD_OPTIONS} "$1" .
         else
