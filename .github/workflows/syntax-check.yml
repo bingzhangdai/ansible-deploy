@@ -11,7 +11,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Lint Ansible Playbook
-      uses: ansible/ansible-lint-action@75a177d
+      uses: ansible/ansible-lint-action@75a177d8f20ef03e6daf3c9fef3a50598e5871d8
       with:
         targets: |
           bootstrap.yml
