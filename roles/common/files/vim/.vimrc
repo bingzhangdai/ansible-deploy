@@ -1,6 +1,17 @@
-" highlight Cursor guifg=white guibg=black
-" highlight iCursor guifg=white guibg=steelblue
-set guicursor=n-v-c-i:hor100
+" https://vimhelp.org/
+" change cursor shape
+"  1 -> blinking block
+"  2 -> solid block 
+"  3 -> blinking underscore
+"  4 -> solid underscore
+"  5 -> blinking vertical bar
+"  6 -> solid vertical bar
+let &t_SI.="\e[5 q" "SI = INSERT mode
+let &t_SR.="\e[4 q" "SR = REPLACE mode
+let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
+" reset cursor on start:
+autocmd VimEnter * silent !echo -ne "\e[2 q"
+
 set nocompatible
 
 set viminfo='100,<1000,s100,h
@@ -10,6 +21,12 @@ Plug 'luochen1990/rainbow'
 let g:rainbow_active = 1
 call plug#end()
 
+if $TMUX != ''
+    set ttimeoutlen=20
+elseif &ttimeoutlen > 60 || &ttimeoutlen <= 0
+    set ttimeoutlen=60
+endif
+
 " Enhance command-line completion
 set wildmenu
 " Allow backspace in insert mode
@@ -18,7 +35,7 @@ set backspace=indent,eol,start
 set ttyfast
 " Add the g flag to search/replace by default
 set gdefault
-" Don’t create backups when editing files in certain directories
+" Don't create backups when editing files in certain directories
 set backupskip=/tmp/*,/private/tmp/*
 " Enable line numbers
 set number
@@ -29,7 +46,7 @@ set numberwidth=1
 set ruler
 " Show the current mode
 set showmode
-" Show the (partial) command as it’s being typed
+" Show the (partial) command as it's being typed
 set showcmd
 
 set history=1000
@@ -79,8 +96,9 @@ highlight CursorLine cterm=NONE ctermbg=blue ctermfg=white
 highlight ColorColumn guibg=Red
 " Highlight searches
 set hlsearch
-" Ignore case of searches
+" Ignore case when the pattern contains lowercase letters only
 set ignorecase
+set smartcase
 " Highlight dynamically as pattern is typed
 set incsearch
 
@@ -92,9 +110,11 @@ set foldmethod=manual
 set autoread
 " Use the OS clipboard by default (on versions compiled with `+clipboard`)
 set clipboard+=unnamed
-" Don’t show the intro message when starting Vim
+" Don't show the intro message when starting Vim
 set shortmess=atI
 
+" Syntax highlighting in Bash vi-input mode
+au BufRead,BufNewFile bash-fc.* set filetype=sh
 
 autocmd BufNewFile *.cpp,*.c exec ":call SetTitle()" 
 func SetTitle()

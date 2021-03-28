@@ -8,11 +8,6 @@ case $- in
       *) return;;
 esac
 
-# This defines where cd looks for targets
-# Add the directories you want to have fast access to, separated by colon
-# Ex: CDPATH=".:~:~/projects" will look for targets in the current working directory, in home and in the ~/projec
-CDPATH="."
-
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
@@ -25,15 +20,23 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
+# This defines where cd looks for targets
+# Add the directories you want to have fast access to, separated by colon
+# Ex: CDPATH=".:~:~/projects" will look for targets in the current working directory, in home and in the ~/projec
+CDPATH=".:~"
+
 ## fd
 FD_OPTIONS="--follow --exclude .git"
 
 ## less
-export LESS='-F -X -R -S -M -i -# .2'
+export LESS='-R -S -M -i -# .2'
+
+## default editor
+export EDITOR='vi'
 
 ## source scripts in .bash folder
 # lib should sourced first. It contais predefined vars and funcs 
-for path in ~/.bash/{lib,plugins,completions,aliases}; do
+for path in ~/.bash/{lib,completions,plugins,aliases}; do
     for file in $(sort <(ls -1 $path/*.bash 2> /dev/null)); do
         [[ -e "$file" ]] && source $file || echo "Unable to read $file" > /dev/stderr
     done

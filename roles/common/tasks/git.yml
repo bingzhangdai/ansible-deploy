@@ -23,7 +23,7 @@
 #     - configuration
 
 - name: update git global config
-  git_config:
+  community.general.git_config:
     name: "{{ item.key }}"
     scope: global
     value: "{{ item.value }}"

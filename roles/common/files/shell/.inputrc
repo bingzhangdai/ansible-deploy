@@ -1,3 +1,6 @@
+# https://wiki.archlinux.org/index.php/Readline
+$include /etc/inputrc
+
 # bind -V: list the current Readline variable names and values
 
 # Readline performs filename matching and completion in a case-insensitive fashion.
@@ -11,9 +14,15 @@ set colored-completion-prefix on
 # The color definitions are taken from the value of the LS_COLORS environment variable.
 set colored-stats on
 
+# Mark symlinked directories
+set mark-symlinked-directories On
+
+# Color the common prefix in menu-complete
+set menu-complete-display-prefix On
+
 # Readline treats hyphens (‘-’) and underscores (‘_’) as equivalent 
 # when performing case-insensitive filename matching and completion.
-set completion-map-case on
+# set completion-map-case on
 
 # If set to ‘on’, words which have more than one possible completion 
 # cause the matches to be listed immediately instead of ringing the bell.
@@ -32,47 +41,68 @@ set visible-stats on
 # Readline used by Bash 4.)
 set skip-completed-text on
 
-# Enable history expansion with space
-# E.g. typing !!<space> will replace the !! with your last command
-Space: magic-space
-
 # Allow UTF-8 input and output, instead of showing stuff like $'\0123\0456'
 set input-meta on
 set output-meta on
 set convert-meta off
 
-# \C- control prefix 
-# \M- meta prefix 
-# \e  an escape character 
-# \\  backslash 
-# \"  ", a double quotation mark 
-# \'  ', a single quote or apostrophe 
-# \a  alert (bell) 
-# \b  backspace 
-# \d  delete 
-# \f  form feed 
-# \n  newline 
-# \r  carriage return 
-# \t  horizontal tab 
-# \v  vertical tab 
+# 250 milliseconds timeout for Readline
+set keyseq-timeout 50
 
 # bind -p: list the current Readline function names and bindings
-# Use the text that has already been typed as the prefix for searching through
-# commands (i.e. more intelligent Up/Down behavior)
-# "\e[B": history-search-forward
-# "\e[A": history-search-backward
-# Use Alt/Meta + Delete to delete the preceding word
-# "\e[3;3~": kill-word
+# showkey -a 
+# \C- control prefix
+# \M- meta prefix
+# \e  an escape character
+# \\  backslash
+# \"  ", a double quotation mark
+# \'  ', a single quote or apostrophe
+# \a  alert (bell)
+# \b  backspace
+# \d  delete
+# \f  form feed
+# \n  newline
+# \r  carriage return
+# \t  horizontal tab
+# \v  vertical tab
 
 ## vi mode
 set editing-mode vi
-set show-mode-in-prompt on
-set vi-ins-mode-string ""
+$if mode=vi
+    set show-mode-in-prompt on
+    # 1  -> blinking block
+    # 2  -> solid block
+    # 3  -> blinking underscore
+    # 4  -> solid underscore
+    # 5  -> blinking vertical bar
+    # 6  -> solid vertical bar
+    set vi-ins-mode-string "\1\e[5 q\2"
+    set vi-cmd-mode-string "\1\e[1 q\2"
 
-# in vi-command mode
-set keymap vi-command
-Control-l: clear-screen
+    # these are for vi-command mode
+    set keymap vi-command
+    Control-l: clear-screen
+    j: history-search-forward
+    k: history-search-backward
 
-# in vi-insert mode
-set keymap vi-insert
-Control-l: clear-screen
+    # these are for vi-insert mode
+    set keymap vi-insert
+    Control-l: clear-screen
+
+    # Ctrl + A
+    "\C-a": beginning-of-line
+    # Ctrl + E
+    "\C-e": end-of-line
+    # Ctrl + Left
+    "\e[1;5D": backward-word
+    # Ctrl + Right
+    "\e[1;5C": forward-word
+    # Ctrl + Del
+    "\e[3;5~": kill-word
+    # Ctrl + Backspace # Ctrl + H
+    # https://unix.stackexchange.com/questions/264791/ctrl-backspace-and-ctrl-delete-in-bash
+    "\C-h": backward-kill-word
+    # Short cut
+    "\es": "\eIsudo \eA"
+    "\ep": "\eIproxy \eA"
+$endif

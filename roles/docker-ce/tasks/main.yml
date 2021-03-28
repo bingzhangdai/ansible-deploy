@@ -2,7 +2,7 @@
   block:
     - name: include installation task for {{ ansible_distribution }}
       include_tasks:
-        file: "{{ ansible_distribution|lower }}.yml"
+        file: "{{ ansible_os_family|lower }}.yml"
       # tags:
       #   - always
     - name: verify docker-ce is installed correctly

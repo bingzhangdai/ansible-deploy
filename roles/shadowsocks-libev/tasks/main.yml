@@ -29,9 +29,9 @@
       when: ss_config.plugin.v2ray is defined
   when: ss_config.plugin is defined
 
-- name: enable BBR
+- name: optimize shadowsocks
   block:
-    - name: directly setting TCP BBR
+    - name: enable TCP bbr
       sysctl:
         name: "{{ item.name }}"
         value: "{{ item.value }}"
@@ -42,6 +42,45 @@
         - name: net.ipv4.tcp_congestion_control
           value: bbr
       when: ansible_kernel is version('4.9', '>=')
+    - name: general optimization
+      sysctl:
+        name: "{{ item.name }}"
+        value: "{{ item.value }}"
+        sysctl_set: yes
+      loop:
+        # turn on path MTU discovery
+        - name: net.ipv4.tcp_mtu_probing
+          value: '1'
+        # short FIN timeout
+        - name: net.ipv4.tcp_fin_timeout
+          value: '30'
+        # short keepalive time
+        - name: net.ipv4.tcp_keepalive_time
+          value: '1200'
+        # reuse timewait sockets when safe
+        - name: net.ipv4.tcp_tw_reuse
+          value: '1'
+        # max SYN backlog
+        - name: net.ipv4.tcp_max_syn_backlog
+          value: '4096'
+        # TCP receive buffer
+        - name: net.ipv4.tcp_rmem
+          value: '4096 131072 67108864'
+        # TCP write buffer
+        - name: net.ipv4.tcp_wmem
+          value: '4096 65536 67108864'
+        # max backlog
+        - name: net.core.somaxconn
+          value: '4096'
+        # max processor input queue
+        - name: net.core.netdev_max_backlog
+          value: '4096'
+        # max read buffer
+        - name: net.core.rmem_max
+          value: '67108864'
+        # max write buffer
+        - name: net.core.wmem_max
+          value: '67108864'
 
 - name: configure and start shadowsocks-libev
   block:
@@ -49,8 +88,9 @@
       template:
         src: config.json.j2
         dest: /etc/shadowsocks-libev/config.json
+        mode: '644'
       notify: restart shadowsocks-libev
-    - name: enable tcp_fastopen
+    - name: turn on TCP Fast Open on server side
       sysctl:
         name: net.ipv4.tcp_fastopen
         value: '3'
@@ -60,11 +100,13 @@
       template:
         src: shadowsocks-libev.j2
         dest: /etc/default/shadowsocks-libev
+        mode: '644'
       notify: restart shadowsocks-libev
     - name: create /etc/systemd/system/shadowsocks-libev.service
       template:
         src: shadowsocks-libev.service.j2
         dest: /etc/systemd/system/shadowsocks-libev.service
+        mode: '644'
       notify: restart shadowsocks-libev
     - name: be sure shadowsocks-libev is running and enabled
       systemd:
@@ -94,10 +136,12 @@
       file:
         path: "{{ output_dir }}"
         state: directory
+        mode: '755'
     - name: edit local {{ output_dir }}/config.json
       template:
         src: config.local.json.j2
         dest: "{{ output_dir }}/config.json"
+        mode: '644'
   vars:
     output_dir: "{{ hostvars['localhost']['playbook_dir'] }}/output/{{ role_name }}"
   delegate_to: localhost

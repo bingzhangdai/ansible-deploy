@@ -63,9 +63,9 @@ Use ansible-vault to encrypt password, if you want to check in your password.
 make encrypt
 ```
 
-### Windows control machine
+### Windows control machine or WSL
 
-#### Export `ANSIBLE_CONFIG` env on Windows
+#### Export `ANSIBLE_CONFIG` env
 
 If you see the warning `[WARNING]: Ansible is being run in a world writable directory`, Export `ANSIBLE_CONFIG` environmental variable.
 
@@ -105,6 +105,10 @@ ansible-playbook site.yml -i hosts --tags "docker-ce"
 ```
 
 #### [Install shadowsocks-libev and v2ray-plugin](roles/shadowsocks-libev/README.md)
+
+## FAQ
+
+* [How to start SSH server under WSL](https://gist.github.com/bingzhangdai/c71569aa5ad97ca928d24470326e06ee)
 
 ## Known issues
 

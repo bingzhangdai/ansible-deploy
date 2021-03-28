@@ -2,11 +2,11 @@
 
 - hosts: all
   roles:
-    - role: docker-ce
+    - role: docker_ce
       tags:
         - docker-ce
       become: yes
-    - role: shadowsocks-libev
+    - role: shadowsocks_libev
       tags:
         - shadowsocks-libev
       become: yes

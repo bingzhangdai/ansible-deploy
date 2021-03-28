@@ -8,6 +8,20 @@ if [ -x /usr/bin/dircolors ]; then
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
+
+    # colored less
+    if test -e /usr/share/source-highlight/src-hilite-lesspipe.sh; then
+        alias cless='LESSOPEN="| /usr/share/source-highlight/src-hilite-lesspipe.sh %s" less'
+    elif command -v bat > /dev/null; then
+        alias cless='LESSOPEN="| bat --style=plain --color=always --paging=never %s" less'
+    fi
+
+    # colored cat
+    command -v batcat > /dev/null && alias bat=batcat
+    command -v bat > /dev/null && alias cat='bat --style=plain --color=always --paging=never'
+
+    # colored diff
+    command -v icdiff > /dev/null && alias cdiff='icdiff --line-numbers'
 fi
 
 # some more ls aliases
@@ -21,13 +35,11 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 
 alias ..='cd ..'
 alias sudo='sudo '
+alias xargs='xargs '
 alias g++='g++ -g -std=c++17'
-alias vi=vim
+command -v vim > /dev/null && alias vi=vim
 alias wget='wget -c'
 alias mkdir='mkdir -pv'
 alias du='du -h'
 alias df='df -h'
-
-if command -v fdfind > /dev/null; then
-    alias fd='fdfind'
-fi
+alias cls='clear'

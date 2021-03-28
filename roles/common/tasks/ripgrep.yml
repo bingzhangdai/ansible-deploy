@@ -36,6 +36,7 @@
       file:
         path: "{{ ansible_env.HOME }}/bin"
         state: directory
+        mode: '755'
     - name: install latest ripgrep release
       unarchive:
         src: "{{ ripgrep_release.unknown }}"

@@ -32,14 +32,31 @@
     - packages
 
 - name: update .vimrc and .vim folder
-  synchronize:
-    src: vim/
-    dest: "{{ ansible_env.HOME }}"
-    recursive: yes
-    archive: no
-    times: yes
-    rsync_opts:
-      - "--chmod=Du=rwx,Dog=rx,Fu=rw,Fog=r"
+  block:
+    - name: install rsync
+      package:
+        name: rsync
+        state: present
+      become: yes
+    - name: insert .vimrc
+      blockinfile:
+        path: "{{ ansible_env.HOME }}/.vimrc"
+        block: "{{ lookup('file', 'vim/.vimrc') }}"
+        marker: '" {mark} ANSIBLE MANAGED BLOCK'
+        create: yes
+        backup: yes
+        mode: '644'
+    - name: copy .vim folder
+      synchronize:
+        src: vim/.vim/
+        dest: "{{ ansible_env.HOME }}/.vim"
+        recursive: yes
+        archive: no
+        times: yes
+        rsync_opts:
+          - "--chmod=Du=rwx,Dog=rx,Fu=rw,Fog=r"
+          # rsync: This rsync lacks old-style --compress due to its external zlib.  Try -zz.
+          - "-zz"
   become: no
   tags:
     - configuration
