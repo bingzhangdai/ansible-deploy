@@ -25,6 +25,7 @@
         block: "{{ lookup('file', item) }}"
         create: yes
         backup: yes
+        mode: '644'
       loop: "{{ rcfiles }}"
   vars:
     rcfiles: "{{ q('fileglob', 'shell/.*') }}"

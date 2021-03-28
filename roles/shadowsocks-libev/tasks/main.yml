@@ -88,6 +88,7 @@
       template:
         src: config.json.j2
         dest: /etc/shadowsocks-libev/config.json
+        mode: '644'
       notify: restart shadowsocks-libev
     - name: turn on TCP Fast Open on server side
       sysctl:
@@ -99,11 +100,13 @@
       template:
         src: shadowsocks-libev.j2
         dest: /etc/default/shadowsocks-libev
+        mode: '644'
       notify: restart shadowsocks-libev
     - name: create /etc/systemd/system/shadowsocks-libev.service
       template:
         src: shadowsocks-libev.service.j2
         dest: /etc/systemd/system/shadowsocks-libev.service
+        mode: '644'
       notify: restart shadowsocks-libev
     - name: be sure shadowsocks-libev is running and enabled
       systemd:
@@ -133,10 +136,12 @@
       file:
         path: "{{ output_dir }}"
         state: directory
+        mode: '755'
     - name: edit local {{ output_dir }}/config.json
       template:
         src: config.local.json.j2
         dest: "{{ output_dir }}/config.json"
+        mode: '644'
   vars:
     output_dir: "{{ hostvars['localhost']['playbook_dir'] }}/output/{{ role_name }}"
   delegate_to: localhost

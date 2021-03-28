@@ -45,6 +45,7 @@
         marker: '" {mark} ANSIBLE MANAGED BLOCK'
         create: yes
         backup: yes
+        mode: '644'
     - name: copy .vim folder
       synchronize:
         src: vim/.vim/
