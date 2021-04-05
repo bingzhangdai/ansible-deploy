@@ -40,6 +40,8 @@ git_config:
   'alias.unstage': reset HEAD --
   # tracted unstaged file status
   'alias.stat': diff --stat
+  # get the git root dir
+  'alias.root': rev-parse --show-toplevel
 
 
 
