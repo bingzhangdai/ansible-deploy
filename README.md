@@ -29,7 +29,7 @@ If you are using Windows, it is strongly recommended to use Windows Subsystem fo
 ### Clone and config environment
 
 ```bash
-git clone https://github.com/bingzhangdai/ansible-deploy.git
+git clone --recursive https://github.com/bingzhangdai/ansible-deploy.git
 cd ansible-deploy
 # sudo make env PYTHON=python3
 sudo make evn
