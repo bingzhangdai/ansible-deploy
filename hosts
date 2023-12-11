@@ -6,3 +6,6 @@ ss-wus2.westus2.cloudapp.azure.com
 
 [centos]
 centos-jpe.japaneast.cloudapp.azure.com
+
+[debian]
+hkass5.southeastasia.cloudapp.azure.com

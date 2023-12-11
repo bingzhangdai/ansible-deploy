@@ -27,6 +27,24 @@
           command: setcap 'CAP_NET_BIND_SERVICE=+eip' /etc/shadowsocks-libev/v2ray-plugin_linux_amd64
           when: ss_config.server_port < 1024
       when: ss_config.plugin.v2ray is defined
+    - name: install cloak
+      block:
+        - name: detect latest v2ray version
+          import_role:
+            name: utils
+            tasks_from: github-release
+          vars:
+            user: "{{ cloak_github.user }}"
+            repo: "{{ cloak_github.repo }}"
+        - name: download cloak-server {{ release_version }}
+          get_url:
+            url: "{{ ss_plugin_release.cloak }}"
+            dest: "/etc/shadowsocks-libev/ck-server"
+            mode: 755
+          notify: restart shadowsocks-libev
+        - name: allow a non-root process to bind to a privileged port
+          command: setcap 'CAP_NET_BIND_SERVICE=+eip' /etc/shadowsocks-libev/ck-server
+          when: ss_config.server_port < 1024
   when: ss_config.plugin is defined
 
 - name: optimize shadowsocks
@@ -90,6 +108,12 @@
         dest: /etc/shadowsocks-libev/config.json
         mode: '644'
       notify: restart shadowsocks-libev
+    - name: edit /etc/shadowsocks-libev/ckserver.json
+      template:
+        src: ckserver.json.j2
+        dest: /etc/shadowsocks-libev/ckserver.json
+        mode: '644'
+      when: ss_config.plugin is defined and ss_config.plugin.cloak is defined
     - name: turn on TCP Fast Open on server side
       sysctl:
         name: net.ipv4.tcp_fastopen

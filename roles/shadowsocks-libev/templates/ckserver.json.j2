@@ -1,0 +1,4 @@
+{% do
+    ss_config.plugin.cloak['location'] = ansible_env.HOME + '/userinfo.db'
+%}
+{{ ss_config.plugin.cloak | to_nice_json(indent=4) }}
