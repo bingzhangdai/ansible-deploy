@@ -1,6 +1,6 @@
 ss_config:
   server_port: 443
-  password: q1w2E#R$
+  password: 
 
   encrypt_method: chacha20-ietf-poly1305
   plugin:
@@ -13,10 +13,10 @@ ss_config:
         - udp
         - 127.0.0.1:500
       BypassUID:
-      - dflsTpipqZsExqvhznVVfg==
+        - ck-server -uid
       RedirAddr: www.bing.com
-      PrivateKey: 'aGxPlWl7vH6ywSLe0v5Y54zeIqnevTszSqwX13NGqWY='
-      AdminUID: 'dflsTpipqZsExqvhznVVfg=='
+      PrivateKey: ck-server -key
+      PublicKey: ck-server -key
   timeout: 300
   local_port: 1080
   fast_open: true

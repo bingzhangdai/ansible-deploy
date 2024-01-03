@@ -4,7 +4,7 @@
     "password": "{{ ss_config.password }}",
     "timeout": {{ ss_config.timeout }},
     "method": "{{ ss_config.encrypt_method }}",
-    "nameserver": "{{ nameservers.nameservers[0] }}",
+    "nameserver": "{{ ansible_dns.nameservers[0] }}",
     "mode": "tcp_and_udp",
     "fast_open": {{ ss_config.fast_open | default(false) | lower }}
 }

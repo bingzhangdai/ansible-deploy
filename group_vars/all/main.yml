@@ -4,7 +4,7 @@ ansible_port: 22
 ansible_user: atl
 
 # workaround: https://github.com/ansible/ansible/issues/24425#issuecomment-437326526
-ssh_pass: q1w2E#R$
+ssh_pass: atl
 ansible_ssh_pass: "{{ ssh_pass | string }}"
 
 # Privilege Escalation

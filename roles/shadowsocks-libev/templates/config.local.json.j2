@@ -6,5 +6,7 @@
     "password": "{{ ss_config.password }}",
     "timeout": {{ ss_config.timeout }},
     "method": "{{ ss_config.encrypt_method }}",
-    "fast_open": {{ ss_config.fast_open | default(false) | lower }}
+    "fast_open": {{ ss_config.fast_open | default(false) | lower }},
+    "reuse_port": true,
+    "no_delay": true,
 }
