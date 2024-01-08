@@ -29,7 +29,7 @@
       when: ss_config.plugin.v2ray is defined
     - name: install cloak
       block:
-        - name: detect latest v2ray version
+        - name: detect latest cloak version
           import_role:
             name: utils
             tasks_from: github-release
@@ -85,18 +85,18 @@
         # TCP receive buffer
         - name: net.ipv4.tcp_rmem
           value: '4096 87380 67108864'
-        # default read buffer
-        - name: net.core.rmem_default
-          value: '65536'
+        # # default read buffer
+        # - name: net.core.rmem_default
+        #   value: '65536'
         # max read buffer
         - name: net.core.rmem_max
           value: '67108864'
         # TCP write buffer
         - name: net.ipv4.tcp_wmem
           value: '4096 65536 67108864'
-        # default write buffer
-        - name: net.core.wmem_default
-          value: '65536'
+        # # default write buffer
+        # - name: net.core.wmem_default
+        #   value: '65536'
         # max write buffer
         - name: net.core.wmem_max
           value: '67108864'
@@ -112,15 +112,15 @@
         # resist SYN flood attacks
         - name: net.ipv4.tcp_syncookies
           value: '1'
-        # turn off fast timewait sockets recycling
-        - name: net.ipv4.tcp_tw_recycle
-          value: '0'
+        # # turn off fast timewait sockets recycling
+        # - name: net.ipv4.tcp_tw_recycle
+        #   value: '0'
         # outbound port range
-        - name: net.ipv4.ip_local_port_range
-          value: '10000 65000'
-        # max timewait sockets held by system simultaneously
-        - name: net.ipv4.tcp_max_tw_buckets
-          value: '5000'
+        # - name: net.ipv4.ip_local_port_range
+        #   value: '10000 65000'
+        # # max timewait sockets held by system simultaneously
+        # - name: net.ipv4.tcp_max_tw_buckets
+        #   value: '5000'
 
 - name: configure and start shadowsocks-libev
   block:
