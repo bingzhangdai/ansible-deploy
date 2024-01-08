@@ -10,8 +10,19 @@ ss_config:
 
   encrypt_method: chacha20-ietf-poly1305
   plugin:
-    v2ray:
-      opts: server
+    # v2ray:
+    #   opts: server
+    cloak:
+      # optional
+      ProxyBook:
+        wireguard:
+        - udp
+        - 127.0.0.1:500
+      BypassUID:
+        - ck-server -uid
+      RedirAddr: www.bing.com
+      PrivateKey: ck-server -key
+      PublicKey: ck-server -key
   timeout: 300
   local_port: 1080
   fast_open: true

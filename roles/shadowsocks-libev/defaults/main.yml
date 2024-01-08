@@ -2,5 +2,10 @@ ss_github:
   user: shadowsocks
   v2ray_repo: v2ray-plugin
 
+cloak_github:
+  user: cbeuw
+  repo: Cloak
+
 ss_plugin_release:
   v2ray: "https://github.com/{{ ss_github.user }}/{{ ss_github.v2ray_repo }}/releases/download/v{{ release_version }}/v2ray-plugin-linux-amd64-v{{ release_version }}.tar.gz"
+  cloak: "https://github.com/{{ cloak_github.user }}/{{ cloak_github.repo }}/releases/download/v{{ release_version }}/ck-server-linux-amd64-v{{ release_version }}"
